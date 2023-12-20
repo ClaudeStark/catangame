@@ -1,3 +1,9 @@
+# SFTP
+.vscode/sftp.json
+
+# Database
+src/lib/supabaseClient.js
+
 # Logs
 logs
 *.log
