@@ -2,7 +2,7 @@
     <section id="activeSession">
         <h3>{{ session.title }}</h3>
         <form @submit="checkCode">
-            <input type="text" id="enterCode" placeholder="enter Code" v-model="dynamicCode">
+            <input ref="enterCode" type="text" id="enterCode" placeholder="enter Code" v-model="dynamicCode">
             <button type="submit" aria-label="enter Code:">Join</button>
         </form>
     </section>
@@ -10,7 +10,7 @@
 
 <script setup>
 // Vue importieren
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 // Router importieren
 import router from '@/router';
@@ -22,19 +22,35 @@ let propSession = defineProps(['session']);
 let session = ref(propSession.session);
 let dynamicCode = ref('');
 
+// DOM Elemente
+const enterCode = ref(null);
+
 // Methoden
 function checkCode(event) {
     event.preventDefault();
     if (dynamicCode.value.trim() == session.value.code) {
         createWaitingroom();
     } else {
-        alert('wrong code');
+        enterCode.value.style.border = '1px solid red';
     }
 }
 
 function createWaitingroom() {
     router.push({ name: 'waitingroom', params: { id: session.value.session_id }, query: { session_title: session.value.title } })
 }
+
+// OnMounted
+onMounted(() => {
+    addEventListener();
+})
+// EventListener
+function addEventListener() {
+    enterCode.value.addEventListener('focus', () => {
+        enterCode.value.style.border = '1px solid #ccc';
+    })
+}
+
+
 </script>
 
 <style scoped>

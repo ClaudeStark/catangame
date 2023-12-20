@@ -202,6 +202,11 @@ label {
 }
 
 @media screen and (max-width: 600px) {
+
+    #activeSessions {
+        margin-bottom: 1em;
+    }
+
     #activeSession {
         flex-direction: column;
         align-items: center;
