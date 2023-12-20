@@ -46,10 +46,11 @@ label {
     overflow: hidden;
 }
 
-@media screen and (max-width: 768px) {
-    h3{
+@media screen and (max-width: 600px) {
+    h3 {
         margin-bottom: 1em;
     }
+
     form {
         display: flex;
         flex-direction: row;

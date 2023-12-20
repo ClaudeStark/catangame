@@ -128,6 +128,8 @@ h2 {
     border-radius: 8px;
     padding: 10px;
     max-width: fit-content;
+    margin-bottom: 5em;
+
 }
 
 #activeSession {
@@ -160,13 +162,43 @@ label {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 5em 1em 1em 1em;
+    position: sticky;
+    bottom: 0;
+    background-color: #f2f2f2;
+    padding-bottom: 1em;
+}
+
+#createNewSession h2 {
+    width: 100%;
+    padding: 1em 0;
+    color: white;
+    background-color: #2c3e50;
 }
 
 #warningText {
     color: red;
     font-size: 0.8em;
     margin-bottom: 1em;
+}
+
+@media screen and (max-width: 1000px) {
+
+
+    #createNewSession form {
+        display: flex;
+        justify-content: left;
+        flex-direction: column;
+    }
+
+    #createNewSession label {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    #createNewSession input {
+        margin: 0.5em 0 1.5em 0;
+    }
+
 }
 
 @media screen and (max-width: 600px) {
