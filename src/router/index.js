@@ -1,22 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import CatanView from '../views/CatanView.vue'
+import SessionView from '../views/SessionView.vue'
+import MainDeviceView from '../views/MainDeviceView.vue'
+import SideDeviceView from '../views/SideDeviceView.vue'
+import WaitingRoomView from '../views/WaitingRoomView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'catan',
+      component: CatanView,
+      meta: {
+        showNavigation: true
+      }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/session',
+      name: 'session',
+      component: SessionView,
+      meta: {
+        showNavigation: true
+      }
+    },
+    {
+      path: '/maindevice/:id',
+      name: 'maindevice',
+      component: MainDeviceView,
+      meta: {
+        showNavigation: false
+      }
+    },
+    {
+      path: '/sidedevice/:id',
+      name: 'sidedevice',
+      component: SideDeviceView,
+      meta: {
+        showNavigation: false
+      }
+    },
+    {
+      path: '/waitingroom/:id',
+      name: 'waitingroom',
+      component: WaitingRoomView,
+      meta: {
+        showNavigation: false
+      }
     }
+
   ]
 })
 
