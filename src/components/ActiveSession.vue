@@ -1,10 +1,11 @@
 <template>
-    <h3>{{ session.title }}</h3>
-    <form @submit="checkCode">
-        <label for="enterCode">enter Code:</label>
-        <input type="text" id="enterCode" v-model="dynamicCode">
-        <button type="submit">Join</button>
-    </form>
+    <section id="activeSession">
+        <h3>{{ session.title }}</h3>
+        <form @submit="checkCode">
+            <input type="text" id="enterCode" placeholder="enter Code" v-model="dynamicCode">
+            <button type="submit" aria-label="enter Code:">Join</button>
+        </form>
+    </section>
 </template>
 
 <script setup>
@@ -36,4 +37,23 @@ function createWaitingroom() {
 }
 </script>
 
-<style></style>
+<style scoped>
+h3 {
+    margin-right: 2em;
+}
+
+label {
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    h3{
+        margin-bottom: 1em;
+    }
+    form {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+    }
+}
+</style>

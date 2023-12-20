@@ -19,6 +19,7 @@ const showNavigation = () => {
 </script>
 
 <style>
+
 * {
   margin: 0;
   padding: 0;
@@ -36,10 +37,34 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  align-items: center;
   color: #2c3e50;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+button {
+    padding: 10px 16px;
+    background-color: #42b983;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 14px;
 }
 
 nav {

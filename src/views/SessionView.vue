@@ -1,23 +1,25 @@
 <template>
     <h1>SessionView</h1>
+    <h2>Active Sessions</h2>
     <section id="activeSessions">
         <ul>
             <li v-for="session in sessions">
-                <ActiveSession :session="session">
+                <ActiveSession id="activeSession" :session="session">
 
                 </ActiveSession>
             </li>
         </ul>
     </section>
     <section id="createNewSession">
+        <h2>Create new Session</h2>
+        <div id="warningText" ref="warning">{{ warningText }}</div>
         <form @submit="createSession">
-            <label for="sessionTitle">Title:</label>
+            <label for="sessionTitle">Choose a Session Title: </label>
             <input type="text" id="sessionTitle" v-model="dynamicTitle">
-            <label for="sessionCode">Code:</label>
+            <label for="sessionCode">Choose a Session Code: </label>
             <input type="number" id="sessionCode" v-model="dynamicCode">
-            <button type="submit">Session erstellen</button>
+            <button type="submit">create new Session</button>
         </form>
-        <div ref="warning"><mark>{{ warningText }}</mark></div>
     </section>
 </template>
 
@@ -43,8 +45,7 @@ const warning = ref(null);
 // Computed
 let warningText = computed(() => {
     sessions.value.find(name => name.title === dynamicTitle.value.trim()) ? assignedTitle.value = true : assignedTitle.value = false
-
-    return assignedTitle.value ? 'scho vergää' : '';
+    return assignedTitle.value ? 'Please choose a title, that is not already taken.' : '';
 })
 
 // OnMounted
@@ -111,4 +112,82 @@ supabase
     .subscribe()
 </script>
 
-<style scoped></style>
+<style scoped>
+h1 {
+    margin-bottom: 1em;
+}
+
+h2 {
+    margin-bottom: 0.5em;
+}
+
+#activeSessions {
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: fit-content;
+}
+
+#activeSession {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+}
+
+#activeSessions ul li:nth-child(even) {
+    background-color: white;
+}
+
+ul {
+    list-style: none;
+    width: 100%;
+}
+
+li {
+    padding: 1em;
+}
+
+label {
+    margin-right: 0.5em;
+    margin-left: 2em;
+}
+
+#createNewSession {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 5em 1em 1em 1em;
+}
+
+#warningText {
+    color: red;
+    font-size: 0.8em;
+    margin-bottom: 1em;
+}
+
+@media screen and (max-width: 600px) {
+    #activeSession {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    form {
+        display: flex;
+        justify-content: left;
+        flex-direction: column;
+    }
+
+    label {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    input {
+        margin: 0.5em 0 1.5em 0;
+    }
+}
+</style>
