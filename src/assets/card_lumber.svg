@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_2" data-name="Ebene 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270.12 179.41">
+  <g id="Layer_1" data-name="Layer 1">
+    <g>
+      <g>
+        <rect x="7.5" y="7.5" width="255.12" height="164.41" rx="10" ry="10" style="fill: #42722d; stroke-width: 0px;"/>
+        <rect x="7.5" y="7.5" width="255.12" height="164.41" rx="10" ry="10" style="fill: none; stroke: #cb9965; stroke-miterlimit: 10; stroke-width: 15px;"/>
+      </g>
+      <g>
+        <path d="M153.61,39.56c-1.28-7.35-8.15-12.29-15.35-11.03s-12,8.23-10.72,15.57" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <line x1="132.79" y1="40.26" x2="131.15" y2="32.67" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <g>
+          <line x1="161.96" y1="134.56" x2="159.71" y2="124.18" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <g>
+            <circle cx="129.18" cy="118.32" r="13.5" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <path d="M127.44,46.34c-1.28-7.35-8.15-12.29-15.35-11.03-7.2,1.25-12,8.23-10.72,15.57" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <path d="M139.54,119.99c-1,5.76-6.4,9.64-12.04,8.65s-9.41-6.45-8.41-12.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <path d="M159.17,139.14c-1,5.76-6.4,9.64-12.04,8.65-5.65-.98-9.41-6.45-8.41-12.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <path d="M165.71,112.38c-1,5.76-6.4,9.64-12.04,8.65-5.65-.98-9.41-6.45-8.41-12.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <line x1="142.33" y1="115.05" x2="127.34" y2="45.88" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <line x1="134.83" y1="105.77" x2="119.85" y2="36.6" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <line x1="131.15" y1="104.82" x2="116.16" y2="35.64" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <line x1="106.62" y1="47.04" x2="104.98" y2="39.45" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <polyline points="116.63 93.25 116.28 91.63 115.48 87.92" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <polyline points="128.65 104.67 128.3 103.05 127.49 99.34" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <line x1="119.96" y1="108.63" x2="117.39" y2="96.75" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+            <line x1="115.68" y1="118.86" x2="101.29" y2="50.63" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          </g>
+          <circle cx="155.35" cy="111.54" r="13.5" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="168.5" y1="108.27" x2="153.51" y2="39.09" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="161.01" y1="98.99" x2="146.02" y2="29.82" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="157.32" y1="98.04" x2="142.33" y2="28.86" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <polyline points="142.8 86.47 142.45 84.85 141.65 81.14" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <polyline points="154.82 97.89 154.47 96.27 153.66 92.56" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="146.14" y1="101.85" x2="143.56" y2="89.97" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="141.85" y1="112.08" x2="127.46" y2="43.85" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <circle cx="148.81" cy="137.83" r="13.5" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="126.25" y1="66.55" x2="124.6" y2="58.96" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="148.28" y1="124.18" x2="147.92" y2="122.56" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <line x1="135.31" y1="138.37" x2="133.76" y2="131.03" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        </g>
+      </g>
+      <g>
+        <path d="M36.76,123.96c-.43-2.46-2.73-4.11-5.13-3.69s-4.01,2.75-3.58,5.21" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <line x1="29.8" y1="124.19" x2="29.25" y2="121.65" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <line x1="39.55" y1="155.72" x2="38.8" y2="152.25" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <g>
+            <circle cx="28.59" cy="150.29" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M28.01,126.22c-.43-2.46-2.73-4.11-5.13-3.69-2.41.42-4.01,2.75-3.58,5.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M32.05,150.85c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M38.62,157.26c-.34,1.93-2.14,3.22-4.03,2.89s-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M40.81,148.31c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="32.99" y1="149.2" x2="27.97" y2="126.07" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="30.48" y1="146.1" x2="25.47" y2="122.96" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="29.25" y1="145.78" x2="24.23" y2="122.65" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="21.04" y1="126.46" x2="20.49" y2="123.92" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="24.39 141.91 24.28 141.37 24.01 140.13" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="28.41 145.73 28.29 145.19 28.02 143.95" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="25.51" y1="147.05" x2="24.65" y2="143.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="24.08" y1="150.47" x2="19.26" y2="127.66" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          </g>
+          <circle cx="37.34" cy="148.03" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="41.74" y1="146.93" x2="36.73" y2="123.8" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="39.23" y1="143.83" x2="34.22" y2="120.7" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="38" y1="143.51" x2="32.99" y2="120.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="33.14 139.64 33.03 139.1 32.76 137.86" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="37.16 143.46 37.04 142.92 36.78 141.68" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="34.26" y1="144.78" x2="33.4" y2="140.81" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="32.83" y1="148.2" x2="28.01" y2="125.39" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <circle cx="35.15" cy="156.82" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="27.61" y1="132.98" x2="27.06" y2="130.44" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="34.97" y1="152.25" x2="34.86" y2="151.71" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="30.64" y1="157" x2="30.12" y2="154.54" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+      </g>
+      <g>
+        <path d="M36.76,21.96c-.43-2.46-2.73-4.11-5.13-3.69s-4.01,2.75-3.58,5.21" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <line x1="29.8" y1="22.19" x2="29.25" y2="19.65" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <line x1="39.55" y1="53.72" x2="38.8" y2="50.25" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <g>
+            <circle cx="28.59" cy="48.29" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M28.01,24.22c-.43-2.46-2.73-4.11-5.13-3.69-2.41.42-4.01,2.75-3.58,5.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M32.05,48.85c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M38.62,55.26c-.34,1.93-2.14,3.22-4.03,2.89s-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M40.81,46.31c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="32.99" y1="47.2" x2="27.97" y2="24.07" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="30.48" y1="44.1" x2="25.47" y2="20.96" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="29.25" y1="43.78" x2="24.23" y2="20.65" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="21.04" y1="24.46" x2="20.49" y2="21.92" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="24.39 39.91 24.28 39.37 24.01 38.13" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="28.41 43.73 28.29 43.19 28.02 41.95" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="25.51" y1="45.05" x2="24.65" y2="41.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="24.08" y1="48.47" x2="19.26" y2="25.66" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          </g>
+          <circle cx="37.34" cy="46.03" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="41.74" y1="44.93" x2="36.73" y2="21.8" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="39.23" y1="41.83" x2="34.22" y2="18.7" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="38" y1="41.51" x2="32.99" y2="18.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="33.14 37.64 33.03 37.1 32.76 35.86" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="37.16 41.46 37.04 40.92 36.78 39.68" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="34.26" y1="42.78" x2="33.4" y2="38.81" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="32.83" y1="46.2" x2="28.01" y2="23.39" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <circle cx="35.15" cy="54.82" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="27.61" y1="30.98" x2="27.06" y2="28.44" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="34.97" y1="50.25" x2="34.86" y2="49.71" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="30.64" y1="55" x2="30.12" y2="52.54" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+      </g>
+      <g>
+        <path d="M246.76,20.96c-.43-2.46-2.73-4.11-5.13-3.69s-4.01,2.75-3.58,5.21" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <line x1="239.8" y1="21.19" x2="239.25" y2="18.65" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <line x1="249.55" y1="52.72" x2="248.8" y2="49.25" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <g>
+            <circle cx="238.59" cy="47.29" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M238.01,23.22c-.43-2.46-2.73-4.11-5.13-3.69-2.41.42-4.01,2.75-3.58,5.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M242.05,47.85c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M248.62,54.26c-.34,1.93-2.14,3.22-4.03,2.89s-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M250.81,45.31c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="242.99" y1="46.2" x2="237.97" y2="23.07" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="240.48" y1="43.1" x2="235.47" y2="19.96" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="239.25" y1="42.78" x2="234.23" y2="19.65" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="231.04" y1="23.46" x2="230.49" y2="20.92" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="234.39 38.91 234.28 38.37 234.01 37.13" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="238.41 42.73 238.29 42.19 238.02 40.95" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="235.51" y1="44.05" x2="234.65" y2="40.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="234.08" y1="47.47" x2="229.26" y2="24.66" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          </g>
+          <circle cx="247.34" cy="45.03" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="251.74" y1="43.93" x2="246.73" y2="20.8" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="249.23" y1="40.83" x2="244.22" y2="17.7" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="248" y1="40.51" x2="242.99" y2="17.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="243.14 36.64 243.03 36.1 242.76 34.86" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="247.16 40.46 247.04 39.92 246.78 38.68" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="244.26" y1="41.78" x2="243.4" y2="37.81" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="242.83" y1="45.2" x2="238.01" y2="22.39" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <circle cx="245.15" cy="53.82" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="237.61" y1="29.98" x2="237.06" y2="27.44" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="244.97" y1="49.25" x2="244.86" y2="48.71" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="240.64" y1="54" x2="240.12" y2="51.54" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+      </g>
+      <g>
+        <path d="M246.76,124.96c-.43-2.46-2.73-4.11-5.13-3.69s-4.01,2.75-3.58,5.21" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <line x1="239.8" y1="125.19" x2="239.25" y2="122.65" style="fill: #42722d; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <line x1="249.55" y1="156.72" x2="248.8" y2="153.25" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <g>
+            <circle cx="238.59" cy="151.29" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M238.01,127.22c-.43-2.46-2.73-4.11-5.13-3.69-2.41.42-4.01,2.75-3.58,5.21" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M242.05,151.85c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M248.62,158.26c-.34,1.93-2.14,3.22-4.03,2.89s-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <path d="M250.81,149.31c-.34,1.93-2.14,3.22-4.03,2.89-1.89-.33-3.15-2.16-2.81-4.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="242.99" y1="150.2" x2="237.97" y2="127.07" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="240.48" y1="147.1" x2="235.47" y2="123.96" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="239.25" y1="146.78" x2="234.23" y2="123.65" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="231.04" y1="127.46" x2="230.49" y2="124.92" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="234.39 142.91 234.28 142.37 234.01 141.13" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <polyline points="238.41 146.73 238.29 146.19 238.02 144.95" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="235.51" y1="148.05" x2="234.65" y2="144.08" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+            <line x1="234.08" y1="151.47" x2="229.26" y2="128.66" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          </g>
+          <circle cx="247.34" cy="149.03" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="251.74" y1="147.93" x2="246.73" y2="124.8" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="249.23" y1="144.83" x2="244.22" y2="121.7" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="248" y1="144.51" x2="242.99" y2="121.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="243.14 140.64 243.03 140.1 242.76 138.86" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="247.16 144.46 247.04 143.92 246.78 142.68" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="244.26" y1="145.78" x2="243.4" y2="141.81" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="242.83" y1="149.2" x2="238.01" y2="126.39" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <circle cx="245.15" cy="157.82" r="4.51" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="237.61" y1="133.98" x2="237.06" y2="131.44" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="244.97" y1="153.25" x2="244.86" y2="152.71" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <line x1="240.64" y1="158" x2="240.12" y2="155.54" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

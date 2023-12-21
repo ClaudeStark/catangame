@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_2" data-name="Ebene 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270.12 179.41">
+  <g id="Layer_1" data-name="Layer 1">
+    <g>
+      <g>
+        <rect x="7.5" y="7.5" width="255.12" height="164.41" rx="10" ry="10" style="fill: #e46b17; stroke-width: 0px;"/>
+        <rect x="7.5" y="7.5" width="255.12" height="164.41" rx="10" ry="10" style="fill: none; stroke: #cb9965; stroke-miterlimit: 10; stroke-width: 15px;"/>
+      </g>
+      <g>
+        <g>
+          <rect x="107.69" y="126.75" width="37.32" height="16.33" transform="translate(-8.57 261.26) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <polyline points="118.18 153.57 114.85 138.66 114.85 101.35" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <polyline points="134.51 116.25 131.19 101.35 114.85 101.35 118.18 116.25" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        </g>
+        <rect x="124.48" y="126.75" width="37.32" height="16.33" transform="translate(8.22 278.05) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <polyline points="151.3 116.25 147.98 101.35 131.65 101.35 134.97 116.25" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <rect x="124.48" y="70.39" width="37.32" height="16.33" transform="translate(64.57 221.7) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <polyline points="134.97 97.22 131.65 82.31 131.65 76.63 131.65 73.94" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <polyline points="151.3 59.9 147.98 44.99 136.86 44.99" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <g>
+          <rect x="106.95" y="53.21" width="37.32" height="16.33" transform="translate(43.52 174.54) rotate(-80.09)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <polyline points="114.35 78.35 113.64 63.09 120.07 26.33" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+          <polyline points="136.86 44.4 136.15 29.14 120.07 26.33 120.77 41.59" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        </g>
+        <polyline points="129.93 116.25 129.51 114.31 128.55 109.88" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+        <polyline points="141.46 59.9 141.04 57.96 140.08 53.53" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: 1.5px;"/>
+      </g>
+      <g>
+        <g>
+          <rect x="21.71" y="148.88" width="12.09" height="5.29" transform="translate(-123.76 179.28) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="25.11 157.57 24.04 152.74 24.04 140.64" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="30.41 145.48 29.33 140.64 24.04 140.64 25.11 145.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <rect x="27.15" y="148.88" width="12.09" height="5.29" transform="translate(-118.32 184.72) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="35.85 145.48 34.77 140.64 29.48 140.64 30.55 145.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <rect x="27.15" y="130.61" width="12.09" height="5.29" transform="translate(-100.06 166.46) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="30.55 139.31 29.48 134.47 29.48 132.63 29.48 131.76" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="35.85 127.21 34.77 122.38 31.17 122.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <rect x="21.47" y="125.04" width="12.09" height="5.29" transform="translate(-103 132.82) rotate(-80.09)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="23.87 133.19 23.64 128.25 25.72 116.33" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="31.17 122.19 30.94 117.24 25.72 116.33 25.95 121.28" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <polyline points="29.57 145.47 29.43 144.85 29.12 143.41" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="32.66 127.21 32.52 126.58 32.21 125.15" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+      </g>
+      <g>
+        <g>
+          <rect x="22.71" y="52.88" width="12.09" height="5.29" transform="translate(-26.76 84.28) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="26.11 61.57 25.04 56.74 25.04 44.64" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="31.41 49.48 30.33 44.64 25.04 44.64 26.11 49.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <rect x="28.15" y="52.88" width="12.09" height="5.29" transform="translate(-21.32 89.72) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="36.85 49.48 35.77 44.64 30.48 44.64 31.55 49.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <rect x="28.15" y="34.61" width="12.09" height="5.29" transform="translate(-3.06 71.46) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="31.55 43.31 30.48 38.47 30.48 36.63 30.48 35.76" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="36.85 31.21 35.77 26.38 32.17 26.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <rect x="22.47" y="29.04" width="12.09" height="5.29" transform="translate(-7.61 54.33) rotate(-80.09)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="24.87 37.19 24.64 32.25 26.72 20.33" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="32.17 26.19 31.94 21.24 26.72 20.33 26.95 25.28" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <polyline points="30.57 49.47 30.43 48.85 30.12 47.41" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="33.66 31.21 33.52 30.58 33.21 29.15" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+      </g>
+      <g>
+        <g>
+          <rect x="235.71" y="48.88" width="12.09" height="5.29" transform="translate(190.24 293.28) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="239.11 57.57 238.04 52.74 238.04 40.64" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="244.41 45.48 243.33 40.64 238.04 40.64 239.11 45.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <rect x="241.15" y="48.88" width="12.09" height="5.29" transform="translate(195.68 298.72) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="249.85 45.48 248.77 40.64 243.48 40.64 244.55 45.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <rect x="241.15" y="30.61" width="12.09" height="5.29" transform="translate(213.94 280.46) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="244.55 39.31 243.48 34.47 243.48 32.63 243.48 31.76" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="249.85 27.21 248.77 22.38 245.17 22.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <rect x="235.47" y="25.04" width="12.09" height="5.29" transform="translate(172.66 260.84) rotate(-80.09)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="237.87 33.19 237.64 28.25 239.72 16.33" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="245.17 22.19 244.94 17.24 239.72 16.33 239.95 21.28" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <polyline points="243.57 45.47 243.43 44.85 243.12 43.41" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="246.66 27.21 246.52 26.58 246.21 25.15" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+      </g>
+      <g>
+        <g>
+          <rect x="234.71" y="150.88" width="12.09" height="5.29" transform="translate(87.24 394.28) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="238.11 159.57 237.04 154.74 237.04 142.64" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="243.41 147.48 242.33 142.64 237.04 142.64 238.11 147.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <rect x="240.15" y="150.88" width="12.09" height="5.29" transform="translate(92.68 399.72) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="248.85 147.48 247.77 142.64 242.48 142.64 243.55 147.48" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <rect x="240.15" y="132.61" width="12.09" height="5.29" transform="translate(110.94 381.46) rotate(-90)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="243.55 141.31 242.48 136.47 242.48 134.63 242.48 133.76" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="248.85 129.21 247.77 124.38 244.17 124.38" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <g>
+          <rect x="234.47" y="127.04" width="12.09" height="5.29" transform="translate(71.36 344.29) rotate(-80.09)" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="236.87 135.19 236.64 130.25 238.72 118.33" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+          <polyline points="244.17 124.19 243.94 119.24 238.72 118.33 238.95 123.28" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        </g>
+        <polyline points="242.57 147.47 242.43 146.85 242.12 145.41" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+        <polyline points="245.66 129.21 245.52 128.58 245.21 127.15" style="fill: none; stroke: #004d3b; stroke-miterlimit: 10; stroke-width: .5px;"/>
+      </g>
+    </g>
+  </g>
+</svg>

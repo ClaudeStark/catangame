@@ -59,7 +59,8 @@
         </section>
     </div> -->
 
-    <div id="gameBox" @mousemove="trackMousePosition($event)">
+    <!-- <div id="gameBox" @mousemove="trackMousePosition($event)"> -->
+    <div id="gameBox">
         <div id="items">
             <!-- <Item v-for="item in itemsOnBoard" :positionTop="item.position.yPosition"
                 :positionLeft="item.position.xPosition" :owner="item.owner_id_player" :itemTypeId="item.id_item_type"
@@ -69,11 +70,11 @@
         <section class="gridContainer" ref="gridContainerPlayfield">
             <div>1</div>
             <div>
-                <PlayerBank></PlayerBank>
+                <PlayerBank :boardPosition=1></PlayerBank>
             </div>
             <div>3</div>
             <div>
-                <PlayerBank></PlayerBank>
+                <PlayerBank :boardPosition=4></PlayerBank>
             </div>
             <!-- <div class="gridItem gridEdge" id="personalEdgeTop">{{ mousePosition.mouseXPosition + "|" +
                 mousePosition.mouseYPosition }} {{ playerPositions[1] }}</div>
@@ -106,37 +107,35 @@
                     </div>
                 </section>
             </div>-->
-            <div class="gridItem">
-                <!-- Würfel -->
-                <!-- <div class="dice">
-                    <button id="diceButton" @click="rollDice">Würfeln</button>
-                    <div id="ImageDice">
-                        <img :src="require(`@/assets/DieValue${die1}.svg`)" alt="Die1">
-                        <img :src="require(`@/assets/DieValue${die2}.svg`)" alt="Die2">
-                    </div>
-                </div> -->
+            <div class="gridItem" id="middleGridItem">
                 <!-- Nachziehstapel -->
-                <!-- <div class="drawPile">
-                    <div id="drawPileBrick" class="drawPileCard" @click="drawCard('brick')">
-                        <p>Lehm</p>
-                    </div>
-                    <div id="drawPileOre" class="drawPileCard" @click="drawCard('ore')">
-                        <p>Erz</p>
-                    </div>
-                    <div id="drawPileWool" class="drawPileCard" @click="drawCard('wool')">
-                        <p>Wolle</p>
-                    </div>
-                    <div id="drawPileGrain" class="drawPileCard" @click="drawCard('grain')">
-                        <p>Getreide</p>
-                    </div>
-                    <div id="drawPileLumber" class="drawPileCard" @click="drawCard('lumber')">
-                        <p>Holz</p>
-                    </div>
-                    <div id="drawPileDevelopmentCard" class="drawPileCard" @click="drawCard('developmentCard')"
-                        style="background-color: aquamarine;">
-                        <p>Entwicklungskarte</p>
-                    </div>
-                </div> -->
+                <section id="drawPiles">
+                        <div id="drawPileBrick" class="drawPileCard">
+                            <img src="@/assets/card_brick.svg" alt="card_brick">
+                            <p>Lehm</p>
+                        </div>
+                        <div id="drawPileOre" class="drawPileCard">
+                            <img src="@/assets/card_ore.svg" alt="card_ore">
+                            <p>Erz</p>
+                        </div>
+                        <div id="drawPileWool" class="drawPileCard">
+                            <img src="@/assets/card_wool.svg" alt="card_wool">
+                            <p>Wolle</p>
+                        </div>
+                        <div id="drawPileGrain" class="drawPileCard" >
+                            <img src="@/assets/card_grain.svg" alt="card_grain">
+                            <p>Getreide</p>
+                        </div>
+                        <div id="drawPileLumber" class="drawPileCard">
+                            <img src="@/assets/card_lumber.svg" alt="card_lumber">
+                            <p>Holz</p>
+                        </div>
+                        <div id="drawPileDevelopmentCard" class="drawPileCard">
+                            <img src="@/assets/card_classic_back.svg" alt="card_development">
+                            <p>Entwicklungskarte</p>
+                        </div>
+                </section>
+
                 <!-- Spielfeld -->
                 <svg id="playfield" ref="playfield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1992.35 1725.42">
                     <!--Place svg below-->
@@ -4741,9 +4740,41 @@
                         </g>
                     </g>
                     <!--Place SVG before-->
-
                 </svg>
                 <!-- Ende Spielfeld -->
+
+                <!-- Würfel -->
+                <section id="dice"></section>
+                <!-- <div class="dice">
+                    <button id="diceButton" @click="rollDice">Würfeln</button>
+                    <div id="ImageDice">
+                        <img :src="require(`@/assets/DieValue${die1}.svg`)" alt="Die1">
+                        <img :src="require(`@/assets/DieValue${die2}.svg`)" alt="Die2">
+                    </div>
+                </div> -->
+                <!-- Nachziehstapel -->
+                <!-- <div class="drawPile">
+                    <div id="drawPileBrick" class="drawPileCard" @click="drawCard('brick')">
+                        <p>Lehm</p>
+                    </div>
+                    <div id="drawPileOre" class="drawPileCard" @click="drawCard('ore')">
+                        <p>Erz</p>
+                    </div>
+                    <div id="drawPileWool" class="drawPileCard" @click="drawCard('wool')">
+                        <p>Wolle</p>
+                    </div>
+                    <div id="drawPileGrain" class="drawPileCard" @click="drawCard('grain')">
+                        <p>Getreide</p>
+                    </div>
+                    <div id="drawPileLumber" class="drawPileCard" @click="drawCard('lumber')">
+                        <p>Holz</p>
+                    </div>
+                    <div id="drawPileDevelopmentCard" class="drawPileCard" @click="drawCard('developmentCard')"
+                        style="background-color: aquamarine;">
+                        <p>Entwicklungskarte</p>
+                    </div>
+                </div> -->
+
 
             </div>
 
@@ -4785,11 +4816,11 @@
             </div>
             <div class="gridItem gridEdge" id="personalEdgeBottom">{{ playerPositions[3] }}</div> -->
             <div>
-                <PlayerBank></PlayerBank>
+                <PlayerBank :boardPosition=2></PlayerBank>
             </div>
             <div>7</div>
             <div>
-                <PlayerBank></PlayerBank>
+                <PlayerBank :boardPosition=3></PlayerBank>
             </div>
             <div>9</div>
         </section>
@@ -4807,7 +4838,6 @@ import { supabase } from '@/lib/supabaseClient'
 import { ref, onMounted, computed } from 'vue';
 
 // Komponenten importieren
-import MainItem from '@/components/MainItem.vue';
 import Item from '@/components/Item.vue';
 import PlayerBank from '@/components/PlayerBank.vue';
 
@@ -4846,7 +4876,7 @@ let itemArrayPlayer3 = ref([]);
 let itemArrayPlayer4 = ref([]);
 let itemsOnBoard = ref([]);
 let positionConversionObject = ref({});
-let screenSize = ref({ 'windowWidth': '', 'windowHeight': '' })
+//let screenSize = ref({ 'windowWidth': '', 'windowHeight': '' })
 let eventListenerArray = ref({});
 let die1 = ref(1);
 let die2 = ref(1);
@@ -4873,15 +4903,15 @@ const playfield = ref(null)
 
 
 // Emit Funktionen
-const emitMainItem = (mainItem) => {
-    currentSelectedMainItem.value = mainItem.mainItemId;
-    console.log(currentSelectedMainItem.value);
-}
+// const emitMainItem = (mainItem) => {
+//     currentSelectedMainItem.value = mainItem.mainItemId;
+//     console.log(currentSelectedMainItem.value);
+// }
 
-const updateSelectedItem = (itemId) => {
-    currentSelectedMainItem.value = itemId;
-    console.log(currentSelectedMainItem.value);
-}
+// const updateSelectedItem = (itemId) => {
+//     currentSelectedMainItem.value = itemId;
+//     console.log(currentSelectedMainItem.value);
+// }
 
 
 
@@ -4895,6 +4925,71 @@ const updateSelectedItem = (itemId) => {
 
 
 ///////////////////////////////////// Ende Hilfsfunktionen ////////////////////////////////
+
+///////////////////////////////////// ONMOUNT ////////////////////////////////
+
+onMounted(() => {
+    // Styling für GridContainer
+    defineGridContainerSize();
+})
+
+///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
+
+
+
+///////////////////////////////////// Methoden ////////////////////////////////
+
+// Funktion, welche den GridContainer gemäss FensterGrösse skaliert
+// --> onMounted
+function defineGridContainerSize() {
+    // Breite und Höhe des Fensters werden in der Variabel screenSize gespeichert
+    let innerHeight = window.innerHeight;
+    let innerWidth = window.innerWidth;
+
+    // Grid Container (Playfield und PopUp) wird auf die Fenstergrösse angepasst
+    let gridTemplateColumns = `${innerWidth * 0.1}px ${innerWidth * 0.8}px ${innerWidth * 0.1}px`;
+    let gridTemplateRows = `${innerWidth * 0.1}px ${innerHeight - (innerWidth * 0.2)}px ${innerWidth * 0.1}px`;
+    // gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
+    // gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
+    gridContainerPlayfield.value.style.gridTemplateColumns = gridTemplateColumns;
+    gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
+}
+
+///////////////////////////////////// Ende Methoden ////////////////////////////////
+
+
+
+
+
+///////////////////////////////////// Fetch ////////////////////////////////
+
+///////////////////////////////////// Ende Fetch ////////////////////////////////
+
+
+
+
+
+///////////////////////////////////// EventListener ////////////////////////////////
+// Eventlistener für Fenstergrössenänderung
+window.addEventListener('resize', defineGridContainerSize)
+
+
+///////////////////////////////////// Ende EventListener ////////////////////////////////
+
+
+// function getWindowSize() {
+//
+
+//
+//     let gridTemplateColumns = `${innerWidth * 0.1}px ${innerWidth * 0.8}px ${innerWidth * 0.1}px`;
+//     let gridTemplateRows = `${innerWidth * 0.1}px ${innerHeight - (innerWidth * 0.2)}px ${innerWidth * 0.1}px`;
+//     gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
+//     gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
+//     gridContainerPlayfield.value.style.gridTemplateColumns = gridTemplateColumns;
+//     gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
+//     fetchSessionData();
+// }
+
 
 // function defineMargin(player) {
 //     switch (player) {
@@ -5068,11 +5163,6 @@ const updateSelectedItem = (itemId) => {
 
 
 
-///////////////////////////////////// ONMOUNT ////////////////////////////////
-
-onMounted(() => {
-    getWindowSize();
-})
 
 
 
@@ -5082,19 +5172,7 @@ onMounted(() => {
 ///////////////////////////////////// FETCH-FUNKTIONEN ////////////////////////////////
 
 
-// function getWindowSize() {
-//     screenSize.value.windowHeight = innerHeight;
-//     screenSize.value.windowWidth = innerWidth;
 
-//     // Grid Container wird auf die Fenstergrösse angepasst
-//     let gridTemplateColumns = `${innerWidth * 0.1}px ${innerWidth * 0.8}px ${innerWidth * 0.1}px`;
-//     let gridTemplateRows = `${innerWidth * 0.1}px ${innerHeight - (innerWidth * 0.2)}px ${innerWidth * 0.1}px`;
-//     gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
-//     gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
-//     gridContainerPlayfield.value.style.gridTemplateColumns = gridTemplateColumns;
-//     gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
-//     fetchSessionData();
-// }
 
 
 // Funktion, welche die Session-Daten, der aktuellen Session aus der Datenbank holt
@@ -5324,7 +5402,7 @@ onMounted(() => {
 //     itemArrayPlayer3.value = itemArray.value.filter(item => item.position == 3);
 //     itemArrayPlayer4.value = itemArray.value.filter(item => item.position == 4);
 
-//     // Die Umrechnungsliste für die Positionen wird erstellt	
+//     // Die Umrechnungsliste für die Positionen wird erstellt
 //     definePositionConversion()
 // }
 
@@ -5601,7 +5679,53 @@ onMounted(() => {
 </script>
 
 <style scoped>
-#boardPositionPopUpContainer {
+/* Grid styling ****************/
+.gridContainer {
+    display: inline-grid;
+    /* justify-items: stretch;
+    justify-content: stretch;
+    align-content: stretch;  */
+}
+
+.gridItem {
+    display: flex;
+    /* align-items: center;
+    justify-content: center;
+    background-color: blanchedalmond;
+    padding: 2px;
+    gap: 10px;
+    position: relative;
+    color: black; */
+
+}
+
+/**************** Grid styling */
+
+/* Playfield styling ****************/
+#playfield {
+    height: 100%;
+    width: 100%;
+}
+
+/******************** Playfield styling */
+
+/* DrawPile styling ****************/
+#drawPile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+/**************** DrawPile styling */
+
+
+
+
+
+/* #boardPositionPopUpContainer {
     position: fixed;
     top: 0;
     left: 0;
@@ -5612,148 +5736,126 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     z-index: 20;
-}
+} */
 
-#gameBox {
+/* #gameBox {
     z-index: 10;
     position: absolute;
     user-select: none;
     height: 100vh;
     width: 100vw;
-}
+} */
 
-.gridContainer {
-    display: inline-grid;
-    background-color: aqua;
-    justify-items: stretch;
-    justify-content: stretch;
-    align-content: stretch;
-}
 
-.gridItem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: blanchedalmond;
-    padding: 2px;
-    gap: 10px;
-    position: relative;
-    color: black;
 
-    /* border: 1px solid black; */
-}
 
-.chooseTop {
+/* .chooseTop {
     flex-direction: column-reverse;
-}
+} */
 
-#chooseBoxTop,
+/* #chooseBoxTop,
 #personalEdgeTop {
     transform: rotate(180deg);
     flex-shrink: 0;
 
-}
+} */
 
-.chooseRight {
+/* .chooseRight {
     flex-direction: row;
-}
+} */
 
-#chooseBoxRight,
+/* #chooseBoxRight,
 #personalEdgeRight {
     transform: rotate(270deg);
     flex-shrink: 0;
 
-}
+} */
 
-.chooseBottom {
+/* .chooseBottom {
     flex-direction: column;
-}
-
+} */
+/* 
 #chooseBoxBottom,
 #personalEdgeBottom {
     transform: rotate(0deg);
     flex-shrink: 0;
 
-}
-
+} */
+/* 
 .chooseLeft {
     flex-direction: row-reverse;
-}
+} */
 
-#chooseBoxLeft,
+/* #chooseBoxLeft,
 #personalEdgeLeft {
     transform: rotate(90deg);
     flex-shrink: 0;
 
-}
+} */
 
-
+/* 
 #chooseBox2 {
     transform: rotate(270deg);
     background-color: red;
-}
+} */
 
-#player1Field {
+/* #player1Field {
     height: 100%;
     flex-direction: row;
     background-color: azure;
     border: 1px solid black;
 
-}
+} */
 
-#player2Field {
+/* #player2Field {
     width: 100%;
     flex-direction: column;
     background-color: azure;
     border: 1px solid black;
-}
+} */
 
-#player3Field {
+/* #player3Field {
     height: 100%;
     flex-direction: row;
     background-color: azure;
     border: 1px solid black;
-}
+} */
 
 
-#player4Field {
+/* #player4Field {
     width: 100%;
     flex-direction: column;
     background-color: azure;
     border: 1px solid black;
-}
+} */
 
 
-.gridEdge {
+/* .gridEdge {
     background-color: blueviolet;
-}
+} */
 
-#playfield {
-    background-color: antiquewhite;
-    height: 100%;
-    width: 100%;
-}
 
+/* 
 #items {
     position: absolute;
-}
+} */
 
-.mainItem {
+/* .mainItem {
     background-color: red;
     flex-shrink: 0;
     border: 1px solid black;
-}
+} */
 
-.bottom,
+/* .bottom,
 .top {
     height: 100%;
-}
+} */
 
-.right,
+/* .right,
 .left {
     width: 100%;
-}
-
+} */
+/*************** */
 /* .hoverBank {
     position: absolute;
     z-index: 20;
@@ -5769,8 +5871,8 @@ onMounted(() => {
     top: 20vh;
     left: 95vw;
 } */
-
-.hoverBanksTopBottom {
+/*************** */
+/* .hoverBanksTopBottom {
     position: absolute;
     z-index: 20;
     background-color: transparent;
@@ -5778,9 +5880,9 @@ onMounted(() => {
     width: 100%;
     display: flex;
     flex-direction: column;
-}
+} */
 
-.hoverBanksLeftRight {
+/* .hoverBanksLeftRight {
     position: absolute;
     z-index: 20;
     background-color: transparent;
@@ -5788,33 +5890,34 @@ onMounted(() => {
     width: 100%;
     display: flex;
     flex-direction: row;
-}
+} */
 
-#hoverToSideDevicePlayer1,
+/* #hoverToSideDevicePlayer1,
 #hoverToSideDevicePlayer3,
 #hoverToBankPlayer1,
 #hoverToBankPlayer3 {
     height: 50%;
     width: 100%;
     position: relative;
-}
+} */
 
-#hoverToSideDevicePlayer2,
+/* #hoverToSideDevicePlayer2,
 #hoverToSideDevicePlayer4,
 #hoverToBankPlayer2,
 #hoverToBankPlayer4 {
     height: 100%;
     width: 50%;
     position: relative;
-}
+} */
 
 
 
 /* DRAWPILE */
 
-.drawPileCard {
+/* .drawPileCard {
     background-color: palevioletred;
     height: 60px;
     width: 100px;
     margin: 15px;
-}</style>
+}*/
+</style> 
