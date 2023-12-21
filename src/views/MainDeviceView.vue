@@ -112,27 +112,27 @@
                 <section id="drawPiles">
                         <div id="drawPileBrick" class="drawPileCard">
                             <img src="@/assets/card_brick.svg" alt="card_brick">
-                            <p>Lehm</p>
+                            <!-- <p>Lehm</p> -->
                         </div>
                         <div id="drawPileOre" class="drawPileCard">
                             <img src="@/assets/card_ore.svg" alt="card_ore">
-                            <p>Erz</p>
+                            <!-- <p>Erz</p> -->
                         </div>
                         <div id="drawPileWool" class="drawPileCard">
                             <img src="@/assets/card_wool.svg" alt="card_wool">
-                            <p>Wolle</p>
+                            <!-- <p>Wolle</p> -->
                         </div>
                         <div id="drawPileGrain" class="drawPileCard" >
                             <img src="@/assets/card_grain.svg" alt="card_grain">
-                            <p>Getreide</p>
+                            <!-- <p>Getreide</p> -->
                         </div>
                         <div id="drawPileLumber" class="drawPileCard">
                             <img src="@/assets/card_lumber.svg" alt="card_lumber">
-                            <p>Holz</p>
+                            <!-- <p>Holz</p> -->
                         </div>
                         <div id="drawPileDevelopmentCard" class="drawPileCard">
                             <img src="@/assets/card_classic_back.svg" alt="card_development">
-                            <p>Entwicklungskarte</p>
+                            <!-- <p>Entwicklungskarte</p> -->
                         </div>
                 </section>
 
@@ -5710,14 +5710,25 @@ window.addEventListener('resize', defineGridContainerSize)
 /******************** Playfield styling */
 
 /* DrawPile styling ****************/
-#drawPile {
+#drawPiles {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    width: 15%;
+    padding: 1em;
 }
+
+.drawPileCard{
+    width: 100%;
+    margin: 0.3em 0;
+}
+
+.drawPileCard:last-child{
+
+    margin: 1.5em 0;
+}
+    
 
 /**************** DrawPile styling */
 
