@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="DieValue6" transform="translate(-10 -10)">
+    <g id="die" transform="translate(10 10)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="50" height="50" rx="5" stroke="none"/>
+      <rect x="0.5" y="0.5" width="49" height="49" rx="4.5" fill="none"/>
+    </g>
+    <circle id="value" cx="6" cy="6" r="6" transform="translate(18 44)"/>
+    <circle id="value-2" data-name="value" cx="6" cy="6" r="6" transform="translate(18 14)"/>
+    <circle id="value-3" data-name="value" cx="6" cy="6" r="6" transform="translate(40 44)"/>
+    <circle id="value-4" data-name="value" cx="6" cy="6" r="6" transform="translate(40 14)"/>
+    <circle id="value-5" data-name="value" cx="6" cy="6" r="6" transform="translate(18 29)"/>
+    <circle id="value-6" data-name="value" cx="6" cy="6" r="6" transform="translate(40 29)"/>
+  </g>
+</svg>

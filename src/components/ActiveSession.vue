@@ -54,12 +54,12 @@ function addEventListener() {
 </script>
 
 <style scoped>
-h3 {
-    margin-right: 2em;
-}
-
 label {
     overflow: hidden;
+}
+
+h3 {
+    margin-right: 2em;
 }
 
 @media screen and (max-width: 600px) {

@@ -113,13 +113,6 @@ supabase
 </script>
 
 <style scoped>
-h1 {
-    margin-bottom: 1em;
-}
-
-h2 {
-    margin-bottom: 0.5em;
-}
 
 #activeSessions {
     display: flex;

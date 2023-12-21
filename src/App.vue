@@ -19,7 +19,6 @@ const showNavigation = () => {
 </script>
 
 <style>
-
 * {
   margin: 0;
   padding: 0;
@@ -49,22 +48,31 @@ body {
   width: 100%;
 }
 
+h1 {
+  margin: 1em 0;
+}
+
+h2 {
+  margin-bottom: 0.5em;
+}
+
+
 button {
-    padding: 10px 16px;
-    background-color: #42b983;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
+  padding: 10px 16px;
+  background-color: #42b983;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 8px;
-    font-size: 14px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 14px;
 }
 
 nav {
