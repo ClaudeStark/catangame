@@ -110,30 +110,30 @@
             <div class="gridItem" id="middleGridItem">
                 <!-- Nachziehstapel -->
                 <section id="drawPiles">
-                        <div id="drawPileBrick" class="drawPileCard">
-                            <img src="@/assets/card_brick.svg" alt="card_brick">
-                            <!-- <p>Lehm</p> -->
-                        </div>
-                        <div id="drawPileOre" class="drawPileCard">
-                            <img src="@/assets/card_ore.svg" alt="card_ore">
-                            <!-- <p>Erz</p> -->
-                        </div>
-                        <div id="drawPileWool" class="drawPileCard">
-                            <img src="@/assets/card_wool.svg" alt="card_wool">
-                            <!-- <p>Wolle</p> -->
-                        </div>
-                        <div id="drawPileGrain" class="drawPileCard" >
-                            <img src="@/assets/card_grain.svg" alt="card_grain">
-                            <!-- <p>Getreide</p> -->
-                        </div>
-                        <div id="drawPileLumber" class="drawPileCard">
-                            <img src="@/assets/card_lumber.svg" alt="card_lumber">
-                            <!-- <p>Holz</p> -->
-                        </div>
-                        <div id="drawPileDevelopmentCard" class="drawPileCard">
-                            <img src="@/assets/card_classic_back.svg" alt="card_development">
-                            <!-- <p>Entwicklungskarte</p> -->
-                        </div>
+                    <div id="drawPileBrick" class="drawPileCard">
+                        <img src="@/assets/card_brick.svg" alt="card_brick">
+                        <!-- <p>Lehm</p> -->
+                    </div>
+                    <div id="drawPileOre" class="drawPileCard">
+                        <img src="@/assets/card_ore.svg" alt="card_ore">
+                        <!-- <p>Erz</p> -->
+                    </div>
+                    <div id="drawPileWool" class="drawPileCard">
+                        <img src="@/assets/card_wool.svg" alt="card_wool">
+                        <!-- <p>Wolle</p> -->
+                    </div>
+                    <div id="drawPileGrain" class="drawPileCard">
+                        <img src="@/assets/card_grain.svg" alt="card_grain">
+                        <!-- <p>Getreide</p> -->
+                    </div>
+                    <div id="drawPileLumber" class="drawPileCard">
+                        <img src="@/assets/card_lumber.svg" alt="card_lumber">
+                        <!-- <p>Holz</p> -->
+                    </div>
+                    <div id="drawPileDevelopmentCard" class="drawPileCard">
+                        <img src="@/assets/card_classic_back.svg" alt="card_development">
+                        <!-- <p>Entwicklungskarte</p> -->
+                    </div>
                 </section>
 
                 <!-- Spielfeld -->
@@ -4744,7 +4744,15 @@
                 <!-- Ende Spielfeld -->
 
                 <!-- Würfel -->
-                <section id="dice"></section>
+                <section id="diceSection">
+                    <button id="diceContainer" @click="rollDice()">
+                        <img class="dice" ref="die1" src="@/assets/dice/dieValue1.svg" alt="dice Number 1">
+                        <img class="dice" ref="die2" src="@/assets/dice/dieValue1.svg" alt="dice Number 1">
+                    </button>
+                    <button @click="getStatesProcess()">
+                        <h1>get States</h1>
+                    </button>
+                </section>
                 <!-- <div class="dice">
                     <button id="diceButton" @click="rollDice">Würfeln</button>
                     <div id="ImageDice">
@@ -4752,40 +4760,7 @@
                         <img :src="require(`@/assets/DieValue${die2}.svg`)" alt="Die2">
                     </div>
                 </div> -->
-                <!-- Nachziehstapel -->
-                <!-- <div class="drawPile">
-                    <div id="drawPileBrick" class="drawPileCard" @click="drawCard('brick')">
-                        <p>Lehm</p>
-                    </div>
-                    <div id="drawPileOre" class="drawPileCard" @click="drawCard('ore')">
-                        <p>Erz</p>
-                    </div>
-                    <div id="drawPileWool" class="drawPileCard" @click="drawCard('wool')">
-                        <p>Wolle</p>
-                    </div>
-                    <div id="drawPileGrain" class="drawPileCard" @click="drawCard('grain')">
-                        <p>Getreide</p>
-                    </div>
-                    <div id="drawPileLumber" class="drawPileCard" @click="drawCard('lumber')">
-                        <p>Holz</p>
-                    </div>
-                    <div id="drawPileDevelopmentCard" class="drawPileCard" @click="drawCard('developmentCard')"
-                        style="background-color: aquamarine;">
-                        <p>Entwicklungskarte</p>
-                    </div>
-                </div> -->
-
-
             </div>
-
-
-
-
-
-
-
-
-
             <!-- Splayer Banks noch mehr modularisieren-->
             <!-- <div class="gridItem" id="player2Field" v-if="item_types != null && itemArrayPlayer2 != null">
                 <MainItem class="mainItem right" v-for="item in itemArrayPlayer2" v-if="playerPositions[2] != null"
@@ -4842,13 +4817,13 @@ import Item from '@/components/Item.vue';
 import PlayerBank from '@/components/PlayerBank.vue';
 
 // OnMount Variabeln
-const id_session = useRoute().params.id;
-const title_session = useRoute().query.session_title;
-const code_session = ref();
+// const id_session = useRoute().params.id;
+// const title_session = useRoute().query.session_title;
+//const code_session = ref();
 let positionRobber = ref();
 let longestRoad = ref();
 let largestArmy = ref();
-const item_types = ref([{}])
+// const item_types = ref([{}])
 
 
 
@@ -4878,8 +4853,8 @@ let itemsOnBoard = ref([]);
 let positionConversionObject = ref({});
 //let screenSize = ref({ 'windowWidth': '', 'windowHeight': '' })
 let eventListenerArray = ref({});
-let die1 = ref(1);
-let die2 = ref(1);
+// let die1 = ref(1);
+// let die2 = ref(1);
 let nonSeatedPlayers = false;
 let itemDistribution = ref([]);
 
@@ -4926,11 +4901,67 @@ const playfield = ref(null)
 
 ///////////////////////////////////// Ende Hilfsfunktionen ////////////////////////////////
 
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////// Process ////////////////////////////////
+function getStatesProcess() {
+    console.log(id_session);
+    console.log(item_types.value);
+    console.log(colors.value.find(color => color.color_id === 1).hex_code);
+    console.log(title_session);
+    console.log(sessionData.value[0].code);
+}
+
+///////////////////////////////////// Ende Process ////////////////////////////////
+
+
+///////////////////////////////////// Variabeln ////////////////////////////////
+const id_session = useRoute().params.id;
+const item_types = ref([{}])
+const colors = ref([{}])
+const title_session = useRoute().query.session_title;
+const sessionData = ref([{}]);
+
+///////////////////////////////////// Ende Variabeln ////////////////////////////////
+
+///////////////////////////////////// Computed ////////////////////////////////
+
+
+
+///////////////////////////////////// Ende Computed ////////////////////////////////
+
+///////////////////////////////////// DOM Elemente ////////////////////////////////
+
+const die1 = ref(null);
+const die2 = ref(null);
+
+
+///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
+
 ///////////////////////////////////// ONMOUNT ////////////////////////////////
 
-onMounted(() => {
+onMounted(async () => {
     // Styling für GridContainer
     defineGridContainerSize();
+
+    // Alle Item-Typen aus der Datenbank holen
+    await fetchItemTypes();
+
+    // Alle Farben aus der Datenbank holen
+    await fetchColors();
+
+    // Alle Session-Daten aus der Datenbank holen
+    await fetchSessionData();
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
@@ -4955,6 +4986,13 @@ function defineGridContainerSize() {
     gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
 }
 
+// Funkiton, welche Würfelt sobald der Würfel-Button geklickt wird
+// --> @click (Würfel-Button)
+function rollDice() {
+    // let die1Value = Math.floor(Math.random() * 6) + 1;
+    // let die2Value = Math.floor(Math.random() * 6) + 1;
+}
+
 ///////////////////////////////////// Ende Methoden ////////////////////////////////
 
 
@@ -4962,6 +5000,62 @@ function defineGridContainerSize() {
 
 
 ///////////////////////////////////// Fetch ////////////////////////////////
+// Funktion, welche die Item-Daten, der aktuellen Session aus der Datenbank holt
+// --> onMounted
+const fetchItemTypes = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('item_type')
+            .select()
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            item_types.value = data;
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche die Farben der aktuellen Session aus der Datenbank holt
+// --> onMounted
+const fetchColors = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('color')
+            .select()
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            colors.value = data;
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche die Session-Daten, der aktuellen Session aus der Datenbank holt
+// --> onMounted
+const fetchSessionData = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('session')
+            .select()
+            .eq('session_id', id_session)
+        if (error) {
+            console.error('Fehler (SessionData):', error);
+        } else {
+            sessionData.value = data;
+        }
+    }
+
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
 
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
@@ -5696,7 +5790,6 @@ window.addEventListener('resize', defineGridContainerSize)
     gap: 10px;
     position: relative;
     color: black; */
-
 }
 
 /**************** Grid styling */
@@ -5719,18 +5812,43 @@ window.addEventListener('resize', defineGridContainerSize)
     padding: 1em;
 }
 
-.drawPileCard{
+.drawPileCard {
     width: 100%;
     margin: 0.3em 0;
 }
 
-.drawPileCard:last-child{
-
+.drawPileCard:last-child {
     margin: 1.5em 0;
 }
-    
 
 /**************** DrawPile styling */
+
+/* Dies ****************/
+#diceSection {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 15%;
+    flex-direction: column;
+}
+
+#diceContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3em;
+    width: 40%;
+    background-color: white;
+    padding: 0;
+    border-radius: 0;
+}
+
+.dice {
+    width: 100%;
+    margin: 0.2em 0;
+}
+
+/**************** Dies */
+
 
 
 
