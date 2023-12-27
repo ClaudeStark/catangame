@@ -126,6 +126,7 @@ const checkpickedColor = async () => {
                 if (colorIndex.id_color != null) {
                     document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#2c3e50';
                     document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#2c3e50';
+                    document.querySelector('#button' + colorIndex.id_color).style.cursor = 'default'
                     pickedColors.push(colorIndex.id_color);
                 }
             });

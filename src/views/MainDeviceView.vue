@@ -1,63 +1,31 @@
 <template>
-    <!-- <div id="boardPositionPopUpContainer" :style="{ display: nonSeatedPlayers ? 'block' : 'none' }">
+    <div id="boardPositionPopUpContainer" ref="boardPositionPopUpContainer" style="display: none;">
         <section class="gridContainer" ref="gridContainerPopUp">
             <div class="gridItem">1</div>
-            <div class="gridItem chooseTop">
-                <div id="chooseBoxTop">
-                    <h2 v-if="!playerPositions[1]">Choose your name1</h2>
-                    <button v-if="!playerPositions[1]" v-for="player in playerNamesToBePositioned"
-                        @click="choosenPlayer(player, 1, true)">
-                        {{ player }}</button>
-                    <div id="choosenBox" v-if="playerPositions[1]" @click="choosenPlayer(playerPositions[1], 1, false)">
-                        <p>Reset</p>
-                        {{ playerPositions[1] }}
-                    </div>
-                </div>
+            <div class="gridItem">
+                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=1 :function="'popUp'"
+                    :playerPositions="playerPositions"></PlayerBank>
             </div>
             <div class="gridItem">3</div>
-            <div class="gridItem chooseLeft">
-                <div id="chooseBoxLeft">
-                    <h2 v-if="!playerPositions[4]">Choose your name4</h2>
-                    <button v-if="!playerPositions[4]" v-for="player in playerNamesToBePositioned"
-                        @click="choosenPlayer(player, 4, true)">
-                        {{ player }}</button>
-                    <div id="choosenBox" v-if="playerPositions[4]" @click="choosenPlayer(playerPositions[4], 4, false)">
-                        <p>Reset</p>
-                        {{ playerPositions[4] }}
-                    </div>
-                </div>
+            <div class="gridItem">
+                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=4 :function="'popUp'"
+                    :playerPositions="playerPositions"></PlayerBank>
             </div>
             <div class="gridItem">
-                <button v-if="playerNamesToBePositioned.length == 0" @click="fetchSetPlayerPositions()">StartGame</button>
+                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()">Safe and Start Game</button>
             </div>
-            <div class="gridItem chooseRight">
-                <div id="chooseBoxRight">
-                    <h2 v-if="!playerPositions[2]">Choose your name2</h2>
-                    <button v-if="!playerPositions[2]" v-for="player in playerNamesToBePositioned"
-                        @click="choosenPlayer(player, 2, true)">
-                        {{ player }}</button>
-                    <div id="choosenBox" v-if="playerPositions[2]" @click="choosenPlayer(playerPositions[2], 2, false)">
-                        <p>Reset</p>
-                        {{ playerPositions[2] }}
-                    </div>
-                </div>
+            <div class="gridItem">
+                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=2 :function="'popUp'"
+                    :playerPositions="playerPositions"></PlayerBank>
             </div>
-            <div class="gridItem">{{ playerNamesToBePositioned }}</div>
-            <div class="gridItem chooseBottom">
-                <div id="chooseBoxBottom">
-                    <h2 v-if="!playerPositions[3]">Choose your name3</h2>
-                    <button v-if="!playerPositions[3]" v-for="player in playerNamesToBePositioned"
-                        @click="choosenPlayer(player, 3, true)">
-                        {{ player }}</button>
-                    <div id="choosenBox" v-if="playerPositions[3]" @click="choosenPlayer(playerPositions[3], 3, false)">
-                        <p>Reset</p>
-                        {{ playerPositions[3] }}
-                    </div>
-                </div>
+            <div class="gridItem"></div>
+            <div class="gridItem">
+                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=3 :function="'popUp'"
+                    :playerPositions="playerPositions"></PlayerBank>
             </div>
-            <div class="gridItem">{{ playerPositions }}</div>
+            <div class="gridItem"></div>
         </section>
-    </div> -->
+    </div>
 
     <!-- <div id="gameBox" @mousemove="trackMousePosition($event)"> -->
     <div id="gameBox">
@@ -68,13 +36,13 @@
             </Item> -->
         </div>
         <section class="gridContainer" ref="gridContainerPlayfield">
-            <div>1</div>
-            <div>
-                <PlayerBank :boardPosition=1></PlayerBank>
+            <div class="gridItem">1</div>
+            <div class="gridItem">
+                <PlayerBank :boardPosition=1 :function="'inGame'"></PlayerBank>
             </div>
-            <div>3</div>
-            <div>
-                <PlayerBank :boardPosition=4></PlayerBank>
+            <div class="gridItem">3</div>
+            <div class="gridItem">
+                <PlayerBank :boardPosition=4 :function="'inGame'"></PlayerBank>
             </div>
             <!-- <div class="gridItem gridEdge" id="personalEdgeTop">{{ mousePosition.mouseXPosition + "|" +
                 mousePosition.mouseYPosition }} {{ playerPositions[1] }}</div>
@@ -4320,424 +4288,6 @@
                                 transform="translate(-193.99 401.03) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
                         </g>
-                        <g>
-                            <ellipse id="_145-2" data-name="145" cx="1702.24" cy="863.18" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_144-2" data-name="144" cx="1349.11" cy="863.18" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_143-2" data-name="143" cx="996.58" cy="863.18" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_142-2" data-name="142" cx="643.97" cy="863.18" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_141-2" data-name="141" cx="291.71" cy="863.18" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_140-2" data-name="140" cx="1525.69" cy="1170.07" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_139-2" data-name="139" cx="1173.35" cy="1170.07" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_138-2" data-name="138" cx="820.58" cy="1170.07" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_137-2" data-name="137" cx="468.11" cy="1170.07" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_136-2" data-name="136" cx="1349.11" cy="1479.06" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_135-2" data-name="135" cx="996.58" cy="1479.06" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_134-2" data-name="134" cx="643.97" cy="1479.06" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_133-2" data-name="133" cx="1525.69" cy="553.94" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_132-2" data-name="132" cx="1173.35" cy="553.94" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_131-2" data-name="131" cx="820.58" cy="553.94" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_130-2" data-name="130" cx="468.11" cy="557.94" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_129-2" data-name="129" cx="1349.11" cy="247.21" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_128-2" data-name="128" cx="996.58" cy="252.29" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_127-2" data-name="127" cx="643.97" cy="247.21" rx="133.31" ry="130.14"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_126-2" data-name="126" cx="996.58" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-506.2 676.35) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_125-2" data-name="125" cx="908.36" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-544.63 639.01) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_124-2" data-name="124" cx="820.58" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-582.94 601.87) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_123-2" data-name="123" cx="732.25" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-101.38 423.74) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_122-2" data-name="122" cx="820.58" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(-63.27 461.24) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_121-2" data-name="121" cx="996.58" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-143.35 578.16) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_120-2" data-name="120" cx="996.58" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-91.42 564.11) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_119-2" data-name="119" cx="908.36" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-77.35 512.56) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_118-2" data-name="118" cx="1084.79" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-53.27 601.53) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_117-2" data-name="117" cx="1173.35" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(-15.13 639.14) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_116-2" data-name="116" cx="1702.24" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-47.05 934.02) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_115-2" data-name="115" cx="1702.24" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(4.88 919.97) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_114-2" data-name="114" cx="1349.11" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-95.24 755.94) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_113-2" data-name="113" cx="1349.11" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-43.31 741.89) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_112-2" data-name="112" cx="1437.99" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-5.07 779.65) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_111-2" data-name="111" cx="1525.69" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(32.95 816.82) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_110-2" data-name="110" cx="1614.88" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(19.07 868.85) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_109-2" data-name="109" cx="1261.4" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-29.17 690.59) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_108-2" data-name="108" cx="1173.35" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(35.46 625.45) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_107-2" data-name="107" cx="1173.35" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(88.93 610.98) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_106-2" data-name="106" cx="1084.79" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(102.82 559.29) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_105-2" data-name="105" cx="996.58" cy="39.17" rx="29.02" ry="28.33"
-                                transform="translate(116.25 507.91) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_104-2" data-name="104" cx="820.58" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(40.79 433.08) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_103-2" data-name="103" cx="820.58" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(-12.68 447.55) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_102-2" data-name="102" cx="732.25" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(54.71 381.5) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_101-2" data-name="101" cx="643.97" cy="39.17" rx="29.02" ry="28.33"
-                                transform="translate(68.13 330.1) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_100-2" data-name="100" cx="555.82" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(30.63 292.53) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_99-2" data-name="99" cx="468.11" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(-7.31 255.33) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_98-2" data-name="98" cx="468.11" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(-60.78 269.8) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_97-2" data-name="97" cx="908.36" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(78.74 470.32) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_96-2" data-name="96" cx="1261.4" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(126.92 648.35) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_95-2" data-name="95" cx="1349.11" cy="39.17" rx="29.02" ry="28.33"
-                                transform="translate(164.36 685.69) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_94-2" data-name="94" cx="1437.99" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(151.02 737.41) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_93-2" data-name="93" cx="1525.69" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(137.02 788.66) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_92-2" data-name="92" cx="1525.69" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(83.54 803.13) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_91-2" data-name="91" cx="820.58" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-633.9 615.66) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_90-2" data-name="90" cx="820.58" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-686.28 629.83) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_89-2" data-name="89" cx="732.25" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-724.44 592.35) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_88-2" data-name="88" cx="908.36" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-700.41 681.16) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_87-2" data-name="87" cx="996.58" cy="1685.52" rx="29.02" ry="28.33"
-                                transform="translate(-714 732.58) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_86-2" data-name="86" cx="1084.79" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-676.33 770.14) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_85-2" data-name="85" cx="1173.35" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-638.14 807.73) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_84-2" data-name="84" cx="1261.4" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-652.23 859.2) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_83-2" data-name="83" cx="1349.11" cy="1685.52" rx="29.02" ry="28.33"
-                                transform="translate(-665.89 910.37) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_82-2" data-name="82" cx="1437.99" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-628.13 948.25) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_81-2" data-name="81" cx="1525.69" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-590.06 985.41) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_80-2" data-name="80" cx="1525.69" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-537.67 971.24) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_79-2" data-name="79" cx="1525.69" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-486.72 957.45) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_78-2" data-name="78" cx="1614.88" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-448.21 995.3) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_77-2" data-name="77" cx="1437.99" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-472.35 906.1) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_76-2" data-name="76" cx="1349.11" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-458.09 854.13) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_75-2" data-name="75" cx="1261.4" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-496.45 817.04) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_74-2" data-name="74" cx="1173.35" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-534.8 779.77) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_73-2" data-name="73" cx="1084.79" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-520.55 727.98) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_72-2" data-name="72" cx="1173.35" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-585.75 793.56) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_71-2" data-name="71" cx="643.97" cy="1685.52" rx="29.02" ry="28.33"
-                                transform="translate(-762.12 554.77) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_70-2" data-name="70" cx="555.82" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-748.52 503.38) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_69-2" data-name="69" cx="468.11" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-734.38 452.08) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_68-2" data-name="68" cx="468.11" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-682 437.91) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_67-2" data-name="67" cx="468.11" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-631.04 424.12) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_66-2" data-name="66" cx="555.82" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-592.74 461.22) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_65-2" data-name="65" cx="643.97" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-554.32 498.54) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_64-2" data-name="64" cx="732.25" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-568.67 550.2) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_63-2" data-name="63" cx="643.97" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-502.18 484.43) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_62-2" data-name="62" cx="643.97" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-451.08 470.6) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_61-2" data-name="61" cx="732.25" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-413.01 508.07) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_60-2" data-name="60" cx="820.58" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-374.96 545.59) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_59-2" data-name="59" cx="555.82" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-437.09 419.1) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_58-2" data-name="58" cx="468.11" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-423.06 367.84) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_57-2" data-name="57" cx="820.58" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-323.31 531.61) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_56-2" data-name="56" cx="820.58" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-271.03 517.46) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_55-2" data-name="55" cx="908.36" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-232.97 554.67) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_54-2" data-name="54" cx="732.25" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-257.01 465.86) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_53-2" data-name="53" cx="996.58" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-195.22 592.2) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_52-2" data-name="52" cx="1084.79" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-208.9 643.64) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_51-2" data-name="51" cx="1173.35" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-222.89 695.36) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_50-2" data-name="50" cx="1173.35" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-275.17 709.51) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_49-2" data-name="49" cx="1261.4" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-184.8 732.71) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_48-2" data-name="48" cx="1349.11" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-147.11 769.98) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_47-2" data-name="47" cx="1437.99" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-160.7 821.76) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_46-2" data-name="46" cx="1525.69" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-174.81 873.04) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_45-2" data-name="45" cx="1525.69" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-227.09 887.19) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_44-2" data-name="44" cx="1525.69" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-278.74 901.17) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_43-2" data-name="43" cx="1437.99" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-316.7 863.98) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_42-2" data-name="42" cx="1614.88" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-292.56 953.18) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_41-2" data-name="41" cx="1349.11" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-354.86 826.2) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_40-2" data-name="40" cx="1349.11" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-405.95 840.02) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_39-2" data-name="39" cx="1261.4" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-340.8 774.92) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_38-2" data-name="38" cx="1173.35" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-326.82 723.49) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_37-2" data-name="37" cx="1084.79" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-364.9 685.86) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_36-2" data-name="36" cx="996.58" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-402.97 648.42) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_35-2" data-name="35" cx="996.58" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-454.06 662.24) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_34-2" data-name="34" cx="908.36" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-388.98 596.89) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_33-2" data-name="33" cx="643.97" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-243.33 414.38) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_32-2" data-name="32" cx="555.82" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-281.08 376.88) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_31-2" data-name="31" cx="468.11" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-319.14 339.71) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_30-2" data-name="30" cx="379.8" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-305.11 288.12) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_29-2" data-name="29" cx="291.71" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-291.41 236.74) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_28-2" data-name="28" cx="203.44" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-329.17 199.18) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_27-2" data-name="27" cx="116.08" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-367.18 162.19) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_26-2" data-name="26" cx="116.08" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-419.46 176.33) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_25-2" data-name="25" cx="116.08" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-471.1 190.31) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_24-2" data-name="24" cx="203.44" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-485.18 241.4) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_23-2" data-name="23" cx="291.71" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-499.16 292.95) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_22-2" data-name="22" cx="379.8" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-461.11 330.34) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_21-2" data-name="21" cx="468.11" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-371.42 353.86) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_20-2" data-name="20" cx="291.71" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-550.25 306.78) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_19-2" data-name="19" cx="291.71" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-602.39 320.89) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_18-2" data-name="18" cx="379.8" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-616.76 372.46) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_17-2" data-name="17" cx="1702.24" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-409.9 1032.21) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_16-2" data-name="16" cx="1702.24" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-357.76 1018.1) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_15-2" data-name="15" cx="1702.24" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-306.67 1004.27) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_14-2" data-name="14" cx="1790.61" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-268.58 1041.8) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_13-2" data-name="13" cx="1879.59" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-230.44 1079.64) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_12-2" data-name="12" cx="1879.59" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-178.79 1065.66) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_11-2" data-name="11" cx="1879.59" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-126.51 1051.51) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_10-2" data-name="10" cx="1790.61" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-112.58 999.58) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_9-2" data-name="9" cx="1702.24" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-98.92 948.05) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_8-2" data-name="8" cx="1614.88" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-136.56 910.96) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_7-2" data-name="7" cx="291.71" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-239.54 222.7) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_6-2" data-name="6" cx="291.71" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-187.61 208.65) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_5-2" data-name="5" cx="379.8" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-149.48 246.01) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_4-2" data-name="4" cx="555.82" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-125.46 334.77) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_3-2" data-name="3" cx="643.97" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-139.54 386.29) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_2-2" data-name="2" cx="468.11" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(-111.37 283.49) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_1-2" data-name="1" cx="643.97" cy="558.94" rx="29.02" ry="28.33"
-                                transform="translate(-193.99 401.03) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                        </g>
                     </g>
                     <!--Place SVG before-->
                 </svg>
@@ -4790,14 +4340,14 @@
                 </section>
             </div>
             <div class="gridItem gridEdge" id="personalEdgeBottom">{{ playerPositions[3] }}</div> -->
-            <div>
-                <PlayerBank :boardPosition=2></PlayerBank>
+            <div class="gridItem">
+                <PlayerBank :boardPosition=2 :function="'inGame'"></PlayerBank>
             </div>
-            <div>7</div>
-            <div>
-                <PlayerBank :boardPosition=3></PlayerBank>
+            <div class="gridItem">7</div>
+            <div class="gridItem">
+                <PlayerBank :boardPosition=3 :function="'inGame'"></PlayerBank>
             </div>
-            <div>9</div>
+            <div class="gridItem">9</div>
         </section>
     </div>
 </template>
@@ -4812,9 +4362,14 @@ import { supabase } from '@/lib/supabaseClient'
 // Vue importieren
 import { ref, onMounted, computed } from 'vue';
 
+// Store importieren
+import { useStore } from 'vuex';
+const store = useStore();
+
 // Komponenten importieren
 import Item from '@/components/Item.vue';
 import PlayerBank from '@/components/PlayerBank.vue';
+import ChoosePlayerPositionBank from '@/components/ChoosePlayerPositionBank.vue';
 
 // OnMount Variabeln
 // const id_session = useRoute().params.id;
@@ -4841,7 +4396,7 @@ const player_ids = computed(() => {
 
 
 const player_names = ref([]);
-let playerNamesToBePositioned = ref([]);
+//let playerNamesToBePositioned = ref([]);
 let itemArray = ref([]);
 let playerNameIds = ref([]);
 let playerNameColors = ref([]);
@@ -4855,7 +4410,7 @@ let positionConversionObject = ref({});
 let eventListenerArray = ref({});
 // let die1 = ref(1);
 // let die2 = ref(1);
-let nonSeatedPlayers = false;
+// let nonSeatedPlayers = false;
 let itemDistribution = ref([]);
 
 
@@ -4865,16 +4420,16 @@ let activePlayers = ref([]);
 // Variabeln
 let currentSelectedMainItem = ref(null);
 let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '', 'relMouseXPosition': '', 'relMouseYPosition': '' });
-let playerPositions = ref({});
+//let playerPositions = ref({});
 
 
 // Manuelle Variabeln
-let itemIdRange = { 'first': 100, 'last': 102 };
+// let itemIdRange = { 'first': 100, 'last': 102 };
 
 // DOM Elemente
-const gridContainerPopUp = ref(null)
-const gridContainerPlayfield = ref(null)
-const playfield = ref(null)
+// const gridContainerPopUp = ref(null)
+// const gridContainerPlayfield = ref(null)
+// const playfield = ref(null)
 
 
 // Emit Funktionen
@@ -4919,7 +4474,11 @@ function getStatesProcess() {
     console.log(item_types.value);
     console.log(colors.value.find(color => color.color_id === 1).hex_code);
     console.log(title_session);
-    console.log(sessionData.value[0].code);
+    console.log(allPlayerData.value);
+    console.log(activePlayerData.value);
+    console.log(playerPositions.value);
+    console.log(playersToBePositioned.value);
+    //console.log(sessionData.value);
 }
 
 ///////////////////////////////////// Ende Process ////////////////////////////////
@@ -4928,20 +4487,75 @@ function getStatesProcess() {
 ///////////////////////////////////// Variabeln ////////////////////////////////
 const id_session = useRoute().params.id;
 const item_types = ref([{}])
-const colors = ref([{}])
 const title_session = useRoute().query.session_title;
-const sessionData = ref([{}]);
+//const sessionData = ref([{}]);
+let allPlayerData = ref([{}]);
+//let playerPositions = ref([]);
+
+// Board
+let objectMousePosition = ref({ 'objectId': "" })
+
+// PopUp
+// let nonSeatedPlayers = true;
+
+// Manuelle Variabeln
+let circleOnBoardRange = { 'first': 1, 'last': 145 };
 
 ///////////////////////////////////// Ende Variabeln ////////////////////////////////
 
 ///////////////////////////////////// Computed ////////////////////////////////
+// Alle Player-Daten, welche einen Namen haben, als Grundlage für alle weiteren Operationen
+// --> Änderung von allPlayerData
+let activePlayerData = computed(() => {
+    if (store.state.STOREallPlayerData.length === 0) return []
+    return store.state.STOREallPlayerData.filter(player => player.name != null);
+})
+
+// Funktion, welches die Positionen der Spieler speichert
+// --> Manuelle Änderung bei der Spielerzuweisung & Änderung von activePlayerData
+let playerPositions = computed(() => {
+    if (activePlayerData.value.length === 0) return [];
+
+    // Temporäre Variabel, welche die Positionen der Spieler speichert
+    let tempPlayerPositions = [];
+
+    activePlayerData.value.forEach(player => {
+        let tempPlayerPositionsObject = {
+            'playerId': player.player_id,
+            'boardPosition': player.board_position
+        };
+        tempPlayerPositions.push(tempPlayerPositionsObject);
+    })
+
+    return tempPlayerPositions;
+})
+
+// Variabel, die true oder false ausgibet, je nach dem, ob es Spieler gibt, welche noch nicht temporär positioniert sind
+// --> Änderung von playerPositions
+let nonSeatedPlayers = computed(() => {
+
+    // Temporäre Variabel, die speichert ob es noch nicht positionierte Spieler gibt
+    let tempNonSeatetPlayers = false;
+
+    playerPositions.value.forEach(object => {
+        if (object.boardPosition === null) {
+            tempNonSeatetPlayers = true;
+        }
+    })
+    return tempNonSeatetPlayers;
+})
+
 
 
 
 ///////////////////////////////////// Ende Computed ////////////////////////////////
 
 ///////////////////////////////////// DOM Elemente ////////////////////////////////
+const gridContainerPopUp = ref(null)
+const gridContainerPlayfield = ref(null)
+const boardPositionPopUpContainer = ref(null);
 
+const playfield = ref(null);
 const die1 = ref(null);
 const die2 = ref(null);
 
@@ -4954,14 +4568,22 @@ onMounted(async () => {
     // Styling für GridContainer
     defineGridContainerSize();
 
+    // Initialisierung der EventListener auf dem Spielbrett
+    initializeBoardEventListener();
+
     // Alle Item-Typen aus der Datenbank holen
-    await fetchItemTypes();
+    fetchItemTypes();
 
     // Alle Farben aus der Datenbank holen
-    await fetchColors();
+    fetchColors();
 
     // Alle Session-Daten aus der Datenbank holen
-    await fetchSessionData();
+    //await fetchSessionData();
+
+    // Alle Player-Daten aus der Datenbank holen
+    fetchPlayerData();
+
+    //console.log("Hallos", store.state.STOREallPlayerData.length);
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
@@ -4969,6 +4591,17 @@ onMounted(async () => {
 
 
 ///////////////////////////////////// Methoden ////////////////////////////////
+
+// Funktion, welche testet, ob alle ActivePlayer bereits positioniert sind
+// --> Clicken auf Start-Button
+function playersToBePositioned() {
+    if (activePlayerData.value.filter(player => player.board_position === null).length === 0) {
+        boardPositionPopUpContainer.value.style.display = "none";
+    } else{
+        boardPositionPopUpContainer.value.style.display = "block";
+    }
+}
+
 
 // Funktion, welche den GridContainer gemäss FensterGrösse skaliert
 // --> onMounted
@@ -4980,8 +4613,8 @@ function defineGridContainerSize() {
     // Grid Container (Playfield und PopUp) wird auf die Fenstergrösse angepasst
     let gridTemplateColumns = `${innerWidth * 0.1}px ${innerWidth * 0.8}px ${innerWidth * 0.1}px`;
     let gridTemplateRows = `${innerWidth * 0.1}px ${innerHeight - (innerWidth * 0.2)}px ${innerWidth * 0.1}px`;
-    // gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
-    // gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
+    gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
+    gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
     gridContainerPlayfield.value.style.gridTemplateColumns = gridTemplateColumns;
     gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
 }
@@ -5028,7 +4661,7 @@ const fetchColors = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            colors.value = data;
+            store.commit('STOREsetColors', data);
         };
     }
     catch (e) {
@@ -5036,23 +4669,139 @@ const fetchColors = async () => {
     }
 }
 
-// Funktion, welche die Session-Daten, der aktuellen Session aus der Datenbank holt
+// // Funktion, welche die Session-Daten, der aktuellen Session aus der Datenbank holt
+// // --> onMounted
+// const fetchSessionData = async () => {
+//     try {
+//         const { data, error } = await supabase
+//             .from('session')
+//             .select()
+//             .eq('session_id', id_session)
+//         if (error) {
+//             console.error('Fehler (SessionData):', error);
+//         } else {
+//             sessionData.value = data;
+//         }
+//     }
+
+//     catch (e) {
+//         console.error('CatchFehler:', e)
+//     }
+// }
+
+// Funktion, welche die Spieler-Daten, der aktuellen Session aus der Datenbank holt
 // --> onMounted
-const fetchSessionData = async () => {
+const fetchPlayerData = async () => {
     try {
         const { data, error } = await supabase
-            .from('session')
+            .from('player')
             .select()
-            .eq('session_id', id_session)
+            .eq('id_session', id_session)
         if (error) {
-            console.error('Fehler (SessionData):', error);
+            console.error('Fehler (PlayerData):', error);
         } else {
-            sessionData.value = data;
+            store.commit('STOREsetAllPlayerData', data);
+
+            // Das PlayerChoose PopUp wird angezeigt, wenn es noch nicht positionierte Spieler gibt
+            playersToBePositioned();
+
+
+
+
+
+
+
+
+            // itemArray wird geleert, damit die Items nicht doppelt angezeigt werden
+            //             itemArray.value = [];
+
+            //             activePlayers.value = data.filter(player => player.name != null); ///////////////////////////////////////// andere Name weil heiliger Gral;)
+
+            //             // Das Verhältnis Name zu Id wird in playerNameIds gespeichert
+            //             playerNameIds.value = activePlayers.value.map(playerData => ({ name: playerData.name, id: playerData.player_id }));
+
+            //             // Das Verhältnis Position zu Farbe wird in playerNameColors gespeichert
+            //             playerNameColors.value = activePlayers.value.map(playerData => ({ board_position: playerData.board_position, id_color: playerData.id_color })); /////////// Falscher Variablename
+
+
+            //             // Daten in verschiedene Arrays mapen
+            //             player_names.value = activePlayers.value.map(playerData => playerData.name);
+            //             // playerNamesToBePositioned.value = data.map(playerData => playerData.name);
+
+            //             playerNamesToBePositioned.value = [];
+            //             playerNamesToBePositioned.value = activePlayers.value.filter(playerData => playerData.board_position == null).map(playerData => playerData.name);
+
+            //             // Player filtern, die bereits eine Position haben
+            //             activePlayers.value.forEach(player => {
+            //                 if (player.board_position != null) {
+            //                     playerPositions.value[player.board_position] = player.name;
+            //                 }
+            //             })
+
+            //             nonSeatedPlayers = false;
+            //             activePlayers.value.map(playerData => playerData.board_position).forEach(playerBoardPosition => {
+
+            //                 //console.log(playerBoardPosition)
+            //                 if (playerBoardPosition == null) {
+            //                     nonSeatedPlayers = true;
+            //                 }
+
+            //             })
+
+            //             itemDistribution.value = activePlayers.value.map(playerData => ({ playerId: playerData.player_id, position: playerData.board_position }));
+            //             // console.log(itemDistribution.value)
+
+            //             // Für jeden Spieler wird die Funktion fetchRelItemPlayed ausgeführt
+            //             const fetchPromises = player_ids.value.map((player_id) => fetchRelItemPlayed(player_id));
+
+            //             // Alle Fetches werden abgewartet
+            //             await Promise.all(fetchPromises);
+
+            //             separateItemArray()
+            //             // player_ids.value.forEach(player_id => {
+            //             //     fetchRelItemPlayed(player_id);
+            //             // });
+
+            //             // Aktualisieren der id_color Werte in der Variable id_color
+            //             // id_color.value = data.map(playerData => playerData.id_color);
+            //             // id_color.value.forEach(colorId => {
+            //             //     fetchColorPlayer(colorId);
+            //             // });
         }
     }
 
     catch (e) {
         console.error('CatchFehler:', e)
+    }
+}
+
+
+
+
+
+
+
+
+// Funktion, welche die neu gewählten Positionen der Spieler in der Datenbank speichert
+// --> @click (PopUp, StartGame-Button)
+const fetchSetPlayerPositions = async () => {
+    for (let player of playerPositions.value) {
+        try {
+            const { data, error } = await supabase
+                .from('player')
+                .update({ board_position: player.boardPosition })
+                .eq('player_id', player.playerId)
+            if (error) {
+                console.error('Fehler (RelData):', error);
+            } else {
+                playersToBePositioned();
+                //fetchPlayerData();
+            }
+        }
+
+        catch (e) {
+            console.error('CatchFehler:', e)
+        }
     }
 }
 
@@ -5067,8 +4816,67 @@ const fetchSessionData = async () => {
 // Eventlistener für Fenstergrössenänderung
 window.addEventListener('resize', defineGridContainerSize)
 
+// Eventlistener für Spielbrett, mouseenter und mouseleave
+// --> onMounted
+function initializeBoardEventListener() {
+    for (let currentCircleId = circleOnBoardRange.first; currentCircleId <= circleOnBoardRange.last; currentCircleId++) {
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseenter', () => {
+            objectMousePosition.value.objectId = currentCircleId;
+            console.log(objectMousePosition.value.objectId);
+        })
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseleave', () => {
+            objectMousePosition.value.objectId = '';
+            console.log(objectMousePosition.value.objectId);
+        })
+
+    }
+}
+
 
 ///////////////////////////////////// Ende EventListener ////////////////////////////////
+
+///////////////////////////////////// Watcher ////////////////////////////////
+supabase
+    .channel('player')
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'player' }, (payload) => {
+        if (payload.new.id_session == id_session) {
+            fetchPlayerData()
+        }
+    })
+    .subscribe()
+
+///////////////////////////////////// Ende Watcher ////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // function getWindowSize() {
@@ -5731,40 +5539,6 @@ window.addEventListener('resize', defineGridContainerSize)
 //     }
 // }
 
-// function variables() {
-//     console.log(
-//         "id_session = " + id_session + "\n" +
-//         "title_session = " + title_session + "\n" +
-//         "code_session = " + code_session.value + "\n" +
-//         "positionRobber = " + positionRobber.value + "\n" +
-//         "longestRoad = " + longestRoad.value + "\n" +
-//         "largestArmy = " + largestArmy.value + "\n" +
-//         "item_types = " + item_types.value + "\n" +
-//         "item_types[0] = " + item_types.value[0] + "\n " +
-//         "player_ids = " + player_ids.value + "\n" +
-//         "player_names = " + player_names.value + "\n" +
-//         "playerNamesToBePositioned = " + playerNamesToBePositioned.value + "\n" +
-//         "itemArray = " + itemArray.value + "\n" +
-//         "playerNameIds = " + playerNameIds.value + "\n" +
-//         "playerNameColors = " + playerNameColors.value + "\n" +
-//         "itemArrayPlayer1 = " + itemArrayPlayer1.value + "\n" +
-//         "itemArrayPlayer2 = " + itemArrayPlayer2.value + "\n" +
-//         "itemArrayPlayer3 = " + itemArrayPlayer3.value + "\n" +
-//         "itemArrayPlayer4 = " + itemArrayPlayer4.value + "\n" +
-//         "itemsOnBoard = " + itemsOnBoard.value + "\n" +
-//         "positionConversionObject = " + positionConversionObject.value + "\n" +
-//         "screenSize = " + screenSize.value + "\n" +
-//         "eventListenerArray = " + eventListenerArray.value + "\n" +
-//         "die1 = " + die1.value + "\n" +
-//         "die2 = " + die2.value + "\n" +
-//         "nonSeatedPlayers = " + nonSeatedPlayers + "\n" +
-//         "itemDistribution = " + itemDistribution.value + "\n" +
-//         "currentSelectedMainItem = " + currentSelectedMainItem.value + "\n" +
-//         "mousePosition = " + mousePosition.value + "\n" +
-//         "playerPositions = " + playerPositions.value + "\n"
-//     )
-//     console.log("current Selection = " + "")
-// }
 
 
 
@@ -5801,6 +5575,19 @@ window.addEventListener('resize', defineGridContainerSize)
 }
 
 /******************** Playfield styling */
+
+/* PopUp styling ****************/
+#boardPositionPopUpContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 20;
+}
+
+/********************* PopUp Styling */
 
 /* DrawPile styling ****************/
 #drawPiles {
@@ -5854,18 +5641,7 @@ window.addEventListener('resize', defineGridContainerSize)
 
 
 
-/* #boardPositionPopUpContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-} */
+
 
 /* #gameBox {
     z-index: 10;
