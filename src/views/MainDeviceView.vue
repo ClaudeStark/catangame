@@ -3,25 +3,25 @@
         <section class="gridContainer" ref="gridContainerPopUp">
             <div class="gridItem">1</div>
             <div class="gridItem">
-                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=1 :function="'popUp'"
-                    :playerPositions="playerPositions"></PlayerBank>
+                <PlayerBank :boardPosition=1 :function="'popUp'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">3</div>
             <div class="gridItem">
-                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=4 :function="'popUp'"
-                    :playerPositions="playerPositions"></PlayerBank>
+                <PlayerBank :boardPosition=4 :function="'popUp'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">
                 <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()">Safe and Start Game</button>
             </div>
             <div class="gridItem">
-                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=2 :function="'popUp'"
-                    :playerPositions="playerPositions"></PlayerBank>
+                <PlayerBank :boardPosition=2 :function="'popUp'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem"></div>
             <div class="gridItem">
-                <PlayerBank :activePlayerData="activePlayerData" :boardPosition=3 :function="'popUp'"
-                    :playerPositions="playerPositions"></PlayerBank>
+                <PlayerBank :boardPosition=3 :function="'popUp'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem"></div>
         </section>
@@ -38,11 +38,13 @@
         <section class="gridContainer" ref="gridContainerPlayfield">
             <div class="gridItem">1</div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=1 :function="'inGame'"></PlayerBank>
+                <PlayerBank :boardPosition=1 :function="'inGame'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">3</div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=4 :function="'inGame'"></PlayerBank>
+                <PlayerBank :boardPosition=4 :function="'inGame'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <!-- <div class="gridItem gridEdge" id="personalEdgeTop">{{ mousePosition.mouseXPosition + "|" +
                 mousePosition.mouseYPosition }} {{ playerPositions[1] }}</div>
@@ -4341,11 +4343,13 @@
             </div>
             <div class="gridItem gridEdge" id="personalEdgeBottom">{{ playerPositions[3] }}</div> -->
             <div class="gridItem">
-                <PlayerBank :boardPosition=2 :function="'inGame'"></PlayerBank>
+                <PlayerBank :boardPosition=2 :function="'inGame'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">7</div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=3 :function="'inGame'"></PlayerBank>
+                <PlayerBank :boardPosition=3 :function="'inGame'" :playerPositions="playerPositions"
+                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">9</div>
         </section>
@@ -4486,11 +4490,12 @@ function getStatesProcess() {
 
 ///////////////////////////////////// Variabeln ////////////////////////////////
 const id_session = useRoute().params.id;
-const item_types = ref([{}])
+const item_types = ref([])
 const title_session = useRoute().query.session_title;
 //const sessionData = ref([{}]);
-let allPlayerData = ref([{}]);
+let allPlayerData = ref([]);
 //let playerPositions = ref([]);
+let colors = ref([])
 
 // Board
 let objectMousePosition = ref({ 'objectId': "" })
@@ -4504,6 +4509,7 @@ let circleOnBoardRange = { 'first': 1, 'last': 145 };
 ///////////////////////////////////// Ende Variabeln ////////////////////////////////
 
 ///////////////////////////////////// Computed ////////////////////////////////
+
 // Alle Player-Daten, welche einen Namen haben, als Grundlage für alle weiteren Operationen
 // --> Änderung von allPlayerData
 let activePlayerData = computed(() => {
@@ -4548,6 +4554,7 @@ let nonSeatedPlayers = computed(() => {
 
 
 
+
 ///////////////////////////////////// Ende Computed ////////////////////////////////
 
 ///////////////////////////////////// DOM Elemente ////////////////////////////////
@@ -4577,13 +4584,8 @@ onMounted(async () => {
     // Alle Farben aus der Datenbank holen
     fetchColors();
 
-    // Alle Session-Daten aus der Datenbank holen
-    //await fetchSessionData();
-
     // Alle Player-Daten aus der Datenbank holen
     fetchPlayerData();
-
-    //console.log("Hallos", store.state.STOREallPlayerData.length);
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
@@ -4597,7 +4599,7 @@ onMounted(async () => {
 function playersToBePositioned() {
     if (activePlayerData.value.filter(player => player.board_position === null).length === 0) {
         boardPositionPopUpContainer.value.style.display = "none";
-    } else{
+    } else {
         boardPositionPopUpContainer.value.style.display = "block";
     }
 }
@@ -4661,33 +4663,13 @@ const fetchColors = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            store.commit('STOREsetColors', data);
+            colors.value = data;
         };
     }
     catch (e) {
         console.error('CatchFehler:', e)
     }
 }
-
-// // Funktion, welche die Session-Daten, der aktuellen Session aus der Datenbank holt
-// // --> onMounted
-// const fetchSessionData = async () => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('session')
-//             .select()
-//             .eq('session_id', id_session)
-//         if (error) {
-//             console.error('Fehler (SessionData):', error);
-//         } else {
-//             sessionData.value = data;
-//         }
-//     }
-
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
 
 // Funktion, welche die Spieler-Daten, der aktuellen Session aus der Datenbank holt
 // --> onMounted
@@ -4712,42 +4694,6 @@ const fetchPlayerData = async () => {
 
 
 
-            // itemArray wird geleert, damit die Items nicht doppelt angezeigt werden
-            //             itemArray.value = [];
-
-            //             activePlayers.value = data.filter(player => player.name != null); ///////////////////////////////////////// andere Name weil heiliger Gral;)
-
-            //             // Das Verhältnis Name zu Id wird in playerNameIds gespeichert
-            //             playerNameIds.value = activePlayers.value.map(playerData => ({ name: playerData.name, id: playerData.player_id }));
-
-            //             // Das Verhältnis Position zu Farbe wird in playerNameColors gespeichert
-            //             playerNameColors.value = activePlayers.value.map(playerData => ({ board_position: playerData.board_position, id_color: playerData.id_color })); /////////// Falscher Variablename
-
-
-            //             // Daten in verschiedene Arrays mapen
-            //             player_names.value = activePlayers.value.map(playerData => playerData.name);
-            //             // playerNamesToBePositioned.value = data.map(playerData => playerData.name);
-
-            //             playerNamesToBePositioned.value = [];
-            //             playerNamesToBePositioned.value = activePlayers.value.filter(playerData => playerData.board_position == null).map(playerData => playerData.name);
-
-            //             // Player filtern, die bereits eine Position haben
-            //             activePlayers.value.forEach(player => {
-            //                 if (player.board_position != null) {
-            //                     playerPositions.value[player.board_position] = player.name;
-            //                 }
-            //             })
-
-            //             nonSeatedPlayers = false;
-            //             activePlayers.value.map(playerData => playerData.board_position).forEach(playerBoardPosition => {
-
-            //                 //console.log(playerBoardPosition)
-            //                 if (playerBoardPosition == null) {
-            //                     nonSeatedPlayers = true;
-            //                 }
-
-            //             })
-
             //             itemDistribution.value = activePlayers.value.map(playerData => ({ playerId: playerData.player_id, position: playerData.board_position }));
             //             // console.log(itemDistribution.value)
 
@@ -4762,11 +4708,6 @@ const fetchPlayerData = async () => {
             //             //     fetchRelItemPlayed(player_id);
             //             // });
 
-            //             // Aktualisieren der id_color Werte in der Variable id_color
-            //             // id_color.value = data.map(playerData => playerData.id_color);
-            //             // id_color.value.forEach(colorId => {
-            //             //     fetchColorPlayer(colorId);
-            //             // });
         }
     }
 
@@ -4878,19 +4819,6 @@ supabase
 
 
 
-
-// function getWindowSize() {
-//
-
-//
-//     let gridTemplateColumns = `${innerWidth * 0.1}px ${innerWidth * 0.8}px ${innerWidth * 0.1}px`;
-//     let gridTemplateRows = `${innerWidth * 0.1}px ${innerHeight - (innerWidth * 0.2)}px ${innerWidth * 0.1}px`;
-//     gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
-//     gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
-//     gridContainerPlayfield.value.style.gridTemplateColumns = gridTemplateColumns;
-//     gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
-//     fetchSessionData();
-// }
 
 
 // function defineMargin(player) {
@@ -5045,16 +4973,7 @@ supabase
 
 // }
 
-// function choosenPlayer(player, position, choose) {
-//     if (choose) {
-//         playerPositions.value[position] = player;
-//         playerNamesToBePositioned.value.splice(playerNamesToBePositioned.value.indexOf(player), 1);
-//     } else {
-//         console.log("Hallo")
-//         playerPositions.value[position] = null;
-//         playerNamesToBePositioned.value.push(player);
-//     }
-// }
+
 
 
 
@@ -5074,163 +4993,6 @@ supabase
 ///////////////////////////////////// FETCH-FUNKTIONEN ////////////////////////////////
 
 
-
-
-
-// Funktion, welche die Session-Daten, der aktuellen Session aus der Datenbank holt
-// const fetchSessionData = async () => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('session')
-//             .select()
-//             .eq('session_id', id_session)
-//         if (error) {
-//             console.error('Fehler (SessionData):', error);
-//         } else {
-//             //console.log('Geklappt (SessionData):', data);
-//             code_session.value = data[0].code;
-//             positionRobber.value = data[0].robber_position;
-//             longestRoad.value = data[0].largest_army_id_player;
-//             largestArmy.value = data[0].longest_road_id_player;
-
-//             // Alle Item-Typen aus der Datenbank holen
-//             fetchItemTypes();
-//         }
-//     }
-
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-// Funktion, welche alle Item-Typen aus der Datenbank holt
-// const fetchItemTypes = async () => {
-//     // Hier werden alle Element die sich in der item_type Tabelle befinden ausgelesen und in einem Array gespeichert
-//     try {
-//         const { data, error } = await supabase
-//             .from('item_type')
-//             .select()
-//         if (error) {
-//             console.error('Fehler:', error)
-//         } else {
-//             item_types.value = data;
-//             fetchPlayerData();
-//         };
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-
-// Funktion, welche die Spieler-Daten, der aktuellen Session aus der Datenbank holt
-// const fetchPlayerData = async () => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('player')
-//             .select()
-//             .eq('id_session', id_session)
-//         if (error) {
-//             console.error('Fehler (PlayerData):', error);
-//         } else {
-//             //console.log('Geklappt (PlayerData):', data);
-//             // itemArray wird geleert, damit die Items nicht doppelt angezeigt werden
-//             itemArray.value = [];
-
-//             activePlayers.value = data.filter(player => player.name != null); ///////////////////////////////////////// andere Name weil heiliger Gral;)
-
-//             // Das Verhältnis Name zu Id wird in playerNameIds gespeichert
-//             playerNameIds.value = activePlayers.value.map(playerData => ({ name: playerData.name, id: playerData.player_id }));
-
-//             // Das Verhältnis Position zu Farbe wird in playerNameColors gespeichert
-//             playerNameColors.value = activePlayers.value.map(playerData => ({ board_position: playerData.board_position, id_color: playerData.id_color })); /////////// Falscher Variablename
-
-
-
-
-
-
-//             // Daten in verschiedene Arrays mapen
-//             player_names.value = activePlayers.value.map(playerData => playerData.name);
-//             // playerNamesToBePositioned.value = data.map(playerData => playerData.name);
-
-//             playerNamesToBePositioned.value = [];
-//             playerNamesToBePositioned.value = activePlayers.value.filter(playerData => playerData.board_position == null).map(playerData => playerData.name);
-
-//             // Player filtern, die bereits eine Position haben
-//             activePlayers.value.forEach(player => {
-//                 if (player.board_position != null) {
-//                     playerPositions.value[player.board_position] = player.name;
-//                 }
-//             })
-
-
-
-//             nonSeatedPlayers = false;
-//             activePlayers.value.map(playerData => playerData.board_position).forEach(playerBoardPosition => {
-
-
-//                 //console.log(playerBoardPosition)
-//                 if (playerBoardPosition == null) {
-//                     nonSeatedPlayers = true;
-//                 }
-
-//             })
-
-//             itemDistribution.value = activePlayers.value.map(playerData => ({ playerId: playerData.player_id, position: playerData.board_position }));
-//             // console.log(itemDistribution.value)
-
-//             // Für jeden Spieler wird die Funktion fetchRelItemPlayed ausgeführt
-//             const fetchPromises = player_ids.value.map((player_id) => fetchRelItemPlayed(player_id));
-
-//             // Alle Fetches werden abgewartet
-//             await Promise.all(fetchPromises);
-
-//             separateItemArray()
-//             // player_ids.value.forEach(player_id => {
-//             //     fetchRelItemPlayed(player_id);
-//             // });
-
-//             // Aktualisieren der id_color Werte in der Variable id_color
-//             // id_color.value = data.map(playerData => playerData.id_color);
-//             // id_color.value.forEach(colorId => {
-//             //     fetchColorPlayer(colorId);
-//             // });
-
-
-
-
-
-
-
-
-
-//         }
-//     }
-
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-// Funktion, welche die Farben der Spieler aus der Datenbank holt
-// const fetchColorPlayer = async (colorId) => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('color')
-//             .select()
-//             .eq('color_id', colorId + 1);
-//         if (error) {
-//             console.error('Fehler (ColorData):', error);
-//         } else {
-//             //console.log('Geklappt (ColorData):', data);
-//         }
-//     }
-
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// };
 
 // fetch-Funktion, die die Daten aus der Relationstabelle 'rel_player_item_played' holt
 // const fetchRelItemPlayed = async (player_id) => {
@@ -5407,23 +5169,7 @@ supabase
 
 ////////////////////////////////////// Interaktion GameBox ////////////////////////////
 
-// Funktion wird ausgeführt, sobald sich die Fenstergrösse ändert
-// Die Fenstergrösse wird in das Array screenSize gespeichert
-// function handleWindowResize() {
-//     screenSize.value.windowHeight = innerHeight;
-//     screenSize.value.windowWidth = innerWidth;
-//     if (gridContainerPopUp.value != null && gridContainerPlayfield.value != null) {
-//         let gridTemplateColumns = `${innerWidth * 0.1}px ${innerWidth * 0.8}px ${innerWidth * 0.1}px`;
-//         let gridTemplateRows = `${innerWidth * 0.1}px ${innerHeight - (innerWidth * 0.2)}px ${innerWidth * 0.1}px`;
-//         gridContainerPopUp.value.style.gridTemplateColumns = gridTemplateColumns;
-//         gridContainerPopUp.value.style.gridTemplateRows = gridTemplateRows;
-//         gridContainerPlayfield.value.style.gridTemplateColumns = gridTemplateColumns;
-//         gridContainerPlayfield.value.style.gridTemplateRows = gridTemplateRows;
-//         definePositionConversion();
-//     }
 
-
-// }
 
 // Funktion wird ausgeführt, sobald sich die Maus auf der GameBox bewegt
 // function trackMousePosition(event) {
@@ -5477,31 +5223,6 @@ supabase
 //     }
 // }
 
-// Funktion, welche jedem Spieler seine Position auf dem Spielfeld zuweist
-// const fetchSetPlayerPositions = async (position) => {
-//     for (let i in playerPositions.value) {
-//         console.log(i + ' ' + playerPositions.value[i]);
-//         try {
-//             const { data, error } = await supabase
-//                 .from('player')
-//                 .update({ board_position: i })
-//                 .eq('name', playerPositions.value[i])
-//             if (error) {
-//                 console.error('Fehler (RelData):', error);
-//             } else {
-//                 //console.log('Geklappt (RelData):', data);
-//                 fetchPlayerData();
-//             }
-//         }
-
-//         catch (e) {
-//             console.error('CatchFehler:', e)
-//         }
-
-//     }
-
-
-// }
 
 
 // function sendCardVisualFeedbackMain(playerNumber, actionType) {

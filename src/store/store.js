@@ -4,8 +4,7 @@ import { createStore } from 'vuex'
 const store = createStore({
   state () {
     return {
-      STOREallPlayerData: [],
-      STOREcolors: []
+      STOREallPlayerData: []
     }
   },
   mutations: {
@@ -13,6 +12,8 @@ const store = createStore({
       state.STOREallPlayerData = data
     },
     STOREresetPlayerPosition(state, boardPosition){
+      console.log(state)
+
       state.STOREallPlayerData.forEach(player => {
             if (player.board_position === boardPosition) {
               player.board_position = null;
@@ -20,16 +21,14 @@ const store = createStore({
         })
     },
     STOREsetPlayerPosition(state, {boardPosition, playerName}){
+      console.log(state)
+
       state.STOREallPlayerData.forEach(player => {
-        console.log(player)
             if (player.name === playerName) {
               player.board_position = boardPosition;
             }
         })
     },
-    STOREsetColors(state, data){
-      state.STOREcolors = data
-    }
   }
 })
 

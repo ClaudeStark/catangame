@@ -1,7 +1,8 @@
 <template>
-    {{ store.state.STOREcolors }}
     <div id="playerBankContainer" ref="playerBankContainer">
-        <section id="playerBank" ref="playerBank">
+        <section id="playerBank" ref="playerBank"
+            :style="{ backgroundColor: colors.find(color => color.color_id === (activePlayerData.find(player => player.board_position === boardPosition)?.id_color))?.hex_code }">
+
             <InGameBank :board-position=props.boardPosition v-if="props.function === 'inGame'">
 
             </InGameBank>
@@ -34,15 +35,17 @@ const props = defineProps({
     boardPosition: Number,
     function: String,
     playerPositions: Array,
-    activePlayerData: Array
+    activePlayerData: Array,
+    colors: Array
 })
 
 // Computed
 
 
+
 // OnMounted
 onMounted(() => {
-    definePlayerBankSize()
+    definePlayerBankSize();
 })
 
 // Methoden
@@ -64,7 +67,6 @@ function definePlayerBankSize() {
         case 1:
             playerBankRefStyle.height = playerBankHeight + 'px'
             playerBankRefStyle.width = playerBankWidth + 'px'
-            // playerBankRefStyle.backgroundColor = store.state.STOREcolors[1].hex_code
             playerBankRefStyle.rotate = '180deg'
             break;
         case 2:
@@ -85,6 +87,7 @@ function definePlayerBankSize() {
     }
 }
 
+
 // Event Listeners
 window.addEventListener('resize', () => {
     definePlayerBankSize()
@@ -104,4 +107,4 @@ window.addEventListener('resize', () => {
     display: flex;
     flex-direction: column-reverse;
 }
-</style>
+</style>                                            

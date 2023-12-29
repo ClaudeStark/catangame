@@ -11,8 +11,8 @@
             your mobile phone to join the playfield.</p>
     </section>
     <section id="buttons">
-        <button @click="buttonClick(colors.indexOf(color), color)" class="colorButton" v-for="color in colors"
-            :style="'background-color: ' + color" :id="'button' + colors.indexOf(color)"></button>
+        <button @click="buttonClick(color.color_id, color.hex_code)" class="colorButton" v-for="color in colors"
+            :style="'background-color: ' + color.hex_code" :id="'button' + color.color_id"></button>
     </section>
     <section id="qrCodes">
         <div class="qrCode" v-html="qrCodeSVG"></div>
@@ -91,10 +91,11 @@ const fetchGetColors = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            //console.log('Geklappt:', data);
-            data.forEach(color => {
-                colors.value.push(color.hex_code)
-            });
+            console.log('Geklappt:', data);
+            colors.value = data;
+            // data.forEach(color => {
+            //     colors.value.push(color.hex_code)
+            // });
             // Bereits vergebene Farben ausgrauen
             checkpickedColor()
         };
@@ -119,7 +120,7 @@ const checkpickedColor = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            //console.log('Geklappt:', data)
+            console.log('Geklappt:234', data)
 
             // Benutzte Knöpfe ausblenden
             data.forEach(colorIndex => {
@@ -138,7 +139,7 @@ const checkpickedColor = async () => {
 }
 
 // Funktion, die aufgerufen wird, wenn ein Button angeklickt wird. colorIndex ist der Index des angeklickten Buttons, color ist die Farbe des Buttons
-function buttonClick(colorIndex, color) {
+function buttonClick(colorIndex, colorHexCode) {
 
     let id_session = session.value[0].session_id;
 
@@ -154,9 +155,9 @@ function buttonClick(colorIndex, color) {
 
         // Alle noch nicht gewählten Buttons werden wieder farbig basierend auf dem Array pickedColors
         colors.value.forEach(color => {
-            if (!pickedColors.includes(colors.value.indexOf(color))) {
-                document.querySelector('#button' + colors.value.indexOf(color)).style.backgroundColor = color;
-                document.querySelector('#button' + colors.value.indexOf(color)).style.borderColor = 'white';
+            if (!pickedColors.includes(color.color_id)) {
+                document.querySelector('#button' + color.color_id).style.backgroundColor = color.hex_code;
+                document.querySelector('#button' + color.color_id).style.borderColor = 'white';
 
             }
         });
@@ -164,10 +165,10 @@ function buttonClick(colorIndex, color) {
         // Angeklickter Button wird ausgegraut
         let currentButton = document.querySelector('#button' + colorIndex);
         currentButton.style.backgroundColor = 'white';
-        currentButton.style.borderColor = color;
+        currentButton.style.borderColor = colorHexCode;
 
         // QR-Code wird generiert für den ersten Spieler, der in der Datenbank generiert wurde
-        generateQRCode(id_session, color, colorIndex);
+        generateQRCode(id_session, colorHexCode, colorIndex);
     }
     console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex);
 }
