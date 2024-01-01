@@ -1,6 +1,6 @@
 <template>
-    <div class="hoverBankTop" @mouseover="setMouseOver('top')" @mouseout="setMouseOut()"></div>
-    <div class="hoverBankBottom" @mouseover="setMouseOver('bottom')" @mouseout="setMouseOut()" :style="{ background: 'linear-gradient(to bottom, transparent, ' + props.currentPositionPlayerColor + ')' }">
+    <div class="hoverBankTop" ></div>
+    <div class="hoverBankBottom" :style="{ background: 'linear-gradient(to bottom, transparent, ' + props.currentPositionPlayerColor + ')' }">
     </div>
 </template>
 
@@ -36,7 +36,7 @@ function setMouseOver(position){
 // Funktion, welche das hoveredObject im Store leert
 // -->@mouseout in hoverBankTop und hoverBankBottom
 function setMouseOut(){
-    store.commit('STOREresetCurrentHoveredObject')}
+    store.commit('STOREresetcurrentHoveredObject')}
 </script>
 
 <style scoped>

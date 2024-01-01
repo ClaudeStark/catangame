@@ -101,7 +101,6 @@ function definePlayerBankSize() {
     }
 }
 
-
 // Event Listeners
 window.addEventListener('resize', () => {
     definePlayerBankSize()

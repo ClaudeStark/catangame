@@ -2,46 +2,54 @@ import { createStore } from 'vuex'
 
 // Create a new store instance.
 const store = createStore({
-  state () {
+  state() {
     return {
       STOREallPlayerData: [],
+      STOREitemTypes:[],
       STOREcurrentSelectedItem: null,
       STOREcurrentHoveredObject: null
     }
   },
   mutations: {
-    STOREsetAllPlayerData(state, data){
+    STOREsetAllPlayerData(state, data) {
       state.STOREallPlayerData = data
     },
-    STOREresetPlayerPosition(state, boardPosition){
+    STOREresetPlayerPosition(state, boardPosition) {
       console.log(state)
 
       state.STOREallPlayerData.forEach(player => {
-            if (player.board_position === boardPosition) {
-              player.board_position = null;
-            }
-        })
+        if (player.board_position === boardPosition) {
+          player.board_position = null;
+        }
+      })
     },
-    STOREsetPlayerPosition(state, {boardPosition, playerName}){
+    STOREsetPlayerPosition(state, { boardPosition, playerName }) {
       console.log(state)
 
       state.STOREallPlayerData.forEach(player => {
-            if (player.name === playerName) {
-              player.board_position = boardPosition;
-            }
-        })
+        if (player.name === playerName) {
+          player.board_position = boardPosition;
+        }
+      })
     },
-    STOREsetcurrentSelectedItem(state, data){
+    STOREsetcurrentSelectedItem(state, data) {
       state.STOREcurrentSelectedItem = data;
+      console.log('selected', state.STOREcurrentSelectedItem);
     },
-    STOREsetcurrentHoveredObject(state, data){
+    STOREsetcurrentHoveredObject(state, data) {
       state.STOREcurrentHoveredObject = data;
-      console.log('hovered',state.STOREcurrentHoveredObject);
+      // console.log('hovered', state.STOREcurrentHoveredObject);
     },
-    STOREresetCurrentHoveredObject(state){
-      state.STOREcurrentHoveredObject = null;
-      console.log('hoveredReset',state.STOREcurrentHoveredObject);
+    STOREresetcurrentSelectedItem(state) {
+      state.STOREcurrentSelectedItem = null;
+      // console.log('selectedReset', state.STOREcurrentSelectedItem);
 
+    }, STOREresetcurrentHoveredObject(state) {
+      state.STOREcurrentHoveredObject = null;
+      // console.log('hovered', state.STOREcurrentHoveredObject);
+    },
+    STOREsetItemTypes(state, data) {
+      state.STOREitemTypes = data;
     }
   }
 })

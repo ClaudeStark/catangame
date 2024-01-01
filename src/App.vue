@@ -23,6 +23,8 @@ const showNavigation = () => {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
+  zoom: 1;
 }
 
 body {
@@ -87,4 +89,5 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>

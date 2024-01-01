@@ -28,8 +28,13 @@
     </div>
 
     <!-- <div id="gameBox" @mousemove="trackMousePosition($event)"> -->
-    <div id="gameBox">
+    <div id="gameBox" @mousedown="handleMouseDown" @mousemove="trackMousePosition" @mouseup="handleMouseUp">
         <div id="items">
+            <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
+                <img :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItem}.svg`" alt="">
+            </div>
+            <!-- <Item v-for="item in itemsOnBoard" :idItemType="item.dataset.idItemType" :idCurrentCard="item.id" :mousePosition="mousePosition">                
+            </Item> -->
             <!-- <Item v-for="item in itemsOnBoard" :positionTop="item.position.yPosition"
                 :positionLeft="item.position.xPosition" :owner="item.owner_id_player" :itemTypeId="item.id_item_type"
                 :itemId="item.rel_player_item_played_id" :item_types="item_types" @updateSelectedItem="updateSelectedItem">
@@ -80,28 +85,28 @@
             <div class="gridItem" id="middleGridItem">
                 <!-- Nachziehstapel -->
                 <section id="drawPiles">
-                    <div id="drawPileBrick" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_brick.svg" alt="card_brick">
+                    <div id="brick" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_brick.svg" alt="card_brick" draggable="false">
                         <!-- <p>Lehm</p> -->
                     </div>
-                    <div id="drawPileOre" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_ore.svg" alt="card_ore">
+                    <div id="ore" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_ore.svg" alt="card_ore" draggable="false">
                         <!-- <p>Erz</p> -->
                     </div>
-                    <div id="drawPileWool" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_wool.svg" alt="card_wool">
+                    <div id="wool" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_wool.svg" alt="card_wool" draggable="false">
                         <!-- <p>Wolle</p> -->
                     </div>
-                    <div id="drawPileGrain" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_grain.svg" alt="card_grain">
+                    <div id="grain" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_grain.svg" alt="card_grain" draggable="false">
                         <!-- <p>Getreide</p> -->
                     </div>
-                    <div id="drawPileLumber" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_lumber.svg" alt="card_lumber">
+                    <div id="lumber" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_lumber.svg" alt="card_lumber" draggable="false">
                         <!-- <p>Holz</p> -->
                     </div>
-                    <div id="drawPileDevelopmentCard" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_classic_back.svg" alt="card_development">
+                    <div id="developmentCard" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_classic_back.svg" alt="card_development" draggable="false">
                         <!-- <p>Entwicklungskarte</p> -->
                     </div>
                 </section>
@@ -4409,7 +4414,7 @@ let itemArrayPlayer1 = ref([]);
 let itemArrayPlayer2 = ref([]);
 let itemArrayPlayer3 = ref([]);
 let itemArrayPlayer4 = ref([]);
-let itemsOnBoard = ref([]);
+// let itemsOnBoard = ref([]);
 let positionConversionObject = ref({});
 //let screenSize = ref({ 'windowWidth': '', 'windowHeight': '' })
 let eventListenerArray = ref({});
@@ -4424,7 +4429,6 @@ let activePlayers = ref([]);
 
 // Variabeln
 let currentSelectedMainItem = ref(null);
-let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '', 'relMouseXPosition': '', 'relMouseYPosition': '' });
 //let playerPositions = ref({});
 
 
@@ -4492,13 +4496,16 @@ function getStatesProcess() {
 
 ///////////////////////////////////// Variabeln ////////////////////////////////
 const id_session = useRoute().params.id;
-const item_types = ref([])
 const title_session = useRoute().query.session_title;
 //const sessionData = ref([{}]);
 let allPlayerData = ref([]);
 //let playerPositions = ref([]);
 let colors = ref([])
 let playedItems = ref([]);
+let itemsOnBoard = ref([]);
+let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '' });
+
+
 
 // Board
 let objectMousePosition = ref({ 'objectId': "" })
@@ -4561,6 +4568,23 @@ let playerIds = computed(() => {
     return activePlayerData.value.map(player => player.player_id);
 })
 
+// Berechnung der Mausposition im absoluten Koordinatensystem
+// --> Änderung von mousePosition
+const topPos = computed(() => {
+    if (mousePosition.value.mouseYPosition != null) {
+        return (mousePosition.value.mouseYPosition - 75) + 'px';
+    } else {
+        return null;
+    }
+})
+const leftPos = computed(() => {
+    if (mousePosition.value.mouseXPosition != null) {
+        return (mousePosition.value.mouseXPosition - 50) + 'px';
+    } else {
+        return null;
+    }
+})
+
 
 ///////////////////////////////////// Ende Computed ////////////////////////////////
 
@@ -4572,6 +4596,7 @@ const boardPositionPopUpContainer = ref(null);
 const playfield = ref(null);
 const die1 = ref(null);
 const die2 = ref(null);
+const tempItem = ref(null);
 
 
 ///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
@@ -4635,6 +4660,58 @@ function rollDice() {
     // let die2Value = Math.floor(Math.random() * 6) + 1;
 }
 
+// Funktion, welche aufgerufen wird, sobald geklickt wird
+// --> @mousedown (gameBox)
+function handleMouseDown(event) {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
+    const elementsUnderCurser = document.elementsFromPoint(x, y);
+
+    console.log('Elemente unter dem Cursor:', elementsUnderCurser);
+
+    // Prüfung, ob ein bankItem unter dem Cursor liegt
+    if (elementsUnderCurser.find(element => element.classList.contains('bankItem'))) {
+        let selectedElement = elementsUnderCurser.find(element => element.classList.contains('bankItem'));
+        store.commit('STOREsetcurrentSelectedItem', selectedElement.id);
+        itemsOnBoard.value.push(selectedElement);
+        console.log(itemsOnBoard.value[0])
+    }
+
+    // Prüfung, ob ein drawPileCard unter dem Cursor liegt
+    if (elementsUnderCurser.find(element => element.classList.contains('drawPileCard'))) {
+        let selectedElement = elementsUnderCurser.find(element => element.classList.contains('drawPileCard'));
+
+        // id für die korrekte BildSource wird gespeichert
+        if (selectedElement.id === 'developmentCard') {
+            console.log('developementCard')
+        } else {
+            store.commit('STOREsetcurrentSelectedItem', selectedElement.id);
+        }
+
+        tempItem.value.style.display = "block";
+    }
+}
+
+// Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
+// --> @mouseup (gameBox)
+function handleMouseUp(event) {
+    tempItem.value.style.display = "none";
+    store.commit('STOREresetcurrentSelectedItem');
+
+}
+
+
+// Funktion, welche die Mausposition auf der GameBox trackt
+// Funktion wird ausgeführt, sobald sich die Maus auf der GameBox bewegt
+function trackMousePosition(event) {
+    // Die Mausposition wird in das Array mousePosition gespeichert
+
+    mousePosition.value.mouseXPosition = event.clientX;
+    mousePosition.value.mouseYPosition = event.clientY;
+}
+
 ///////////////////////////////////// Ende Methoden ////////////////////////////////
 
 
@@ -4652,7 +4729,7 @@ const fetchItemTypes = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            item_types.value = data;
+            store.commit('STOREsetItemTypes', data);
         };
     }
     catch (e) {
@@ -4798,9 +4875,16 @@ function initializeBoardEventListener() {
         playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseover', () => {
             store.commit('STOREsetcurrentHoveredObject', currentCircleId);
         })
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
-            store.commit('STOREresetCurrentHoveredObject');
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchstart', () => {
+            store.commit('STOREsetcurrentHoveredObject', currentCircleId);
         })
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
+            store.commit('STOREresetcurrentHoveredObject');
+        })
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchend', () => {
+            store.commit('STOREresetcurrentHoveredObject');
+        })
+
 
     }
 }
@@ -5355,6 +5439,14 @@ supabase
 .dice {
     width: 100%;
     margin: 0.2em 0;
+}
+
+#tempItem {
+    position: absolute;
+    height: 150px;
+    width: 100px;
+    z-index: 20;
+    display: none;
 }
 
 /**************** Dies */

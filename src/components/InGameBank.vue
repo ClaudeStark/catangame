@@ -133,7 +133,7 @@ window.addEventListener('resize', () => {
 
 .hoverBank {
     position: absolute;
-    z-index: 20;
+    /* z-index: 20; */
     height: 100%;
     width: 100%;
     display: flex;
