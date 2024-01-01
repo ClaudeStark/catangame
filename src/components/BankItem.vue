@@ -2,9 +2,10 @@
     <!-- <section class="bankItem" @mousedown="$emit('emitMainItem', {mainItemId, position, mainItemType})" >
         <p>MainItem: {{ mainItemType }} | {{ position }} | {{ mainItemId }}</p>
     </section> -->
-    <section class="bankItem">
-        <img src="@/assets/card_classic_backPNG.png" alt="">
-    </section>
+    <div class="bankItem">
+        <!-- {{ props.ownPlayedItem  }} -->
+        <img src="@/assets/resources_vertical/card_brick.svg" alt="">
+    </div>
 </template>
 
 <script setup>
@@ -14,8 +15,9 @@ import { ref, computed } from 'vue';
 
 // Props definieren
 const props = defineProps({
-
+    ownPlayedItem: Object,
 })
+
 
 // const mainItemType = computed(() => {
 //     if (props.currentItem != null && props.item_types != null) {
@@ -52,12 +54,13 @@ const props = defineProps({
 
 </script>
 
-<style>
-.bankItem{
-    height: 90%;
+<style scoped>
+.bankItem {
+    height: 100%;
 }
 
-img{
+img {
+    width: 100%;
     height: 100%;
 }
 </style>

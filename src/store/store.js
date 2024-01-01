@@ -4,7 +4,9 @@ import { createStore } from 'vuex'
 const store = createStore({
   state () {
     return {
-      STOREallPlayerData: []
+      STOREallPlayerData: [],
+      STOREcurrentSelectedItem: null,
+      STOREcurrentHoveredObject: null
     }
   },
   mutations: {
@@ -29,6 +31,18 @@ const store = createStore({
             }
         })
     },
+    STOREsetcurrentSelectedItem(state, data){
+      state.STOREcurrentSelectedItem = data;
+    },
+    STOREsetcurrentHoveredObject(state, data){
+      state.STOREcurrentHoveredObject = data;
+      console.log('hovered',state.STOREcurrentHoveredObject);
+    },
+    STOREresetCurrentHoveredObject(state){
+      state.STOREcurrentHoveredObject = null;
+      console.log('hoveredReset',state.STOREcurrentHoveredObject);
+
+    }
   }
 })
 

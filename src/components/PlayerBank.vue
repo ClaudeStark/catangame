@@ -1,14 +1,12 @@
 <template>
     <div id="playerBankContainer" ref="playerBankContainer">
         <section id="playerBank" ref="playerBank"
-            :style="{ backgroundColor: colors.find(color => color.color_id === (activePlayerData.find(player => player.board_position === boardPosition)?.id_color))?.hex_code }">
-
-            <InGameBank :board-position=props.boardPosition v-if="props.function === 'inGame'">
-
+            :style="{ backgroundColor: currentPositionPlayerColor }">
+            <InGameBank :board-position=props.boardPosition :playedItems="props.playedItems"
+                :currentPositionPlayerId="currentPositionPlayerId" :playerPositions="props.playerPositions" v-if="props.function === 'inGame'" :currentPositionPlayerColor="currentPositionPlayerColor">
             </InGameBank>
             <ChoosePlayerPositionBank :activePlayerData="activePlayerData" :playerPositions="props.playerPositions"
                 :board-position=props.boardPosition v-else-if="props.function === 'popUp'">
-
             </ChoosePlayerPositionBank>
         </section>
     </div>
@@ -36,11 +34,27 @@ const props = defineProps({
     function: String,
     playerPositions: Array,
     activePlayerData: Array,
-    colors: Array
+    colors: Array,
+    playedItems: Array
 })
 
 // Computed
 
+// Array, welches die aktuelle Farbe des Spielers enthält
+// --> Änderung von activePlayerData und boardPosition
+let currentPositionPlayerColor = computed(() => {
+    if (props.activePlayerData.length === 0 || props.colors.length === 0) return ''
+
+    return props.colors.find(color => color.color_id === (props.activePlayerData.find(player => player.board_position === props.boardPosition)?.id_color))?.hex_code
+})
+
+// Number, welche die aktuelle Spieler ID enthält
+// --> Änderung von playerPositions und boardPosition
+let currentPositionPlayerId = computed(() => {
+    if (props.playerPositions.length === 0) return null
+
+    return props.playerPositions.find(player => player.boardPosition === props.boardPosition)?.playerId
+})
 
 
 // OnMounted
@@ -106,5 +120,6 @@ window.addEventListener('resize', () => {
 #playerBank {
     display: flex;
     flex-direction: column-reverse;
+    position: relative;
 }
 </style>                                            

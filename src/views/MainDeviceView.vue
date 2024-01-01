@@ -39,12 +39,12 @@
             <div class="gridItem">1</div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=1 :function="'inGame'" :playerPositions="playerPositions"
-                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
+                    :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem">3</div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=4 :function="'inGame'" :playerPositions="playerPositions"
-                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
+                    :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <!-- <div class="gridItem gridEdge" id="personalEdgeTop">{{ mousePosition.mouseXPosition + "|" +
                 mousePosition.mouseYPosition }} {{ playerPositions[1] }}</div>
@@ -81,27 +81,27 @@
                 <!-- Nachziehstapel -->
                 <section id="drawPiles">
                     <div id="drawPileBrick" class="drawPileCard">
-                        <img src="@/assets/card_brick.svg" alt="card_brick">
+                        <img src="@/assets/resources_horizontal/card_brick.svg" alt="card_brick">
                         <!-- <p>Lehm</p> -->
                     </div>
                     <div id="drawPileOre" class="drawPileCard">
-                        <img src="@/assets/card_ore.svg" alt="card_ore">
+                        <img src="@/assets/resources_horizontal/card_ore.svg" alt="card_ore">
                         <!-- <p>Erz</p> -->
                     </div>
                     <div id="drawPileWool" class="drawPileCard">
-                        <img src="@/assets/card_wool.svg" alt="card_wool">
+                        <img src="@/assets/resources_horizontal/card_wool.svg" alt="card_wool">
                         <!-- <p>Wolle</p> -->
                     </div>
                     <div id="drawPileGrain" class="drawPileCard">
-                        <img src="@/assets/card_grain.svg" alt="card_grain">
+                        <img src="@/assets/resources_horizontal/card_grain.svg" alt="card_grain">
                         <!-- <p>Getreide</p> -->
                     </div>
                     <div id="drawPileLumber" class="drawPileCard">
-                        <img src="@/assets/card_lumber.svg" alt="card_lumber">
+                        <img src="@/assets/resources_horizontal/card_lumber.svg" alt="card_lumber">
                         <!-- <p>Holz</p> -->
                     </div>
                     <div id="drawPileDevelopmentCard" class="drawPileCard">
-                        <img src="@/assets/card_classic_back.svg" alt="card_development">
+                        <img src="@/assets/resources_horizontal/card_classic_back.svg" alt="card_development">
                         <!-- <p>Entwicklungskarte</p> -->
                     </div>
                 </section>
@@ -4302,7 +4302,8 @@
                         <img class="dice" ref="die2" src="@/assets/dice/dieValue1.svg" alt="dice Number 1">
                     </button>
                     <button @click="getStatesProcess()">
-                        <h1>get States</h1>
+                        <h1>get States
+                        </h1>
                     </button>
                 </section>
                 <!-- <div class="dice">
@@ -4344,12 +4345,12 @@
             <div class="gridItem gridEdge" id="personalEdgeBottom">{{ playerPositions[3] }}</div> -->
             <div class="gridItem">
                 <PlayerBank :boardPosition=2 :function="'inGame'" :playerPositions="playerPositions"
-                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
+                    :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem">7</div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=3 :function="'inGame'" :playerPositions="playerPositions"
-                    :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
+                    :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem">9</div>
         </section>
@@ -4388,10 +4389,10 @@ let largestArmy = ref();
 
 //Zuerst Ref und dann Computed
 
-const player_ids = computed(() => {
-    if (activePlayers.value.length === 0) return []
-    return activePlayers.value.map(playerData => playerData.player_id);
-})
+// const player_ids = computed(() => {
+//     if (activePlayers.value.length === 0) return []
+//     return activePlayers.value.map(playerData => playerData.player_id);
+// })
 
 
 
@@ -4482,6 +4483,7 @@ function getStatesProcess() {
     console.log(activePlayerData.value);
     console.log(playerPositions.value);
     console.log(playersToBePositioned.value);
+    console.log(store.state.STOREcurrentHoveredObject)
     //console.log(sessionData.value);
 }
 
@@ -4496,6 +4498,7 @@ const title_session = useRoute().query.session_title;
 let allPlayerData = ref([]);
 //let playerPositions = ref([]);
 let colors = ref([])
+let playedItems = ref([]);
 
 // Board
 let objectMousePosition = ref({ 'objectId': "" })
@@ -4551,8 +4554,12 @@ let nonSeatedPlayers = computed(() => {
     return tempNonSeatetPlayers;
 })
 
-
-
+// Array, welches alle Spieler-Ids enthält
+// --> Änderung von activePlayerData
+let playerIds = computed(() => {
+    if (activePlayerData.value.length === 0) return []
+    return activePlayerData.value.map(player => player.player_id);
+})
 
 
 ///////////////////////////////////// Ende Computed ////////////////////////////////
@@ -4689,6 +4696,18 @@ const fetchPlayerData = async () => {
 
 
 
+            // playedItems wird geleert
+            playedItems.value = [];
+            // playedItems wird mit den Daten aus der Datenbank gefüllt
+            if (playerIds.value.length > 0) {
+                playerIds.value.forEach(playerId => {
+                    fetchRelItemPlayed(playerId);
+                    console.log('fetchRelItemPlayed')
+                })
+            }
+
+
+
 
 
 
@@ -4716,13 +4735,6 @@ const fetchPlayerData = async () => {
     }
 }
 
-
-
-
-
-
-
-
 // Funktion, welche die neu gewählten Positionen der Spieler in der Datenbank speichert
 // --> @click (PopUp, StartGame-Button)
 const fetchSetPlayerPositions = async () => {
@@ -4746,6 +4758,28 @@ const fetchSetPlayerPositions = async () => {
     }
 }
 
+// fetch-Funktion, die die Daten aus der Relationstabelle 'rel_player_item_played' holt
+// --> onMounted
+const fetchRelItemPlayed = async (playerId) => {
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item_played')
+            .select()
+            .eq('owner_id_player', playerId)
+        if (error) {
+            console.error('Fehler (RelData):', error);
+        } else {
+            //console.log('Geklappt (RelData):', data);
+            data.forEach(item => {
+                playedItems.value.push(item);
+            });
+        }
+    }
+
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
 
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
@@ -4761,13 +4795,11 @@ window.addEventListener('resize', defineGridContainerSize)
 // --> onMounted
 function initializeBoardEventListener() {
     for (let currentCircleId = circleOnBoardRange.first; currentCircleId <= circleOnBoardRange.last; currentCircleId++) {
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseenter', () => {
-            objectMousePosition.value.objectId = currentCircleId;
-            console.log(objectMousePosition.value.objectId);
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseover', () => {
+            store.commit('STOREsetcurrentHoveredObject', currentCircleId);
         })
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseleave', () => {
-            objectMousePosition.value.objectId = '';
-            console.log(objectMousePosition.value.objectId);
+        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
+            store.commit('STOREresetCurrentHoveredObject');
         })
 
     }
@@ -4783,6 +4815,36 @@ supabase
         if (payload.new.id_session == id_session) {
             fetchPlayerData()
         }
+    })
+    .subscribe()
+
+supabase
+    .channel('rel_player_item_played')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
+        playerIds.value.forEach(player_id => {
+            if (payload.new.owner_id_player == player_id) {
+                fetchPlayerData();
+                console.log('Eigener Spieler hat was geändert INSERT');
+            }
+        });
+    })
+    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
+        playerIds.value.forEach(player_id => {
+            if (payload.old.owner_id_player == player_id) {
+                fetchPlayerData();
+                console.log('Eigener Spieler hat was geändert DELETE');
+            }
+        });
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
+        console.log('hallo')
+        console.log(payload)
+        playerIds.value.forEach(player_id => {
+            if (payload.new.owner_id_player == player_id) {
+                fetchPlayerData();
+                console.log('Eigener Spieler hat was geändert UPDATE');
+            }
+        });
     })
     .subscribe()
 
@@ -4994,27 +5056,7 @@ supabase
 
 
 
-// fetch-Funktion, die die Daten aus der Relationstabelle 'rel_player_item_played' holt
-// const fetchRelItemPlayed = async (player_id) => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item_played')
-//             .select()
-//             .eq('owner_id_player', player_id)
-//         if (error) {
-//             console.error('Fehler (RelData):', error);
-//         } else {
-//             //console.log('Geklappt (RelData):', data);
-//             data.forEach(item => {
-//                 itemArray.value.push(item);
-//             });
-//         }
-//     }
 
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
 
 // Karte ziehen, bzw Amount erhöhen. Funktion wird ausgeführt, sobald auf einen Nachziehstapel geklickt wird (Funktion: drawCard).
 // const fetchChangeRelPlayerItem = async (itemId, drawingPlayer) => {
@@ -5110,47 +5152,7 @@ supabase
 //     return positionConversionObject.value['_' + tempPosition];
 // }
 // supabase in realtime updaten
-// supabase
-//     .channel('rel_player_item_played')
-//     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
-//         player_ids.value.forEach(player_id => {
-//             if (payload.new.owner_id_player == player_id) {
-//                 // itemArray.value = [];
-//                 // player_ids.value.forEach(player_id => {
-//                 //     fetchRelItemPlayed(player_id);
-//                 // });
-//                 fetchPlayerData();
-//                 console.log('Eigener Spieler hat was geändert INSERT');
-//             }
-//         });
-//     })
-//     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
-//         player_ids.value.forEach(player_id => {
-//             if (payload.old.owner_id_player == player_id) {
-//                 // itemArray.value = [];
-//                 // player_ids.value.forEach(player_id => {
-//                 //     fetchRelItemPlayed(player_id);
-//                 // });
-//                 fetchPlayerData();
-//                 console.log('Eigener Spieler hat was geändert DELETE');
-//             }
-//         });
-//     })
-//     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
-//         console.log('hallo')
-//         console.log(payload)
-//         player_ids.value.forEach(player_id => {
-//             if (payload.new.owner_id_player == player_id) {
-//                 // itemArray.value = [];
-//                 // player_ids.value.forEach(player_id => {
-//                 //     fetchRelItemPlayed(player_id);
-//                 // });
-//                 fetchPlayerData();
-//                 console.log('Eigener Spieler hat was geändert UPDATE');
-//             }
-//         });
-//     })
-//     .subscribe()
+//
 // supabase
 //     .channel('player')
 //     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'player' }, (payload) => {
