@@ -26,22 +26,14 @@
             <div class="gridItem"></div>
         </section>
     </div>
-
-    <!-- <div id="gameBox" @mousemove="trackMousePosition($event)"> -->
     <div id="gameBox" @mousedown="handleMouseDown" @mousemove="trackMousePosition" @mouseup="handleMouseUp">
         <div id="items">
             <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
                 <img :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItem}.svg`" alt="">
             </div>
-            <!-- <Item v-for="item in itemsOnBoard" :idItemType="item.dataset.idItemType" :idCurrentCard="item.id" :mousePosition="mousePosition">                
-            </Item> -->
-            <!-- <Item v-for="item in itemsOnBoard" :positionTop="item.position.yPosition"
-                :positionLeft="item.position.xPosition" :owner="item.owner_id_player" :itemTypeId="item.id_item_type"
-                :itemId="item.rel_player_item_played_id" :item_types="item_types" @updateSelectedItem="updateSelectedItem">
-            </Item> -->
         </div>
         <section class="gridContainer" ref="gridContainerPlayfield">
-            <div class="gridItem">1</div>
+            <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=1 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
@@ -105,8 +97,9 @@
                         <img src="@/assets/resources_horizontal/card_lumber.svg" alt="card_lumber" draggable="false">
                         <!-- <p>Holz</p> -->
                     </div>
-                    <div id="developmentCard" class="drawPileCard">
-                        <img src="@/assets/resources_horizontal/card_classic_back.svg" alt="card_development" draggable="false">
+                    <div ref="developmentCard" id="developmentCard" class="drawPileCard">
+                        <img src="@/assets/resources_horizontal/card_classic_back.svg" alt="card_development"
+                            draggable="false">
                         <!-- <p>Entwicklungskarte</p> -->
                     </div>
                 </section>
@@ -4504,6 +4497,7 @@ let colors = ref([])
 let playedItems = ref([]);
 let itemsOnBoard = ref([]);
 let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '' });
+let tempItemPositionCorrection = ref({ 'x': 0, 'y': 0 });
 
 
 
@@ -4517,6 +4511,21 @@ let objectMousePosition = ref({ 'objectId': "" })
 let circleOnBoardRange = { 'first': 1, 'last': 145 };
 
 ///////////////////////////////////// Ende Variabeln ////////////////////////////////
+
+///////////////////////////////////// DOM Elemente ////////////////////////////////
+const gridContainerPopUp = ref(null)
+const gridContainerPlayfield = ref(null)
+const boardPositionPopUpContainer = ref(null);
+
+const playfield = ref(null);
+const die1 = ref(null);
+const die2 = ref(null);
+const tempItem = ref(null);
+const developmentCard = ref(null);
+
+
+///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
+
 
 ///////////////////////////////////// Computed ////////////////////////////////
 
@@ -4571,35 +4580,24 @@ let playerIds = computed(() => {
 // Berechnung der Mausposition im absoluten Koordinatensystem
 // --> Änderung von mousePosition
 const topPos = computed(() => {
-    if (mousePosition.value.mouseYPosition != null) {
-        return (mousePosition.value.mouseYPosition - 75) + 'px';
+    if (mousePosition.value.mouseYPosition != null && tempItem.value != null) {
+        console.log(tempItem.value.offsetWidth)
+        return (mousePosition.value.mouseYPosition - (tempItemPositionCorrection.value.y / 2)) + 'px';
     } else {
         return null;
     }
 })
 const leftPos = computed(() => {
     if (mousePosition.value.mouseXPosition != null) {
-        return (mousePosition.value.mouseXPosition - 50) + 'px';
+        return (mousePosition.value.mouseXPosition - (tempItemPositionCorrection.value.x / 2)) + 'px';
     } else {
         return null;
     }
 })
 
 
+
 ///////////////////////////////////// Ende Computed ////////////////////////////////
-
-///////////////////////////////////// DOM Elemente ////////////////////////////////
-const gridContainerPopUp = ref(null)
-const gridContainerPlayfield = ref(null)
-const boardPositionPopUpContainer = ref(null);
-
-const playfield = ref(null);
-const die1 = ref(null);
-const die2 = ref(null);
-const tempItem = ref(null);
-
-
-///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
 
 ///////////////////////////////////// ONMOUNT ////////////////////////////////
 
@@ -4690,13 +4688,51 @@ function handleMouseDown(event) {
             store.commit('STOREsetcurrentSelectedItem', selectedElement.id);
         }
 
+        // Positionskorrektur für die korrekte Positionierung des temporären Items
+        tempItem.value.style.width = developmentCard.value.offsetHeight + 'px';
+        tempItemPositionCorrection.value.x = developmentCard.value.offsetHeight;
+        tempItemPositionCorrection.value.y = developmentCard.value.offsetWidth;
+
+        // tempItem wird angezeigt
         tempItem.value.style.display = "block";
+
     }
 }
 
 // Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
 // --> @mouseup (gameBox)
 function handleMouseUp(event) {
+    if (store.state.STOREcurrentSelectedItem === null) return;
+
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
+    const elementsUnderCurser = document.elementsFromPoint(x, y);
+    console.log(store.state.STOREcurrentSelectedItem)
+
+    let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+    let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItem)?.item_type_id
+    let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+
+    // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
+    if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop'))) {
+
+
+        // Datenbank wird aktualisiert, das Item wird in die Bank verschoben, wenn alle benötigten Daten vorhanden sind
+        fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer);
+
+
+
+    } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBankBottom'))) {
+
+
+        // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
+        fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
+    }
+
+
+
     tempItem.value.style.display = "none";
     store.commit('STOREresetcurrentSelectedItem');
 
@@ -4772,7 +4808,6 @@ const fetchPlayerData = async () => {
             playersToBePositioned();
 
 
-
             // playedItems wird geleert
             playedItems.value = [];
             // playedItems wird mit den Daten aus der Datenbank gefüllt
@@ -4782,28 +4817,6 @@ const fetchPlayerData = async () => {
                     console.log('fetchRelItemPlayed')
                 })
             }
-
-
-
-
-
-
-
-
-            //             itemDistribution.value = activePlayers.value.map(playerData => ({ playerId: playerData.player_id, position: playerData.board_position }));
-            //             // console.log(itemDistribution.value)
-
-            //             // Für jeden Spieler wird die Funktion fetchRelItemPlayed ausgeführt
-            //             const fetchPromises = player_ids.value.map((player_id) => fetchRelItemPlayed(player_id));
-
-            //             // Alle Fetches werden abgewartet
-            //             await Promise.all(fetchPromises);
-
-            //             separateItemArray()
-            //             // player_ids.value.forEach(player_id => {
-            //             //     fetchRelItemPlayed(player_id);
-            //             // });
-
         }
     }
 
@@ -4858,6 +4871,64 @@ const fetchRelItemPlayed = async (playerId) => {
     }
 }
 
+// Funktion, welche ein Element in die Bank einfügt
+// --> @fetchAddBankItem (handleMouseUp, wenn sich der Curser über einer HoverBank befindet)
+const fetchAddBankItem = async (tempPosition, tempIdItemType, tempOwnerIdPlayer) => {
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item_played')
+            .insert([{ owner_id_player: tempOwnerIdPlayer, id_item_type: tempIdItemType, position: tempPosition }])
+
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+            console.log('Geklappt: 4', data);
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// fetch um den Amount eines Items bei dem entsprechenden Spieler auf dem SideDevice zu ändern.
+const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType) => {
+    let tempAmount = 0;
+
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item')
+            .select('amount')
+            .eq('owner_id_player', tempOwnerIdPlayer)
+            .eq('id_item_type', tempIdItemType)
+
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+            console.log('Geklappt: 2', data);
+            tempAmount = data[0].amount;
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item')
+            .update({ amount: tempAmount + 1 })
+            .eq('owner_id_player', tempOwnerIdPlayer)
+            .eq('id_item_type', tempIdItemType)
+
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+            console.log('Geklappt:3', data);
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
 
@@ -5443,10 +5514,8 @@ supabase
 
 #tempItem {
     position: absolute;
-    height: 150px;
-    width: 100px;
-    z-index: 20;
-    display: none;
+    z-index: 15;
+    pointer-events: none;
 }
 
 /**************** Dies */

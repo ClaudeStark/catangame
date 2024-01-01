@@ -1,6 +1,7 @@
 <template>
-    <div class="hoverBankTop" ></div>
-    <div class="hoverBankBottom" :style="{ background: 'linear-gradient(to bottom, transparent, ' + props.currentPositionPlayerColor + ')' }">
+    <div class="hoverBankTop"></div>
+    <div class="hoverBankBottom"
+        :style="{ background: 'linear-gradient(to bottom, transparent, ' + props.currentPositionPlayerColor + ')' }">
     </div>
 </template>
 
@@ -13,7 +14,6 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 // DOM Elemente
-const hoverBankBottom = ref(null)
 
 // Props definieren
 const props = defineProps({
@@ -22,22 +22,25 @@ const props = defineProps({
 })
 // Methoden
 
+
 // Funktion, welche das Objekt, auf dem man hovered, in den Store schreibt
 // -->@mouseover in hoverBankTop und hoverBankBottom
-function setMouseOver(position){
-    if(position === 'top'){
-        store.commit('STOREsetcurrentHoveredObject', props.currentPositionPlayerId+'top')
-    } else if(position === 'bottom'){
-        store.commit('STOREsetcurrentHoveredObject', props.currentPositionPlayerId+'bottom')
+function setMouseOver(position) {
+    if (position === 'top') {
+        store.commit('STOREsetcurrentHoveredObject', props.currentPositionPlayerId + 'top')
+    } else if (position === 'bottom') {
+        store.commit('STOREsetcurrentHoveredObject', props.currentPositionPlayerId + 'bottom')
     }
 
 }
 
 // Funktion, welche das hoveredObject im Store leert
 // -->@mouseout in hoverBankTop und hoverBankBottom
-function setMouseOut(){
-    store.commit('STOREresetcurrentHoveredObject')}
+function setMouseOut() {
+    store.commit('STOREresetcurrentHoveredObject')
+}
 </script>
+
 
 <style scoped>
 .hoverBankTop {
@@ -47,7 +50,7 @@ function setMouseOut(){
 
 
 .hoverBankBottom {
-    transition:  opacity 0.3s ease;
+    transition: opacity 0.3s ease;
     height: 50%;
     width: 100%;
     opacity: 0;
@@ -56,5 +59,4 @@ function setMouseOut(){
 .hoverBankBottom:hover {
     opacity: 1;
 }
-
 </style>                                            
