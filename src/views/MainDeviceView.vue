@@ -29,7 +29,7 @@
     <div id="gameBox" @mousedown="handleMouseDown" @mousemove="trackMousePosition" @mouseup="handleMouseUp">
         <div id="items">
             <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
-                <img :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItem}.svg`" alt="">
+                <img :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItemType}.svg`" alt="">
             </div>
         </div>
         <section class="gridContainer" ref="gridContainerPlayfield">
@@ -4581,7 +4581,6 @@ let playerIds = computed(() => {
 // --> Änderung von mousePosition
 const topPos = computed(() => {
     if (mousePosition.value.mouseYPosition != null && tempItem.value != null) {
-        console.log(tempItem.value.offsetWidth)
         return (mousePosition.value.mouseYPosition - (tempItemPositionCorrection.value.y / 2)) + 'px';
     } else {
         return null;
@@ -4667,14 +4666,35 @@ function handleMouseDown(event) {
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
     const elementsUnderCurser = document.elementsFromPoint(x, y);
 
-    console.log('Elemente unter dem Cursor:', elementsUnderCurser);
-
     // Prüfung, ob ein bankItem unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('bankItem'))) {
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('bankItem'));
-        store.commit('STOREsetcurrentSelectedItem', selectedElement.id);
-        itemsOnBoard.value.push(selectedElement);
-        console.log(itemsOnBoard.value[0])
+
+        // id des Items wird gespeichert
+        store.commit('STOREsetCurrentSelectedItemId', selectedElement.id);
+
+        // Positionskorrektur für die korrekte Positionierung des temporären Items
+        tempItem.value.style.width = developmentCard.value.offsetHeight + 'px';
+        tempItemPositionCorrection.value.x = developmentCard.value.offsetHeight;
+        tempItemPositionCorrection.value.y = developmentCard.value.offsetWidth;
+
+        // Das verschobene Item wird aus der Relationstabelle gelöscht
+        if (store.state.STOREcurrentSelectedItemId != null) {
+            let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+            console.log('tempCurrentItemId', tempCurrentItemId)
+            console.log('playedItem', playedItems.value)
+            let tempPlayedItems = playedItems.value.filter(item => item.rel_player_item_played_id != tempCurrentItemId);
+            playedItems.value = tempPlayedItems;
+            console.log('playedItem', playedItems.value)
+
+            //fetchDeleteRelTable(tempCurrentItemId);
+        }
+
+        // name des ItemTypes wird gespeichert
+        store.commit('STOREsetCurrentSelectedItemType', store.state.STOREitemTypes.find(item => item.item_type_id == selectedElement.dataset.idItemType)?.name);
+
+        // tempItem wird angezeigt
+        tempItem.value.style.display = "block";
     }
 
     // Prüfung, ob ein drawPileCard unter dem Cursor liegt
@@ -4685,7 +4705,7 @@ function handleMouseDown(event) {
         if (selectedElement.id === 'developmentCard') {
             console.log('developementCard')
         } else {
-            store.commit('STOREsetcurrentSelectedItem', selectedElement.id);
+            store.commit('STOREsetCurrentSelectedItemType', selectedElement.id);
         }
 
         // Positionskorrektur für die korrekte Positionierung des temporären Items
@@ -4702,39 +4722,56 @@ function handleMouseDown(event) {
 // Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
 // --> @mouseup (gameBox)
 function handleMouseUp(event) {
-    if (store.state.STOREcurrentSelectedItem === null) return;
+    if (store.state.STOREcurrentSelectedItemType === null) return;
 
     const x = event.clientX;
     const y = event.clientY;
 
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
     const elementsUnderCurser = document.elementsFromPoint(x, y);
-    console.log(store.state.STOREcurrentSelectedItem)
 
-    let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
-    let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItem)?.item_type_id
-    let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+    console.log(elementsUnderCurser);
 
     // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop'))) {
+        let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+        let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+        let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
 
+        if (store.state.STOREcurrentSelectedItemId != null) {
+            // Datenbank wird aktualisiert, das verschobene Item wird gelöscht
+            let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+            fetchDeleteRelTable(tempCurrentItemId);
+        }
 
         // Datenbank wird aktualisiert, das Item wird in die Bank verschoben, wenn alle benötigten Daten vorhanden sind
         fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer);
 
 
-
     } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBankBottom'))) {
-
+        let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+        let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+        let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
 
         // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
         fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
+        let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+        fetchDeleteRelTable(tempCurrentItemId);
+
+
+    }
+    else {
+        if(store.state.STOREcurrentSelectedItemId != null){
+            fetchPlayerData();
+        }
     }
 
 
 
     tempItem.value.style.display = "none";
-    store.commit('STOREresetcurrentSelectedItem');
+    store.commit('STOREresetCurrentSelectedItemType');
+    store.commit('STOREresetCurrentSelectedItemId');
+
 
 }
 
@@ -4814,7 +4851,6 @@ const fetchPlayerData = async () => {
             if (playerIds.value.length > 0) {
                 playerIds.value.forEach(playerId => {
                     fetchRelItemPlayed(playerId);
-                    console.log('fetchRelItemPlayed')
                 })
             }
         }
@@ -4859,7 +4895,6 @@ const fetchRelItemPlayed = async (playerId) => {
         if (error) {
             console.error('Fehler (RelData):', error);
         } else {
-            //console.log('Geklappt (RelData):', data);
             data.forEach(item => {
                 playedItems.value.push(item);
             });
@@ -4882,7 +4917,6 @@ const fetchAddBankItem = async (tempPosition, tempIdItemType, tempOwnerIdPlayer)
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt: 4', data);
         }
     }
     catch (e) {
@@ -4904,7 +4938,6 @@ const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType) => {
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt: 2', data);
             tempAmount = data[0].amount;
         }
     }
@@ -4922,13 +4955,33 @@ const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType) => {
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt:3', data);
         }
     }
     catch (e) {
         console.error('CatchFehler:', e)
     }
 }
+
+// Funktion, welche ein Element in die Bank löscht
+// --> @fetchAddBankItem (handleMouseUp, wenn sich der Curser über einer HoverBank befindet und eine ItemId vorhanden ist)
+const fetchDeleteRelTable = async (tempCurrentItemId) => {
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item_played')
+            .delete()
+            .eq('rel_player_item_played_id', tempCurrentItemId)
+
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+            console.log('Geklappt:5', data);
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
 
@@ -4944,16 +4997,16 @@ window.addEventListener('resize', defineGridContainerSize)
 function initializeBoardEventListener() {
     for (let currentCircleId = circleOnBoardRange.first; currentCircleId <= circleOnBoardRange.last; currentCircleId++) {
         playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseover', () => {
-            store.commit('STOREsetcurrentHoveredObject', currentCircleId);
+            store.commit('STOREsetCurrentHoveredObject', currentCircleId);
         })
         playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchstart', () => {
-            store.commit('STOREsetcurrentHoveredObject', currentCircleId);
+            store.commit('STOREsetCurrentHoveredObject', currentCircleId);
         })
         playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
-            store.commit('STOREresetcurrentHoveredObject');
+            store.commit('STOREresetCurrentHoveredObject');
         })
         playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchend', () => {
-            store.commit('STOREresetcurrentHoveredObject');
+            store.commit('STOREresetCurrentHoveredObject');
         })
 
 
@@ -4983,17 +5036,15 @@ supabase
             }
         });
     })
-    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
-        playerIds.value.forEach(player_id => {
-            if (payload.old.owner_id_player == player_id) {
-                fetchPlayerData();
-                console.log('Eigener Spieler hat was geändert DELETE');
-            }
-        });
-    })
+    // .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
+    //     playerIds.value.forEach(player_id => {
+    //         if (payload.old.owner_id_player == player_id) {
+    //             fetchPlayerData();
+    //             console.log('Eigener Spieler hat was geändert DELETE');
+    //         }
+    //     });
+    // })
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
-        console.log('hallo')
-        console.log(payload)
         playerIds.value.forEach(player_id => {
             if (payload.new.owner_id_player == player_id) {
                 fetchPlayerData();

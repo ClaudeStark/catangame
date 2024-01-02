@@ -38,8 +38,6 @@ const props = defineProps({
 let choosenBoardPosition = computed(() => {
      let tempIsChoosen = false
 
-     console.log('CCC')
-
      props.playerPositions.forEach(player => {
         if (player.boardPosition === props.boardPosition) {
             tempIsChoosen = true
@@ -82,17 +80,12 @@ function getPlayerName(playerId) {
 // --> Bei Klick auf Reset Button
 function resetChoosenPosition() {
     store.commit('STOREresetPlayerPosition', props.boardPosition)
-    console.log('AAA')
-
-
 }
 
 // Funktion, welche die Position eines Spielers setzt
 // --> Bei Klick auf einen Namen
 function setChoosenPosition(playerName) {
     store.commit('STOREsetPlayerPosition', {boardPosition: props.boardPosition, playerName})
-    console.log('BBB')
-
 }
 
 </script>

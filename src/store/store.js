@@ -6,7 +6,8 @@ const store = createStore({
     return {
       STOREallPlayerData: [],
       STOREitemTypes:[],
-      STOREcurrentSelectedItem: null,
+      STOREcurrentSelectedItemType: null,
+      STOREcurrentSelectedItemId: null,
       STOREcurrentHoveredObject: null
     }
   },
@@ -32,24 +33,30 @@ const store = createStore({
         }
       })
     },
-    STOREsetcurrentSelectedItem(state, data) {
-      state.STOREcurrentSelectedItem = data;
-      console.log('selected', state.STOREcurrentSelectedItem);
+    STOREsetCurrentSelectedItemType(state, data) {
+      state.STOREcurrentSelectedItemType = data;
+      console.log('selected', state.STOREcurrentSelectedItemType);
     },
-    STOREsetcurrentHoveredObject(state, data) {
+    STOREsetCurrentHoveredObject(state, data) {
       state.STOREcurrentHoveredObject = data;
       // console.log('hovered', state.STOREcurrentHoveredObject);
     },
-    STOREresetcurrentSelectedItem(state) {
-      state.STOREcurrentSelectedItem = null;
+    STOREresetCurrentSelectedItemType(state) {
+      state.STOREcurrentSelectedItemType = null;
       // console.log('selectedReset', state.STOREcurrentSelectedItem);
 
-    }, STOREresetcurrentHoveredObject(state) {
+    }, STOREresetCurrentHoveredObject(state) {
       state.STOREcurrentHoveredObject = null;
       // console.log('hovered', state.STOREcurrentHoveredObject);
     },
     STOREsetItemTypes(state, data) {
       state.STOREitemTypes = data;
+    },
+    STOREsetCurrentSelectedItemId(state, data) {
+      state.STOREcurrentSelectedItemId = data;
+    },
+    STOREresetCurrentSelectedItemId(state) {
+      state.STOREcurrentSelectedItemId = null;
     }
   }
 })
