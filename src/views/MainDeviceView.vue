@@ -29,7 +29,10 @@
     <div id="gameBox" @mousedown="handleMouseDown" @mousemove="trackMousePosition" @mouseup="handleMouseUp">
         <div id="items">
             <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
-                <img :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItemType}.svg`" alt="">
+                <img ref="tempItemCard"
+                    :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItemType}.svg`" alt="">
+                <img ref="tempItemBuilding" :src="`/images/buildings/${store.state.STOREcurrentSelectedItemType}.svg`"
+                    alt="">
             </div>
         </div>
         <section class="gridContainer" ref="gridContainerPlayfield">
@@ -38,56 +41,22 @@
                 <PlayerBank :boardPosition=1 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
-            <div class="gridItem">3</div>
+            <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=4 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
-            <!-- <div class="gridItem gridEdge" id="personalEdgeTop">{{ mousePosition.mouseXPosition + "|" +
-                mousePosition.mouseYPosition }} {{ playerPositions[1] }}</div>
-            <div class="gridItem" id="player1Field" v-if="item_types != null && itemArrayPlayer1 != null">
-                <MainItem class="mainItem top" v-for="item in itemArrayPlayer1" v-if="playerPositions[1] != null"
-                    :style="{ width: (0.8 * screenSize.windowWidth) / 14 + 'px', margin: defineMargin('player1') }"
-                    :position="item.position" :item_types="item_types" :currentItem="item" @emitMainItem="emitMainItem">
-                </MainItem>
-                <section class="hoverBanksTopBottom" v-if="playerPositions[1] != null">
-                    <div id="hoverToSideDevicePlayer1" @mouseenter="sendCardVisualFeedbackMain(1, true)"
-                        @mouseleave="sendCardVisualFeedbackMain(1, false)" @click="itemToSideDevice(1)"></div>
-                    <div id="hoverToBankPlayer1" @click="itemToBank(1)">
-
-                    </div>
-                </section>
-
-
-            </div>
-            <div class="gridItem gridEdge" id="personalEdgeRight">{{ playerPositions[2] }}</div>
-            <div class="gridItem" id="player4Field" v-if="item_types != null && itemArrayPlayer4 != null">
-                <MainItem class="mainItem left" v-for="item in itemArrayPlayer4" v-if="playerPositions[4] != null"
-                    :style="{ height: (0.8 * screenSize.windowHeight) / 9 + 'px', margin: defineMargin('player4') }"
-                    :position="item.position" :item_types="item_types" :currentItem="item" @emitMainItem="emitMainItem">
-                </MainItem>
-                <section class="hoverBanksLeftRight" v-if="playerPositions[4] != null">
-                    <div id="hoverToSideDevicePlayer4" @mouseenter="sendCardVisualFeedbackMain(4, true)"
-                        @mouseleave="sendCardVisualFeedbackMain(4, false)" @click="itemToSideDevice(4)"></div>
-                    <div id="hoverToBankPlayer4" @click="itemToBank(4)">
-
-                    </div>
-                </section>
-            </div>-->
             <div class="gridItem" id="middleGridItem">
                 <!-- Nachziehstapel -->
                 <section id="drawPiles">
                     <div id="brick" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_brick.svg" alt="card_brick" draggable="false">
-                        <!-- <p>Lehm</p> -->
                     </div>
                     <div id="ore" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_ore.svg" alt="card_ore" draggable="false">
-                        <!-- <p>Erz</p> -->
                     </div>
                     <div id="wool" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_wool.svg" alt="card_wool" draggable="false">
-                        <!-- <p>Wolle</p> -->
                     </div>
                     <div id="grain" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_grain.svg" alt="card_grain" draggable="false">
@@ -95,19 +64,17 @@
                     </div>
                     <div id="lumber" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_lumber.svg" alt="card_lumber" draggable="false">
-                        <!-- <p>Holz</p> -->
                     </div>
                     <div ref="developmentCard" id="developmentCard" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_classic_back.svg" alt="card_development"
                             draggable="false">
-                        <!-- <p>Entwicklungskarte</p> -->
                     </div>
                 </section>
 
                 <!-- Spielfeld -->
                 <svg id="playfield" ref="playfield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1992.35 1725.42">
                     <!--Place svg below-->
-                    <!-- <g id="Spielfeld">
+                    <g id="Spielfeld">
                         <g id="Spielfeld_Sand">
                             <polygon
                                 points="498.09 1725.42 0 862.71 498.09 0 1494.26 0 1992.35 862.71 1494.26 1725.42 498.09 1725.42"
@@ -611,8 +578,8 @@
                                 </g>
                             </g>
                         </g>
-                    </g> -->
-                    <!-- <g id="Rohstoff_Felder_und_Nummern">
+                    </g>
+                     <g id="Rohstoff_Felder_und_Nummern">
                         <g id="fields_field4">
                             <polygon
                                 points="1494.13 1559.09 1348.62 1643.1 1203.11 1559.09 1203.11 1391.07 1348.62 1307.05 1494.13 1391.07 1494.13 1559.09"
@@ -3868,8 +3835,8 @@
                                 </text>
                             </g>
                         </g>
-                    </g> -->
-                    <g id="Positions_Background">
+                    </g>
+                    <g id="positionsBackground">
                         <g>
                             <ellipse id="_145" data-name="145" cx="1702.24" cy="863.18" rx="133.31" ry="130.14"
                                 style="fill: #221f22; stroke-width: 0px;" />
@@ -4296,61 +4263,25 @@
                 <!-- Würfel -->
                 <section id="diceSection">
                     <button id="diceContainer" @click="rollDice()">
-                        <img class="dice" ref="die1" src="@/assets/dice/dieValue1.svg" alt="dice Number 1">
-                        <img class="dice" ref="die2" src="@/assets/dice/dieValue1.svg" alt="dice Number 1">
+                        <img class="dice" :src="'/images/dice/dieValue' + die1Value + '.svg'" alt="dice Number 1">
+                        <img class="dice" :src="'/images/dice/dieValue' + die2Value + '.svg'" alt="dice Number 1">
                     </button>
                     <button @click="getStatesProcess()">
                         <h1>get States
                         </h1>
                     </button>
                 </section>
-                <!-- <div class="dice">
-                    <button id="diceButton" @click="rollDice">Würfeln</button>
-                    <div id="ImageDice">
-                        <img :src="require(`@/assets/DieValue${die1}.svg`)" alt="Die1">
-                        <img :src="require(`@/assets/DieValue${die2}.svg`)" alt="Die2">
-                    </div>
-                </div> -->
             </div>
-            <!-- Splayer Banks noch mehr modularisieren-->
-            <!-- <div class="gridItem" id="player2Field" v-if="item_types != null && itemArrayPlayer2 != null">
-                <MainItem class="mainItem right" v-for="item in itemArrayPlayer2" v-if="playerPositions[2] != null"
-                    :style="{ height: (0.8 * screenSize.windowHeight) / 9 + 'px', margin: defineMargin('player2') }"
-                    :position="item.position" :item_types="item_types" :currentItem="item" @emitMainItem="emitMainItem">
-                </MainItem>
-                <section class="hoverBanksLeftRight" v-if="playerPositions[2] != null">
-                    <div id="hoverToBankPlayer2" @click="itemToBank(2)">
-                    </div>
-                    <div id="hoverToSideDevicePlayer2" @mouseenter="sendCardVisualFeedbackMain(2, true)"
-                        @mouseleave="sendCardVisualFeedbackMain(2, false)" @click="itemToSideDevice(2)"></div>
-                </section>
-            </div>
-            <div class="gridItem gridEdge" id="personalEdgeLeft">{{ playerPositions[4] }}</div>
-            <div class="gridItem" id="player3Field" v-if="item_types != null && itemArrayPlayer3 != null">
-                <MainItem class="mainItem bottom" v-for="item in itemArrayPlayer3" v-if="playerPositions[3] != null"
-                    :style="{ width: (0.8 * screenSize.windowWidth) / 14 + 'px', margin: defineMargin('player3') }"
-                    :position="item.position" :item_types="item_types" :currentItem="item" @emitMainItem="emitMainItem">
-                </MainItem>
-                <section class="hoverBanksTopBottom" v-if="playerPositions[3] != null">
-                    <div id="hoverToBankPlayer3" @click="itemToBank(3)">
-
-                    </div>
-                    <div id="hoverToSideDevicePlayer3" @mouseenter="sendCardVisualFeedbackMain(3, true)"
-                        @mouseleave="sendCardVisualFeedbackMain(3, false)" @click="itemToSideDevice(3)"></div>
-
-                </section>
-            </div>
-            <div class="gridItem gridEdge" id="personalEdgeBottom">{{ playerPositions[3] }}</div> -->
             <div class="gridItem">
                 <PlayerBank :boardPosition=2 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
-            <div class="gridItem">7</div>
+            <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=3 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
-            <div class="gridItem">9</div>
+            <div class="gridItem"></div>
         </section>
     </div>
 </template>
@@ -4472,16 +4403,9 @@ let currentSelectedMainItem = ref(null);
 
 ///////////////////////////////////// Process ////////////////////////////////
 function getStatesProcess() {
-    console.log(id_session);
-    console.log(item_types.value);
-    console.log(colors.value.find(color => color.color_id === 1).hex_code);
-    console.log(title_session);
-    console.log(allPlayerData.value);
-    console.log(activePlayerData.value);
-    console.log(playerPositions.value);
-    console.log(playersToBePositioned.value);
-    console.log(store.state.STOREcurrentHoveredObject)
-    //console.log(sessionData.value);
+    
+    console.log('this',playerPositions.value);
+ 
 }
 
 ///////////////////////////////////// Ende Process ////////////////////////////////
@@ -4498,6 +4422,9 @@ let playedItems = ref([]);
 let itemsOnBoard = ref([]);
 let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '' });
 let tempItemPositionCorrection = ref({ 'x': 0, 'y': 0 });
+
+let die1Value = ref(1);
+let die2Value = ref(1);
 
 
 
@@ -4518,9 +4445,9 @@ const gridContainerPlayfield = ref(null)
 const boardPositionPopUpContainer = ref(null);
 
 const playfield = ref(null);
-const die1 = ref(null);
-const die2 = ref(null);
 const tempItem = ref(null);
+const tempItemCard = ref(null);
+const tempItemBuilding = ref(null);
 const developmentCard = ref(null);
 
 
@@ -4580,7 +4507,7 @@ let playerIds = computed(() => {
 // Berechnung der Mausposition im absoluten Koordinatensystem
 // --> Änderung von mousePosition
 const topPos = computed(() => {
-    if (mousePosition.value.mouseYPosition != null && tempItem.value != null) {
+    if (mousePosition.value.mouseYPosition != null) {
         return (mousePosition.value.mouseYPosition - (tempItemPositionCorrection.value.y / 2)) + 'px';
     } else {
         return null;
@@ -4653,8 +4580,8 @@ function defineGridContainerSize() {
 // Funkiton, welche Würfelt sobald der Würfel-Button geklickt wird
 // --> @click (Würfel-Button)
 function rollDice() {
-    // let die1Value = Math.floor(Math.random() * 6) + 1;
-    // let die2Value = Math.floor(Math.random() * 6) + 1;
+    die1Value.value = Math.floor(Math.random() * 6) + 1;
+    die2Value.value = Math.floor(Math.random() * 6) + 1;
 }
 
 // Funktion, welche aufgerufen wird, sobald geklickt wird
@@ -4665,6 +4592,8 @@ function handleMouseDown(event) {
 
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
     const elementsUnderCurser = document.elementsFromPoint(x, y);
+
+    console.log(elementsUnderCurser);
 
     // Prüfung, ob ein bankItem unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('bankItem'))) {
@@ -4717,6 +4646,24 @@ function handleMouseDown(event) {
         tempItem.value.style.display = "block";
 
     }
+
+    // Prüfung, ob ein Building unter dem Cursor liegt
+    if (elementsUnderCurser.find(element => element.classList.contains('building'))) {
+        let selectedElement = elementsUnderCurser.find(element => element.classList.contains('building'));
+        console.log(selectedElement.id)
+
+        // id für die korrekte BildSource wird gespeichert
+        store.commit('STOREsetCurrentSelectedItemType', selectedElement.id);
+        console.log('wichtig', store.state.STOREcurrentSelectedItemType)
+
+        // Positionskorrektur für die korrekte Positionierung des temporären Items
+        tempItem.value.style.width = document.querySelector('.buildingContainer').offsetWidth + 'px';
+        tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
+        tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+
+        // tempItem wird angezeigt
+        tempItem.value.style.display = "block";
+    }
 }
 
 // Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
@@ -4732,39 +4679,50 @@ function handleMouseUp(event) {
 
     console.log(elementsUnderCurser);
 
-    // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
-    if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop'))) {
-        let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
-        let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
-        let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+    // Prüfung, ob man ein Item oder ein Building in der Hand hält
+    if (store.state.STOREcurrentSelectedItemType === 'village' || store.state.STOREcurrentSelectedItemType === 'city' || store.state.STOREcurrentSelectedItemType === 'road') {
 
-        if (store.state.STOREcurrentSelectedItemId != null) {
-            // Datenbank wird aktualisiert, das verschobene Item wird gelöscht
+
+
+
+
+    } else {
+        // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
+        if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop'))) {
+            let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+            let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                // Datenbank wird aktualisiert, das verschobene Item wird gelöscht
+                let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+                fetchDeleteRelTable(tempCurrentItemId);
+            }
+
+            // Datenbank wird aktualisiert, das Item wird in die Bank verschoben, wenn alle benötigten Daten vorhanden sind
+            fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer);
+
+
+        } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBankBottom'))) {
+            let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+            let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+
+            // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
+            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
             fetchDeleteRelTable(tempCurrentItemId);
+
+
         }
-
-        // Datenbank wird aktualisiert, das Item wird in die Bank verschoben, wenn alle benötigten Daten vorhanden sind
-        fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer);
-
-
-    } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBankBottom'))) {
-        let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
-        let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
-        let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
-
-        // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
-        fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
-        let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
-        fetchDeleteRelTable(tempCurrentItemId);
-
-
-    }
-    else {
-        if(store.state.STOREcurrentSelectedItemId != null){
-            fetchPlayerData();
+        else {
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                fetchPlayerData();
+            }
         }
     }
+
+
 
 
 
@@ -4995,22 +4953,22 @@ window.addEventListener('resize', defineGridContainerSize)
 // Eventlistener für Spielbrett, mouseenter und mouseleave
 // --> onMounted
 function initializeBoardEventListener() {
-    for (let currentCircleId = circleOnBoardRange.first; currentCircleId <= circleOnBoardRange.last; currentCircleId++) {
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseover', () => {
-            store.commit('STOREsetCurrentHoveredObject', currentCircleId);
-        })
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchstart', () => {
-            store.commit('STOREsetCurrentHoveredObject', currentCircleId);
-        })
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
-            store.commit('STOREresetCurrentHoveredObject');
-        })
-        playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchend', () => {
-            store.commit('STOREresetCurrentHoveredObject');
-        })
+    // for (let currentCircleId = circleOnBoardRange.first; currentCircleId <= circleOnBoardRange.last; currentCircleId++) {
+    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseover', () => {
+    //         store.commit('STOREsetCurrentHoveredObject', currentCircleId);
+    //     })
+    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchstart', () => {
+    //         store.commit('STOREsetCurrentHoveredObject', currentCircleId);
+    //     })
+    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
+    //         store.commit('STOREresetCurrentHoveredObject');
+    //     })
+    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchend', () => {
+    //         store.commit('STOREresetCurrentHoveredObject');
+    //     })
 
 
-    }
+    // }
 }
 
 
@@ -5567,6 +5525,10 @@ supabase
     position: absolute;
     z-index: 15;
     pointer-events: none;
+}
+
+#positionsBackground{
+    opacity: 0;
 }
 
 /**************** Dies */

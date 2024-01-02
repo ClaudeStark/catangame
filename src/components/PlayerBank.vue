@@ -3,7 +3,7 @@
         <section id="playerBank" ref="playerBank"
             :style="{ backgroundColor: currentPositionPlayerColor }">
             <InGameBank :board-position=props.boardPosition :playedItems="props.playedItems"
-                :currentPositionPlayerId="currentPositionPlayerId" :playerPositions="props.playerPositions" v-if="props.function === 'inGame'" :currentPositionPlayerColor="currentPositionPlayerColor">
+                :currentPositionPlayerId="currentPositionPlayerId" :playerPositions="props.playerPositions" v-if="props.function === 'inGame' && props.playerPositions.find(entry => entry.boardPosition === props.boardPosition)" :currentPositionPlayerColor="currentPositionPlayerColor">
             </InGameBank>
             <ChoosePlayerPositionBank :activePlayerData="activePlayerData" :playerPositions="props.playerPositions"
                 :board-position=props.boardPosition v-else-if="props.function === 'popUp'">
