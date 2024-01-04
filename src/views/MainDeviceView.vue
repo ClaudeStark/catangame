@@ -3,24 +3,24 @@
         <section class="gridContainer" ref="gridContainerPopUp">
             <div class="gridItem">1</div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=1 :function="'popUp'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=1000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">3</div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=4 :function="'popUp'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=4000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">
                 <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()">Safe and Start Game</button>
             </div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=2 :function="'popUp'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=2000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem"></div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=3 :function="'popUp'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=3000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem"></div>
@@ -29,25 +29,31 @@
     <div id="gameBox" @mousedown="handleMouseDown" @mousemove="trackMousePosition" @mouseup="handleMouseUp">
         <div id="items">
             <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
-                <div ref="tempItemBuilding" v-if="store.state.STOREcurrentSelectedItemType == 'city' || store.state.STOREcurrentSelectedItemType == 'road'||store.state.STOREcurrentSelectedItemType == 'village'" >
+                <div
+                    v-if="store.state.STOREcurrentSelectedItemType == 'city' || store.state.STOREcurrentSelectedItemType == 'road' || store.state.STOREcurrentSelectedItemType == 'settlement'">
                     <City v-if="store.state.STOREcurrentSelectedItemType == 'city'" :color="tempColor"></City>
                     <Road v-if="store.state.STOREcurrentSelectedItemType == 'road'" :color="tempColor"></Road>
-                    <Village v-if="store.state.STOREcurrentSelectedItemType == 'village'" :color="tempColor"></Village>
+                    <Settlement v-if="store.state.STOREcurrentSelectedItemType == 'settlement'" :color="tempColor">
+                    </Settlement>
                 </div>
-                <img ref="tempItemCard" v-else
+                <img v-else
                     :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItemType}.svg`" alt="">
+            </div>
+            <div id="boardItems">
+                <div class="boardItemContainer" v-for="item in itemsOnBoard">
+                    <BoardItem :item="item" :boardItemWidth="boardItemWidth" :colors="colors"></BoardItem>
+                </div>
             </div>
         </div>
         <section class="gridContainer" ref="gridContainerPlayfield">
+            <div class="gridItem"></div>
             <div class="gridItem">
-            </div>
-            <div class="gridItem">
-                <PlayerBank :boardPosition=1 :function="'inGame'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=1000 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem"></div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=4 :function="'inGame'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=4000 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem" id="middleGridItem">
@@ -78,7 +84,7 @@
                 <!-- Spielfeld -->
                 <svg id="playfield" ref="playfield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1992.35 1725.42">
                     <!--Place svg below-->
-                    <!-- <g id="Spielfeld">
+                    <g id="Spielfeld">
                         <g id="Spielfeld_Sand">
                             <polygon
                                 points="498.09 1725.42 0 862.71 498.09 0 1494.26 0 1992.35 862.71 1494.26 1725.42 498.09 1725.42"
@@ -582,8 +588,8 @@
                                 </g>
                             </g>
                         </g>
-                    </g> -->
-                    <!-- <g id="Rohstoff_Felder_und_Nummern">
+                    </g>
+                    <g id="Rohstoff_Felder_und_Nummern">
                         <g id="fields_field4">
                             <polygon
                                 points="1494.13 1559.09 1348.62 1643.1 1203.11 1559.09 1203.11 1391.07 1348.62 1307.05 1494.13 1391.07 1494.13 1559.09"
@@ -3839,423 +3845,423 @@
                                 </text>
                             </g>
                         </g>
-                    </g> -->
+                    </g>
                     <g id="positionsBackground">
                         <g>
-                            <ellipse id="_145" data-name="145" cx="1702.24" cy="863.18" rx="133.31" ry="130.14"
+                            <ellipse id="_145" class="middleCircle" data-name="145" cx="1702.24" cy="863.18" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_144" class="middleCircle" data-name="144" cx="1349.11" cy="863.18" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_143" class="middleCircle" data-name="143" cx="996.58" cy="863.18" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_142" class="middleCircle" data-name="142" cx="643.97" cy="863.18" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_141" class="middleCircle" data-name="141" cx="291.71" cy="863.18" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_140" class="middleCircle" data-name="140" cx="1525.69" cy="1170.07" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_139" class="middleCircle" data-name="139" cx="1173.35" cy="1170.07" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_138" class="middleCircle" data-name="138" cx="820.58" cy="1170.07" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_137" class="middleCircle" data-name="137" cx="468.11" cy="1170.07" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_136" class="middleCircle" data-name="136" cx="1349.11" cy="1479.06" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_135" class="middleCircle" data-name="135" cx="996.58" cy="1479.06" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_134" class="middleCircle" data-name="134" cx="643.97" cy="1479.06" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_133" class="middleCircle" data-name="133" cx="1525.69" cy="553.94" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_132" class="middleCircle" data-name="132" cx="1173.35" cy="553.94" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_131" class="middleCircle" data-name="131" cx="820.58" cy="553.94" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_130" class="middleCircle" data-name="130" cx="468.11" cy="557.94" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_129" class="middleCircle" data-name="129" cx="1349.11" cy="247.21" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_128" class="middleCircle" data-name="128" cx="996.58" cy="252.29" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_127" class="middleCircle" data-name="127" cx="643.97" cy="247.21" rx="133.31"
+                                ry="130.14" style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_126" class="cornerCircle" data-name="126" cx="996.58" cy="1273.47" rx="29.02"
+                                ry="28.33" transform="translate(-506.2 676.35) rotate(-30.28)"
+                                style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_125" class="roadCircleR" data-name="125" cx="908.36" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-544.63 639.01) rotate(-30.28)"
+                                style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_124" class="cornerCircle" data-name="124" cx="820.58" cy="1378.02" rx="29.02"
+                                ry="28.33" transform="translate(-582.94 601.87) rotate(-30.28)"
+                                style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_123" class="roadCircleR" data-name="123" cx="732.25" cy="399.2" rx="29.02"
+                                ry="28.33" transform="translate(-101.38 423.74) rotate(-30.28)"
+                                style="fill: #221f22; stroke-width: 0px;" />
+                            <ellipse id="_122" class="cornerCircle" data-name="122" cx="820.58" cy="347.52" rx="29.02"
+                                ry="28.33" transform="translate(-63.27 461.24) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_144" data-name="144" cx="1349.11" cy="863.18" rx="133.31" ry="130.14"
+                            <ellipse id="_121" class="roadCircleM" data-name="121" cx="996.58" cy="553.94" rx="29.02"
+                                ry="28.33" transform="translate(-143.35 578.16) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_143" data-name="143" cx="996.58" cy="863.18" rx="133.31" ry="130.14"
+                            <ellipse id="_120" class="cornerCircle" data-name="120" cx="996.58" cy="450.97" rx="29.02"
+                                ry="28.33" transform="translate(-91.42 564.11) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_142" data-name="142" cx="643.97" cy="863.18" rx="133.31" ry="130.14"
+                            <ellipse id="_119" class="roadCircleL" data-name="119" cx="908.36" cy="399.2" rx="29.02"
+                                ry="28.33" transform="translate(-77.35 512.56) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_141" data-name="141" cx="291.71" cy="863.18" rx="133.31" ry="130.14"
+                            <ellipse id="_118" class="roadCircleR" data-name="118" cx="1084.79" cy="399.2" rx="29.02"
+                                ry="28.33" transform="translate(-53.27 601.53) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_140" data-name="140" cx="1525.69" cy="1170.07" rx="133.31" ry="130.14"
+                            <ellipse id="_117" class="cornerCircle" data-name="117" cx="1173.35" cy="347.52" rx="29.02"
+                                ry="28.33" transform="translate(-15.13 639.14) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_139" data-name="139" cx="1173.35" cy="1170.07" rx="133.31" ry="130.14"
+                            <ellipse id="_116" class="roadCircleM" data-name="116" cx="1702.24" cy="553.94" rx="29.02"
+                                ry="28.33" transform="translate(-47.05 934.02) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_138" data-name="138" cx="820.58" cy="1170.07" rx="133.31" ry="130.14"
+                            <ellipse id="_115" class="cornerCircle" data-name="115" cx="1702.24" cy="450.97" rx="29.02"
+                                ry="28.33" transform="translate(4.88 919.97) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_137" data-name="137" cx="468.11" cy="1170.07" rx="133.31" ry="130.14"
+                            <ellipse id="_114" class="roadCircleM" data-name="114" cx="1349.11" cy="553.94" rx="29.02"
+                                ry="28.33" transform="translate(-95.24 755.94) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_136" data-name="136" cx="1349.11" cy="1479.06" rx="133.31" ry="130.14"
+                            <ellipse id="_113" class="cornerCircle" data-name="113" cx="1349.11" cy="450.97" rx="29.02"
+                                ry="28.33" transform="translate(-43.31 741.89) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_135" data-name="135" cx="996.58" cy="1479.06" rx="133.31" ry="130.14"
+                            <ellipse id="_112" class="roadCircleR" data-name="112" cx="1437.99" cy="399.2" rx="29.02"
+                                ry="28.33" transform="translate(-5.07 779.65) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_134" data-name="134" cx="643.97" cy="1479.06" rx="133.31" ry="130.14"
+                            <ellipse id="_111" class="cornerCircle" data-name="111" cx="1525.69" cy="347.52" rx="29.02"
+                                ry="28.33" transform="translate(32.95 816.82) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_133" data-name="133" cx="1525.69" cy="553.94" rx="133.31" ry="130.14"
+                            <ellipse id="_110" class="roadCircleL" data-name="110" cx="1614.88" cy="399.2" rx="29.02"
+                                ry="28.33" transform="translate(19.07 868.85) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_132" data-name="132" cx="1173.35" cy="553.94" rx="133.31" ry="130.14"
+                            <ellipse id="_109" class="roadCircleL" data-name="109" cx="1261.4" cy="399.2" rx="29.02"
+                                ry="28.33" transform="translate(-29.17 690.59) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_131" data-name="131" cx="820.58" cy="553.94" rx="133.31" ry="130.14"
+                            <ellipse id="_108" class="roadCircleM" data-name="108" cx="1173.35" cy="247.21" rx="29.02"
+                                ry="28.33" transform="translate(35.46 625.45) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_130" data-name="130" cx="468.11" cy="557.94" rx="133.31" ry="130.14"
+                            <ellipse id="_107" class="cornerCircle" data-name="107" cx="1173.35" cy="141.17" rx="29.02"
+                                ry="28.33" transform="translate(88.93 610.98) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_129" data-name="129" cx="1349.11" cy="247.21" rx="133.31" ry="130.14"
+                            <ellipse id="_106" class="roadCircleL" data-name="106" cx="1084.79" cy="89.67" rx="29.02"
+                                ry="28.33" transform="translate(102.82 559.29) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_128" data-name="128" cx="996.58" cy="252.29" rx="133.31" ry="130.14"
+                            <ellipse id="_105" class="cornerCircle" data-name="105" cx="996.58" cy="39.17" rx="29.02"
+                                ry="28.33" transform="translate(116.25 507.91) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_127" data-name="127" cx="643.97" cy="247.21" rx="133.31" ry="130.14"
+                            <ellipse id="_104" class="cornerCircle" data-name="104" cx="820.58" cy="141.17" rx="29.02"
+                                ry="28.33" transform="translate(40.79 433.08) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_126" data-name="126" cx="996.58" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-506.2 676.35) rotate(-30.28)"
+                            <ellipse id="_103" class="roadCircleM" data-name="103" cx="820.58" cy="247.21" rx="29.02"
+                                ry="28.33" transform="translate(-12.68 447.55) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_125" data-name="125" cx="908.36" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-544.63 639.01) rotate(-30.28)"
+                            <ellipse id="_102" class="roadCircleL" data-name="102" cx="732.25" cy="89.67" rx="29.02"
+                                ry="28.33" transform="translate(54.71 381.5) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_124" data-name="124" cx="820.58" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-582.94 601.87) rotate(-30.28)"
+                            <ellipse id="_101" class="cornerCircle" data-name="101" cx="643.97" cy="39.17" rx="29.02"
+                                ry="28.33" transform="translate(68.13 330.1) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_123" data-name="123" cx="732.25" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-101.38 423.74) rotate(-30.28)"
+                            <ellipse id="_100" class="roadCircleR" data-name="100" cx="555.82" cy="89.67" rx="29.02"
+                                ry="28.33" transform="translate(30.63 292.53) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_122" data-name="122" cx="820.58" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(-63.27 461.24) rotate(-30.28)"
+                            <ellipse id="_99" class="cornerCircle" data-name="99" cx="468.11" cy="141.17" rx="29.02"
+                                ry="28.33" transform="translate(-7.31 255.33) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_121" data-name="121" cx="996.58" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-143.35 578.16) rotate(-30.28)"
+                            <ellipse id="_98" class="roadCircleM" data-name="98" cx="468.11" cy="247.21" rx="29.02"
+                                ry="28.33" transform="translate(-60.78 269.8) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_120" data-name="120" cx="996.58" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-91.42 564.11) rotate(-30.28)"
+                            <ellipse id="_97" class="roadCircleR" data-name="97" cx="908.36" cy="89.67" rx="29.02"
+                                ry="28.33" transform="translate(78.74 470.32) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_119" data-name="119" cx="908.36" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-77.35 512.56) rotate(-30.28)"
+                            <ellipse id="_96" class="roadCircleR" data-name="96" cx="1261.4" cy="89.67" rx="29.02"
+                                ry="28.33" transform="translate(126.92 648.35) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_118" data-name="118" cx="1084.79" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-53.27 601.53) rotate(-30.28)"
+                            <ellipse id="_95" class="cornerCircle" data-name="95" cx="1349.11" cy="39.17" rx="29.02"
+                                ry="28.33" transform="translate(164.36 685.69) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_117" data-name="117" cx="1173.35" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(-15.13 639.14) rotate(-30.28)"
+                            <ellipse id="_94" class="roadCircleL" data-name="94" cx="1437.99" cy="89.67" rx="29.02"
+                                ry="28.33" transform="translate(151.02 737.41) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_116" data-name="116" cx="1702.24" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-47.05 934.02) rotate(-30.28)"
+                            <ellipse id="_93" class="cornerCircle" data-name="93" cx="1525.69" cy="141.17" rx="29.02"
+                                ry="28.33" transform="translate(137.02 788.66) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_115" data-name="115" cx="1702.24" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(4.88 919.97) rotate(-30.28)"
+                            <ellipse id="_92" class="roadCircleM" data-name="92" cx="1525.69" cy="247.21" rx="29.02"
+                                ry="28.33" transform="translate(83.54 803.13) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_114" data-name="114" cx="1349.11" cy="553.94" rx="29.02" ry="28.33"
-                                transform="translate(-95.24 755.94) rotate(-30.28)"
+                            <ellipse id="_91" class="roadCircleM" data-name="91" cx="820.58" cy="1479.06" rx="29.02"
+                                ry="28.33" transform="translate(-633.9 615.66) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_113" data-name="113" cx="1349.11" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-43.31 741.89) rotate(-30.28)"
+                            <ellipse id="_90" class="cornerCircle" data-name="90" cx="820.58" cy="1582.94" rx="29.02"
+                                ry="28.33" transform="translate(-686.28 629.83) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_112" data-name="112" cx="1437.99" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-5.07 779.65) rotate(-30.28)"
+                            <ellipse id="_89" class="roadCircleR" data-name="89" cx="732.25" cy="1634.71" rx="29.02"
+                                ry="28.33" transform="translate(-724.44 592.35) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_111" data-name="111" cx="1525.69" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(32.95 816.82) rotate(-30.28)"
+                            <ellipse id="_88" class="roadCircleL" data-name="88" cx="908.36" cy="1634.71" rx="29.02"
+                                ry="28.33" transform="translate(-700.41 681.16) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_110" data-name="110" cx="1614.88" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(19.07 868.85) rotate(-30.28)"
+                            <ellipse id="_87" class="cornerCircle" data-name="87" cx="996.58" cy="1685.52" rx="29.02"
+                                ry="28.33" transform="translate(-714 732.58) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_109" data-name="109" cx="1261.4" cy="399.2" rx="29.02" ry="28.33"
-                                transform="translate(-29.17 690.59) rotate(-30.28)"
+                            <ellipse id="_86" class="roadCircleR" data-name="86" cx="1084.79" cy="1634.71" rx="29.02"
+                                ry="28.33" transform="translate(-676.33 770.14) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_108" data-name="108" cx="1173.35" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(35.46 625.45) rotate(-30.28)"
+                            <ellipse id="_85" class="cornerCircle" data-name="85" cx="1173.35" cy="1582.94" rx="29.02"
+                                ry="28.33" transform="translate(-638.14 807.73) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_107" data-name="107" cx="1173.35" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(88.93 610.98) rotate(-30.28)"
+                            <ellipse id="_84" class="roadCircleL" data-name="84" cx="1261.4" cy="1634.71" rx="29.02"
+                                ry="28.33" transform="translate(-652.23 859.2) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_106" data-name="106" cx="1084.79" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(102.82 559.29) rotate(-30.28)"
+                            <ellipse id="_83" class="cornerCircle" data-name="83" cx="1349.11" cy="1685.52" rx="29.02"
+                                ry="28.33" transform="translate(-665.89 910.37) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_105" data-name="105" cx="996.58" cy="39.17" rx="29.02" ry="28.33"
-                                transform="translate(116.25 507.91) rotate(-30.28)"
+                            <ellipse id="_82" class="roadCircleR" data-name="82" cx="1437.99" cy="1634.71" rx="29.02"
+                                ry="28.33" transform="translate(-628.13 948.25) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_104" data-name="104" cx="820.58" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(40.79 433.08) rotate(-30.28)"
+                            <ellipse id="_81" class="cornerCircle" data-name="81" cx="1525.69" cy="1582.94" rx="29.02"
+                                ry="28.33" transform="translate(-590.06 985.41) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_103" data-name="103" cx="820.58" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(-12.68 447.55) rotate(-30.28)"
+                            <ellipse id="_80" class="roadCircleM" data-name="80" cx="1525.69" cy="1479.06" rx="29.02"
+                                ry="28.33" transform="translate(-537.67 971.24) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_102" data-name="102" cx="732.25" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(54.71 381.5) rotate(-30.28)"
+                            <ellipse id="_79" class="cornerCircle" data-name="79" cx="1525.69" cy="1378.02" rx="29.02"
+                                ry="28.33" transform="translate(-486.72 957.45) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_101" data-name="101" cx="643.97" cy="39.17" rx="29.02" ry="28.33"
-                                transform="translate(68.13 330.1) rotate(-30.28)"
+                            <ellipse id="_78" class="roadCircleR" data-name="78" cx="1614.88" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-448.21 995.3) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_100" data-name="100" cx="555.82" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(30.63 292.53) rotate(-30.28)"
+                            <ellipse id="_77" class="roadCircleL" data-name="77" cx="1437.99" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-472.35 906.1) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_99" data-name="99" cx="468.11" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(-7.31 255.33) rotate(-30.28)"
+                            <ellipse id="_76" class="cornerCircle" data-name="76" cx="1349.11" cy="1273.47" rx="29.02"
+                                ry="28.33" transform="translate(-458.09 854.13) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_98" data-name="98" cx="468.11" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(-60.78 269.8) rotate(-30.28)"
+                            <ellipse id="_75" class="roadCircleR" data-name="75" cx="1261.4" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-496.45 817.04) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_97" data-name="97" cx="908.36" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(78.74 470.32) rotate(-30.28)"
+                            <ellipse id="_74" class="cornerCircle" data-name="74" cx="1173.35" cy="1378.02" rx="29.02"
+                                ry="28.33" transform="translate(-534.8 779.77) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_96" data-name="96" cx="1261.4" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(126.92 648.35) rotate(-30.28)"
+                            <ellipse id="_73" class="roadCircleL" data-name="73" cx="1084.79" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-520.55 727.98) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_95" data-name="95" cx="1349.11" cy="39.17" rx="29.02" ry="28.33"
-                                transform="translate(164.36 685.69) rotate(-30.28)"
+                            <ellipse id="_72" class="roadCircleM" data-name="72" cx="1173.35" cy="1479.06" rx="29.02"
+                                ry="28.33" transform="translate(-585.75 793.56) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_94" data-name="94" cx="1437.99" cy="89.67" rx="29.02" ry="28.33"
-                                transform="translate(151.02 737.41) rotate(-30.28)"
+                            <ellipse id="_71" class="cornerCircle" data-name="71" cx="643.97" cy="1685.52" rx="29.02"
+                                ry="28.33" transform="translate(-762.12 554.77) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_93" data-name="93" cx="1525.69" cy="141.17" rx="29.02" ry="28.33"
-                                transform="translate(137.02 788.66) rotate(-30.28)"
+                            <ellipse id="_70" class="roadCircleL" data-name="70" cx="555.82" cy="1634.71" rx="29.02"
+                                ry="28.33" transform="translate(-748.52 503.38) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_92" data-name="92" cx="1525.69" cy="247.21" rx="29.02" ry="28.33"
-                                transform="translate(83.54 803.13) rotate(-30.28)"
+                            <ellipse id="_69" class="cornerCircle" data-name="69" cx="468.11" cy="1582.94" rx="29.02"
+                                ry="28.33" transform="translate(-734.38 452.08) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_91" data-name="91" cx="820.58" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-633.9 615.66) rotate(-30.28)"
+                            <ellipse id="_68" class="roadCircleM" data-name="68" cx="468.11" cy="1479.06" rx="29.02"
+                                ry="28.33" transform="translate(-682 437.91) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_90" data-name="90" cx="820.58" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-686.28 629.83) rotate(-30.28)"
+                            <ellipse id="_67" class="cornerCircle" data-name="67" cx="468.11" cy="1378.02" rx="29.02"
+                                ry="28.33" transform="translate(-631.04 424.12) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_89" data-name="89" cx="732.25" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-724.44 592.35) rotate(-30.28)"
+                            <ellipse id="_66" class="roadCircleR" data-name="66" cx="555.82" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-592.74 461.22) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_88" data-name="88" cx="908.36" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-700.41 681.16) rotate(-30.28)"
+                            <ellipse id="_65" class="cornerCircle" data-name="65" cx="643.97" cy="1273.47" rx="29.02"
+                                ry="28.33" transform="translate(-554.32 498.54) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_87" data-name="87" cx="996.58" cy="1685.52" rx="29.02" ry="28.33"
-                                transform="translate(-714 732.58) rotate(-30.28)"
+                            <ellipse id="_64" class="roadCircleL" data-name="64" cx="732.25" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-568.67 550.2) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_86" data-name="86" cx="1084.79" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-676.33 770.14) rotate(-30.28)"
+                            <ellipse id="_63" class="roadCircleM" data-name="63" cx="643.97" cy="1170.07" rx="29.02"
+                                ry="28.33" transform="translate(-502.18 484.43) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_85" data-name="85" cx="1173.35" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-638.14 807.73) rotate(-30.28)"
+                            <ellipse id="_62" class="cornerCircle" data-name="62" cx="643.97" cy="1068.76" rx="29.02"
+                                ry="28.33" transform="translate(-451.08 470.6) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_84" data-name="84" cx="1261.4" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-652.23 859.2) rotate(-30.28)"
+                            <ellipse id="_61" class="roadCircleR" data-name="61" cx="732.25" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-413.01 508.07) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_83" data-name="83" cx="1349.11" cy="1685.52" rx="29.02" ry="28.33"
-                                transform="translate(-665.89 910.37) rotate(-30.28)"
+                            <ellipse id="_60" class="cornerCircle" data-name="60" cx="820.58" cy="965.6" rx="29.02"
+                                ry="28.33" transform="translate(-374.96 545.59) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_82" data-name="82" cx="1437.99" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-628.13 948.25) rotate(-30.28)"
+                            <ellipse id="_59" class="roadCircleL" data-name="59" cx="555.82" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-437.09 419.1) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_81" data-name="81" cx="1525.69" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-590.06 985.41) rotate(-30.28)"
+                            <ellipse id="_58" class="cornerCircle" data-name="58" cx="468.11" cy="965.6" rx="29.02"
+                                ry="28.33" transform="translate(-423.06 367.84) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_80" data-name="80" cx="1525.69" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-537.67 971.24) rotate(-30.28)"
+                            <ellipse id="_57" class="roadCircleM" data-name="57" cx="820.58" cy="863.18" rx="29.02"
+                                ry="28.33" transform="translate(-323.31 531.61) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_79" data-name="79" cx="1525.69" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-486.72 957.45) rotate(-30.28)"
+                            <ellipse id="_56" class="cornerCircle" data-name="56" cx="820.58" cy="759.51" rx="29.02"
+                                ry="28.33" transform="translate(-271.03 517.46) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_78" data-name="78" cx="1614.88" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-448.21 995.3) rotate(-30.28)"
+                            <ellipse id="_55" class="roadCircleR" data-name="55" cx="908.36" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-232.97 554.67) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_77" data-name="77" cx="1437.99" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-472.35 906.1) rotate(-30.28)"
+                            <ellipse id="_54" class="roadCircleL" data-name="54" cx="732.25" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-257.01 465.86) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_76" data-name="76" cx="1349.11" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-458.09 854.13) rotate(-30.28)"
+                            <ellipse id="_53" class="cornerCircle" data-name="53" cx="996.58" cy="656.79" rx="29.02"
+                                ry="28.33" transform="translate(-195.22 592.2) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_75" data-name="75" cx="1261.4" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-496.45 817.04) rotate(-30.28)"
+                            <ellipse id="_52" class="roadCircleL" data-name="52" cx="1084.79" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-208.9 643.64) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_74" data-name="74" cx="1173.35" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-534.8 779.77) rotate(-30.28)"
+                            <ellipse id="_51" class="cornerCircle" data-name="51" cx="1173.35" cy="759.51" rx="29.02"
+                                ry="28.33" transform="translate(-222.89 695.36) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_73" data-name="73" cx="1084.79" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-520.55 727.98) rotate(-30.28)"
+                            <ellipse id="_50" class="roadCircleM" data-name="50" cx="1173.35" cy="863.18" rx="29.02"
+                                ry="28.33" transform="translate(-275.17 709.51) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_72" data-name="72" cx="1173.35" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-585.75 793.56) rotate(-30.28)"
+                            <ellipse id="_49" class="roadCircleR" data-name="49" cx="1261.4" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-184.8 732.71) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_71" data-name="71" cx="643.97" cy="1685.52" rx="29.02" ry="28.33"
-                                transform="translate(-762.12 554.77) rotate(-30.28)"
+                            <ellipse id="_48" class="cornerCircle" data-name="48" cx="1349.11" cy="656.79" rx="29.02"
+                                ry="28.33" transform="translate(-147.11 769.98) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_70" data-name="70" cx="555.82" cy="1634.71" rx="29.02" ry="28.33"
-                                transform="translate(-748.52 503.38) rotate(-30.28)"
+                            <ellipse id="_47" class="roadCircleL" data-name="47" cx="1437.99" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-160.7 821.76) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_69" data-name="69" cx="468.11" cy="1582.94" rx="29.02" ry="28.33"
-                                transform="translate(-734.38 452.08) rotate(-30.28)"
+                            <ellipse id="_46" class="cornerCircle" data-name="46" cx="1525.69" cy="759.51" rx="29.02"
+                                ry="28.33" transform="translate(-174.81 873.04) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_68" data-name="68" cx="468.11" cy="1479.06" rx="29.02" ry="28.33"
-                                transform="translate(-682 437.91) rotate(-30.28)"
+                            <ellipse id="_45" class="roadCircleM" data-name="45" cx="1525.69" cy="863.18" rx="29.02"
+                                ry="28.33" transform="translate(-227.09 887.19) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_67" data-name="67" cx="468.11" cy="1378.02" rx="29.02" ry="28.33"
-                                transform="translate(-631.04 424.12) rotate(-30.28)"
+                            <ellipse id="_44" class="cornerCircle" data-name="44" cx="1525.69" cy="965.6" rx="29.02"
+                                ry="28.33" transform="translate(-278.74 901.17) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_66" data-name="66" cx="555.82" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-592.74 461.22) rotate(-30.28)"
+                            <ellipse id="_43" class="roadCircleR" data-name="43" cx="1437.99" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-316.7 863.98) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_65" data-name="65" cx="643.97" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-554.32 498.54) rotate(-30.28)"
+                            <ellipse id="_42" class="roadCircleL" data-name="42" cx="1614.88" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-292.56 953.18) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_64" data-name="64" cx="732.25" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-568.67 550.2) rotate(-30.28)"
+                            <ellipse id="_41" class="cornerCircle" data-name="41" cx="1349.11" cy="1068.76" rx="29.02"
+                                ry="28.33" transform="translate(-354.86 826.2) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_63" data-name="63" cx="643.97" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-502.18 484.43) rotate(-30.28)"
+                            <ellipse id="_40" class="roadCircleM" data-name="40" cx="1349.11" cy="1170.07" rx="29.02"
+                                ry="28.33" transform="translate(-405.95 840.02) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_62" data-name="62" cx="643.97" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-451.08 470.6) rotate(-30.28)"
+                            <ellipse id="_39" class="roadCircleL" data-name="39" cx="1261.4" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-340.8 774.92) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_61" data-name="61" cx="732.25" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-413.01 508.07) rotate(-30.28)"
+                            <ellipse id="_38" class="cornerCircle" data-name="38" cx="1173.35" cy="965.6" rx="29.02"
+                                ry="28.33" transform="translate(-326.82 723.49) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_60" data-name="60" cx="820.58" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-374.96 545.59) rotate(-30.28)"
+                            <ellipse id="_37" class="roadCircleR" data-name="37" cx="1084.79" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-364.9 685.86) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_59" data-name="59" cx="555.82" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-437.09 419.1) rotate(-30.28)"
+                            <ellipse id="_36" class="cornerCircle" data-name="36" cx="996.58" cy="1068.76" rx="29.02"
+                                ry="28.33" transform="translate(-402.97 648.42) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_58" data-name="58" cx="468.11" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-423.06 367.84) rotate(-30.28)"
+                            <ellipse id="_35" class="roadCircleM" data-name="35" cx="996.58" cy="1170.07" rx="29.02"
+                                ry="28.33" transform="translate(-454.06 662.24) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_57" data-name="57" cx="820.58" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-323.31 531.61) rotate(-30.28)"
+                            <ellipse id="_34" class="roadCircleL" data-name="34" cx="908.36" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-388.98 596.89) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_56" data-name="56" cx="820.58" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-271.03 517.46) rotate(-30.28)"
+                            <ellipse id="_33" class="cornerCircle" data-name="33" cx="643.97" cy="656.79" rx="29.02"
+                                ry="28.33" transform="translate(-243.33 414.38) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_55" data-name="55" cx="908.36" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-232.97 554.67) rotate(-30.28)"
+                            <ellipse id="_32" class="roadCircleR" data-name="32" cx="555.82" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-281.08 376.88) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_54" data-name="54" cx="732.25" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-257.01 465.86) rotate(-30.28)"
+                            <ellipse id="_31" class="cornerCircle" data-name="31" cx="468.11" cy="759.51" rx="29.02"
+                                ry="28.33" transform="translate(-319.14 339.71) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_53" data-name="53" cx="996.58" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-195.22 592.2) rotate(-30.28)"
+                            <ellipse id="_30" class="roadCircleL" data-name="30" cx="379.8" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-305.11 288.12) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_52" data-name="52" cx="1084.79" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-208.9 643.64) rotate(-30.28)"
+                            <ellipse id="_29" class="cornerCircle" data-name="29" cx="291.71" cy="656.79" rx="29.02"
+                                ry="28.33" transform="translate(-291.41 236.74) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_51" data-name="51" cx="1173.35" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-222.89 695.36) rotate(-30.28)"
+                            <ellipse id="_28" class="roadCircleR" data-name="28" cx="203.44" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-329.17 199.18) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_50" data-name="50" cx="1173.35" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-275.17 709.51) rotate(-30.28)"
+                            <ellipse id="_27" class="cornerCircle" data-name="27" cx="116.08" cy="759.51" rx="29.02"
+                                ry="28.33" transform="translate(-367.18 162.19) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_49" data-name="49" cx="1261.4" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-184.8 732.71) rotate(-30.28)"
+                            <ellipse id="_26" class="roadCircleM" data-name="26" cx="116.08" cy="863.18" rx="29.02"
+                                ry="28.33" transform="translate(-419.46 176.33) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_48" data-name="48" cx="1349.11" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-147.11 769.98) rotate(-30.28)"
+                            <ellipse id="_25" class="cornerCircle" data-name="25" cx="116.08" cy="965.6" rx="29.02"
+                                ry="28.33" transform="translate(-471.1 190.31) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_47" data-name="47" cx="1437.99" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-160.7 821.76) rotate(-30.28)"
+                            <ellipse id="_24" class="roadCircleL" data-name="24" cx="203.44" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-485.18 241.4) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_46" data-name="46" cx="1525.69" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-174.81 873.04) rotate(-30.28)"
+                            <ellipse id="_23" class="cornerCircle" data-name="23" cx="291.71" cy="1068.76" rx="29.02"
+                                ry="28.33" transform="translate(-499.16 292.95) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_45" data-name="45" cx="1525.69" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-227.09 887.19) rotate(-30.28)"
+                            <ellipse id="_22" class="roadCircleR" data-name="22" cx="379.8" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-461.11 330.34) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_44" data-name="44" cx="1525.69" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-278.74 901.17) rotate(-30.28)"
+                            <ellipse id="_21" class="roadCircleM" data-name="21" cx="468.11" cy="863.18" rx="29.02"
+                                ry="28.33" transform="translate(-371.42 353.86) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_43" data-name="43" cx="1437.99" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-316.7 863.98) rotate(-30.28)"
+                            <ellipse id="_20" class="roadCircleM" data-name="20" cx="291.71" cy="1170.07" rx="29.02"
+                                ry="28.33" transform="translate(-550.25 306.78) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_42" data-name="42" cx="1614.88" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-292.56 953.18) rotate(-30.28)"
+                            <ellipse id="_19" class="cornerCircle" data-name="19" cx="291.71" cy="1273.47" rx="29.02"
+                                ry="28.33" transform="translate(-602.39 320.89) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_41" data-name="41" cx="1349.11" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-354.86 826.2) rotate(-30.28)"
+                            <ellipse id="_18" class="roadCircleL" data-name="18" cx="379.8" cy="1325.8" rx="29.02"
+                                ry="28.33" transform="translate(-616.76 372.46) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_40" data-name="40" cx="1349.11" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-405.95 840.02) rotate(-30.28)"
+                            <ellipse id="_17" class="cornerCircle" data-name="17" cx="1702.24" cy="1273.47" rx="29.02"
+                                ry="28.33" transform="translate(-409.9 1032.21) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_39" data-name="39" cx="1261.4" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-340.8 774.92) rotate(-30.28)"
+                            <ellipse id="_16" class="roadCircleM" data-name="16" cx="1702.24" cy="1170.07" rx="29.02"
+                                ry="28.33" transform="translate(-357.76 1018.1) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_38" data-name="38" cx="1173.35" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-326.82 723.49) rotate(-30.28)"
+                            <ellipse id="_15" class="cornerCircle" data-name="15" cx="1702.24" cy="1068.76" rx="29.02"
+                                ry="28.33" transform="translate(-306.67 1004.27) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_37" data-name="37" cx="1084.79" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-364.9 685.86) rotate(-30.28)"
+                            <ellipse id="_14" class="roadCircleR" data-name="14" cx="1790.61" cy="1017.15" rx="29.02"
+                                ry="28.33" transform="translate(-268.58 1041.8) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_36" data-name="36" cx="996.58" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-402.97 648.42) rotate(-30.28)"
+                            <ellipse id="_13" class="cornerCircle" data-name="13" cx="1879.59" cy="965.6" rx="29.02"
+                                ry="28.33" transform="translate(-230.44 1079.64) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_35" data-name="35" cx="996.58" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-454.06 662.24) rotate(-30.28)"
+                            <ellipse id="_12" class="roadCircleM" data-name="12" cx="1879.59" cy="863.18" rx="29.02"
+                                ry="28.33" transform="translate(-178.79 1065.66) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_34" data-name="34" cx="908.36" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-388.98 596.89) rotate(-30.28)"
+                            <ellipse id="_11" class="cornerCircle" data-name="11" cx="1879.59" cy="759.51" rx="29.02"
+                                ry="28.33" transform="translate(-126.51 1051.51) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_33" data-name="33" cx="643.97" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-243.33 414.38) rotate(-30.28)"
+                            <ellipse id="_10" class="roadCircleL" data-name="10" cx="1790.61" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-112.58 999.58) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_32" data-name="32" cx="555.82" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-281.08 376.88) rotate(-30.28)"
+                            <ellipse id="_9" class="cornerCircle" data-name="9" cx="1702.24" cy="656.79" rx="29.02"
+                                ry="28.33" transform="translate(-98.92 948.05) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_31" data-name="31" cx="468.11" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-319.14 339.71) rotate(-30.28)"
+                            <ellipse id="_8" class="roadCircleR" data-name="8" cx="1614.88" cy="707.79" rx="29.02"
+                                ry="28.33" transform="translate(-136.56 910.96) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_30" data-name="30" cx="379.8" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-305.11 288.12) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_29" data-name="29" cx="291.71" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-291.41 236.74) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_28" data-name="28" cx="203.44" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-329.17 199.18) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_27" data-name="27" cx="116.08" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-367.18 162.19) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_26" data-name="26" cx="116.08" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-419.46 176.33) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_25" data-name="25" cx="116.08" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-471.1 190.31) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_24" data-name="24" cx="203.44" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-485.18 241.4) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_23" data-name="23" cx="291.71" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-499.16 292.95) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_22" data-name="22" cx="379.8" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-461.11 330.34) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_21" data-name="21" cx="468.11" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-371.42 353.86) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_20" data-name="20" cx="291.71" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-550.25 306.78) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_19" data-name="19" cx="291.71" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-602.39 320.89) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_18" data-name="18" cx="379.8" cy="1325.8" rx="29.02" ry="28.33"
-                                transform="translate(-616.76 372.46) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_17" data-name="17" cx="1702.24" cy="1273.47" rx="29.02" ry="28.33"
-                                transform="translate(-409.9 1032.21) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_16" data-name="16" cx="1702.24" cy="1170.07" rx="29.02" ry="28.33"
-                                transform="translate(-357.76 1018.1) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_15" data-name="15" cx="1702.24" cy="1068.76" rx="29.02" ry="28.33"
-                                transform="translate(-306.67 1004.27) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_14" data-name="14" cx="1790.61" cy="1017.15" rx="29.02" ry="28.33"
-                                transform="translate(-268.58 1041.8) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_13" data-name="13" cx="1879.59" cy="965.6" rx="29.02" ry="28.33"
-                                transform="translate(-230.44 1079.64) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_12" data-name="12" cx="1879.59" cy="863.18" rx="29.02" ry="28.33"
-                                transform="translate(-178.79 1065.66) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_11" data-name="11" cx="1879.59" cy="759.51" rx="29.02" ry="28.33"
-                                transform="translate(-126.51 1051.51) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_10" data-name="10" cx="1790.61" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-112.58 999.58) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_9" data-name="9" cx="1702.24" cy="656.79" rx="29.02" ry="28.33"
-                                transform="translate(-98.92 948.05) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_8" data-name="8" cx="1614.88" cy="707.79" rx="29.02" ry="28.33"
-                                transform="translate(-136.56 910.96) rotate(-30.28)"
-                                style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_7" data-name="7" cx="291.71" cy="553.94" rx="29.02" ry="28.33"
+                            <ellipse id="_7" class="roadCircleM" data-name="7" cx="291.71" cy="553.94" rx="29.02" ry="28.33"
                                 transform="translate(-239.54 222.7) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_6" data-name="6" cx="291.71" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-187.61 208.65) rotate(-30.28)"
+                            <ellipse id="_6" class="cornerCircle" data-name="6" cx="291.71" cy="450.97" rx="29.02"
+                                ry="28.33" transform="translate(-187.61 208.65) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_5" data-name="5" cx="379.8" cy="399.2" rx="29.02" ry="28.33"
+                            <ellipse id="_5" class="roadCircleR" data-name="5" cx="379.8" cy="399.2" rx="29.02" ry="28.33"
                                 transform="translate(-149.48 246.01) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_4" data-name="4" cx="555.82" cy="399.2" rx="29.02" ry="28.33"
+                            <ellipse id="_4" class="roadCircleL" data-name="4" cx="555.82" cy="399.2" rx="29.02" ry="28.33"
                                 transform="translate(-125.46 334.77) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_3" data-name="3" cx="643.97" cy="450.97" rx="29.02" ry="28.33"
-                                transform="translate(-139.54 386.29) rotate(-30.28)"
+                            <ellipse id="_3" class="cornerCircle" data-name="3" cx="643.97" cy="450.97" rx="29.02"
+                                ry="28.33" transform="translate(-139.54 386.29) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_2" data-name="2" cx="468.11" cy="347.52" rx="29.02" ry="28.33"
-                                transform="translate(-111.37 283.49) rotate(-30.28)"
+                            <ellipse id="_2" class="cornerCircle" data-name="2" cx="468.11" cy="347.52" rx="29.02"
+                                ry="28.33" transform="translate(-111.37 283.49) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
-                            <ellipse id="_1" data-name="1" cx="643.97" cy="558.94" rx="29.02" ry="28.33"
+                            <ellipse id="_1" class="roadCircleM" data-name="1" cx="643.97" cy="558.94" rx="29.02" ry="28.33"
                                 transform="translate(-193.99 401.03) rotate(-30.28)"
                                 style="fill: #221f22; stroke-width: 0px;" />
                         </g>
@@ -4270,19 +4276,15 @@
                         <img class="dice" :src="'/images/dice/dieValue' + die1Value + '.svg'" alt="dice Number 1">
                         <img class="dice" :src="'/images/dice/dieValue' + die2Value + '.svg'" alt="dice Number 1">
                     </button>
-                    <button @click="getStatesProcess()">
-                        <h1>get States
-                        </h1>
-                    </button>
                 </section>
             </div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=2 :function="'inGame'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=2000 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem"></div>
             <div class="gridItem">
-                <PlayerBank :boardPosition=3 :function="'inGame'" :playerPositions="playerPositions"
+                <PlayerBank :boardPosition=3000 :function="'inGame'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors" :playedItems="playedItems"></PlayerBank>
             </div>
             <div class="gridItem"></div>
@@ -4310,29 +4312,22 @@ import PlayerBank from '@/components/PlayerBank.vue';
 import ChoosePlayerPositionBank from '@/components/ChoosePlayerPositionBank.vue';
 import City from '@/components/City.vue';
 import Road from '@/components/Road.vue';
-import Village from '@/components/Village.vue';
+import Settlement from '@/components/Settlement.vue';
+import BoardItem from '@/components/BoardItem.vue';
 
 ///////////////////////////////////// Variabeln ////////////////////////////////
 const id_session = useRoute().params.id;
 const title_session = useRoute().query.session_title;
-//const sessionData = ref([{}]);
 let allPlayerData = ref([]);
-//let playerPositions = ref([]);
 let colors = ref([])
 let playedItems = ref([]);
-let itemsOnBoard = ref([]);
 let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '' });
 let tempItemPositionCorrection = ref({ 'x': 0, 'y': 0 });
-
 let die1Value = ref(1);
 let die2Value = ref(1);
-
-let objectMousePosition = ref({ 'objectId': "" })
-
 let tempColor = ref('green');
+let boardItemWidth = ref(0);
 
-// Manuelle Variabeln
-let circleOnBoardRange = { 'first': 1, 'last': 145 };
 
 ///////////////////////////////////// Ende Variabeln ////////////////////////////////
 
@@ -4342,22 +4337,10 @@ const gridContainerPlayfield = ref(null)
 const boardPositionPopUpContainer = ref(null);
 const playfield = ref(null);
 const tempItem = ref(null);
-const tempItemCard = ref(null);
-const tempItemBuilding = ref(null);
 const developmentCard = ref(null);
 
 
 ///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
-
-
-
-///////////////////////////////////// Process ////////////////////////////////
-function getStatesProcess() {
-
-    console.log('this', playerPositions.value);
-
-}
-///////////////////////////////////// Ende Process ////////////////////////////////
 
 
 ///////////////////////////////////// Computed ////////////////////////////////
@@ -4410,6 +4393,13 @@ let playerIds = computed(() => {
     return activePlayerData.value.map(player => player.player_id);
 })
 
+// Array, welches alle Items enthält, die auf dem Spielfeld sind
+// --> Änderung von playedItems
+let itemsOnBoard = computed(() => {
+    if (playedItems.value.length === 0) return []
+    return playedItems.value.filter(item => item.position < 1000)
+})
+
 // Berechnung der Mausposition im absoluten Koordinatensystem
 // --> Änderung von mousePosition
 const topPos = computed(() => {
@@ -4432,13 +4422,9 @@ const leftPos = computed(() => {
 ///////////////////////////////////// Ende Computed ////////////////////////////////
 
 ///////////////////////////////////// ONMOUNT ////////////////////////////////
-
 onMounted(async () => {
     // Styling für GridContainer
     defineGridContainerSize();
-
-    // Initialisierung der EventListener auf dem Spielbrett
-    initializeBoardEventListener();
 
     // Alle Item-Typen aus der Datenbank holen
     fetchItemTypes();
@@ -4448,6 +4434,9 @@ onMounted(async () => {
 
     // Alle Player-Daten aus der Datenbank holen
     fetchPlayerData();
+
+    // Breite eines BoardItems berechnen
+    defineBoardItemWidth();
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
@@ -4497,6 +4486,14 @@ function trackMousePosition(event) {
     mousePosition.value.mouseXPosition = event.clientX;
     mousePosition.value.mouseYPosition = event.clientY;
 }
+
+// Funktion, welche die Breite eines BoardItems berechnet
+// --> onMounted
+function defineBoardItemWidth() {
+    boardItemWidth.value = document.querySelector('#_1').getBoundingClientRect().width;
+}
+
+
 
 ///////////////////////////////////// Ende Methoden ////////////////////////////////
 
@@ -4621,12 +4618,30 @@ const fetchRelItemPlayed = async (playerId) => {
 
 // Funktion, welche ein Element in die Bank einfügt
 // --> @fetchAddBankItem (handleMouseUp, wenn sich der Curser über einer HoverBank befindet)
-const fetchAddBankItem = async (tempPosition, tempIdItemType, tempOwnerIdPlayer) => {
+const fetchAddBankItem = async (tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation) => {
     try {
         const { data, error } = await supabase
             .from('rel_player_item_played')
-            .insert([{ owner_id_player: tempOwnerIdPlayer, id_item_type: tempIdItemType, position: tempPosition }])
+            .insert([{ owner_id_player: tempOwnerIdPlayer, id_item_type: tempIdItemType, position: tempPosition, rotation: tempRotation }])
 
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche ein Element in die Bank ändert
+// --> @fetchUpdateBankItem (handleMouseUp)
+const fetchUpdateBankItem = async (tempPosition, tempRotation, tempPlayerItemPlayedId) => {
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item_played')
+            .update({ position: tempPosition, rotation: tempRotation })
+            .eq('rel_player_item_played_id', tempPlayerItemPlayedId)
         if (error) {
             console.error('Fehler:', error);
         } else {
@@ -4677,7 +4692,7 @@ const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType) => {
 
 // Funktion, welche ein Element in die Bank löscht
 // --> @fetchAddBankItem (handleMouseUp, wenn sich der Curser über einer HoverBank befindet und eine ItemId vorhanden ist)
-const fetchDeleteRelTable = async (tempCurrentItemId) => {
+const fetchDeleteRelTable = async (tempCurrentItemId, refresh) => {
     try {
         const { data, error } = await supabase
             .from('rel_player_item_played')
@@ -4688,6 +4703,9 @@ const fetchDeleteRelTable = async (tempCurrentItemId) => {
             console.error('Fehler:', error);
         } else {
             console.log('Geklappt:5', data);
+            if (refresh) {
+                fetchPlayerData();
+            }
         }
     }
     catch (e) {
@@ -4704,31 +4722,12 @@ const fetchDeleteRelTable = async (tempCurrentItemId) => {
 ///////////////////////////////////// EventListener ////////////////////////////////
 // Eventlistener für Fenstergrössenänderung
 window.addEventListener('resize', defineGridContainerSize)
-
-// Eventlistener für Spielbrett, mouseenter und mouseleave
-// --> onMounted
-function initializeBoardEventListener() {
-    // for (let currentCircleId = circleOnBoardRange.first; currentCircleId <= circleOnBoardRange.last; currentCircleId++) {
-    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseover', () => {
-    //         store.commit('STOREsetCurrentHoveredObject', currentCircleId);
-    //     })
-    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchstart', () => {
-    //         store.commit('STOREsetCurrentHoveredObject', currentCircleId);
-    //     })
-    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('mouseout', () => {
-    //         store.commit('STOREresetCurrentHoveredObject');
-    //     })
-    //     playfield.value.querySelector('#_' + currentCircleId).addEventListener('touchend', () => {
-    //         store.commit('STOREresetCurrentHoveredObject');
-    //     })
-
-
-    // }
-}
+window.addEventListener('resize', defineBoardItemWidth)
 
 // Funktion, welche aufgerufen wird, sobald geklickt wird
 // --> @mousedown (gameBox)
 function handleMouseDown(event) {
+    console.log('down id: ', store.state.STOREcurrentSelectedItemId, 'down type: ', store.state.STOREcurrentSelectedItemType)
     const x = event.clientX;
     const y = event.clientY;
 
@@ -4752,11 +4751,8 @@ function handleMouseDown(event) {
         // Das verschobene Item wird aus der Relationstabelle gelöscht
         if (store.state.STOREcurrentSelectedItemId != null) {
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
-            console.log('tempCurrentItemId', tempCurrentItemId)
-            console.log('playedItem', playedItems.value)
             let tempPlayedItems = playedItems.value.filter(item => item.rel_player_item_played_id != tempCurrentItemId);
             playedItems.value = tempPlayedItems;
-            console.log('playedItem', playedItems.value)
 
             //fetchDeleteRelTable(tempCurrentItemId);
         }
@@ -4774,7 +4770,7 @@ function handleMouseDown(event) {
 
         // id für die korrekte BildSource wird gespeichert
         if (selectedElement.id === 'developmentCard') {
-            console.log('developementCard')
+            store.commit('STOREsetCurrentSelectedItemType', 'classic_back');
         } else {
             store.commit('STOREsetCurrentSelectedItemType', selectedElement.id);
         }
@@ -4788,7 +4784,7 @@ function handleMouseDown(event) {
         tempItem.value.style.display = "block";
     }
 
-    // Prüfung, ob ein Building unter dem Cursor liegt
+    // Prüfung, ob ein Building aus der Bank unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('building'))) {
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('building'));
         let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -4805,11 +4801,33 @@ function handleMouseDown(event) {
         // tempItem wird angezeigt
         tempItem.value.style.display = "block";
     }
+
+    // Prüfung, ob ein Building auf dem Spielfeld unter dem Cursor liegt
+    if (elementsUnderCurser.find(element => element.classList.contains('boardItem'))) {
+        let selectedElement = elementsUnderCurser.find(element => element.classList.contains('boardItem'));
+        tempColor.value = colors.value.find(color => color.color_id == (activePlayerData.value.find(player => player.player_id == selectedElement.dataset.ownerId)?.id_color))?.hex_code
+        let tempItemType = store.state.STOREitemTypes.find(item => item.item_type_id == (playedItems.value.find(item => item.rel_player_item_played_id == selectedElement.id)?.id_item_type))?.name
+
+        store.commit('STOREsetCurrentSelectedItemType', tempItemType);
+        store.commit('STOREsetCurrentSelectedItemId', selectedElement.id);
+        console.log('selectedElementid yess', selectedElement.id)
+
+        // Positionskorrektur für die korrekte Positionierung des temporären Items
+        tempItem.value.style.width = document.querySelector('.buildingContainer').offsetWidth + 'px';
+        tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
+        tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+
+        selectedElement.style.display = "none";
+        tempItem.value.style.display = "block";
+    }
+
 }
 
 // Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
 // --> @mouseup (gameBox)
 function handleMouseUp(event) {
+    console.log('up id: ', store.state.STOREcurrentSelectedItemId, 'up type: ', store.state.STOREcurrentSelectedItemType)
+
     if (store.state.STOREcurrentSelectedItemType === null) return;
 
     const x = event.clientX;
@@ -4820,40 +4838,112 @@ function handleMouseUp(event) {
 
     console.log(elementsUnderCurser);
 
+
     // Prüfung, ob man ein Item oder ein Building in der Hand hält
-    if (store.state.STOREcurrentSelectedItemType === 'village' || store.state.STOREcurrentSelectedItemType === 'city' || store.state.STOREcurrentSelectedItemType === 'road') {
+    if (store.state.STOREcurrentSelectedItemType === 'settlement' || store.state.STOREcurrentSelectedItemType === 'city') {
 
+        // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
+        if (elementsUnderCurser.find(element => element.classList.contains('cornerCircle')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('cornerCircle'))?.id.replace('_', ''))) == null) {
+            let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('cornerCircle'));
 
+            let tempPositionWithUnderscore = hoveredItem.id;
+            let tempPosition = tempPositionWithUnderscore.replace('_', '');
 
-
-
-
-
-    } else {
-        // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
-        if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop'))) {
-            let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
             let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
-            let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
 
-            if (store.state.STOREcurrentSelectedItemId != null) {
-                // Datenbank wird aktualisiert, das verschobene Item wird gelöscht
-                let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
-                fetchDeleteRelTable(tempCurrentItemId);
+            let tempOwnerIdPlayer = activePlayerData.value.find(player => player.id_color == colors.value.find(color => color.hex_code == tempColor.value)?.color_id)?.player_id;
+
+            let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
+
+            let tempRotation = 0;
+            if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
+                fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
+            } else {
+                fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
             }
 
-            // Datenbank wird aktualisiert, das Item wird in die Bank verschoben, wenn alle benötigten Daten vorhanden sind
-            fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer);
-
-        } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBankBottom'))) {
-            let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
-            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
-            let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
-
-            // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
-            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
+        } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBank')) && store.state.STOREcurrentSelectedItemId != null) {
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
-            fetchDeleteRelTable(tempCurrentItemId);
+            let refresh = true;
+
+            fetchDeleteRelTable(tempCurrentItemId, refresh);
+
+        } else {
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                fetchPlayerData();
+            }
+        }
+    } else if (store.state.STOREcurrentSelectedItemType === 'road') {
+        // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Mittig
+        if (elementsUnderCurser.find(element => element.classList.contains('roadCircleM')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleM'))?.id.replace('_', ''))) == null) {
+            let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('roadCircleM'));
+
+            let tempPositionWithUnderscore = hoveredItem.id;
+            let tempPosition = tempPositionWithUnderscore.replace('_', '');
+
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+
+            let tempOwnerIdPlayer = activePlayerData.value.find(player => player.id_color == colors.value.find(color => color.hex_code == tempColor.value)?.color_id)?.player_id;
+
+            let tempRotation = 90;
+
+            let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
+            if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
+                fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
+            } else {
+                fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+            }
+
+
+        }
+        // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Links
+        else if (elementsUnderCurser.find(element => element.classList.contains('roadCircleL')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleL'))?.id.replace('_', ''))) == null) {
+            let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('roadCircleL'));
+
+            let tempPositionWithUnderscore = hoveredItem.id;
+            let tempPosition = tempPositionWithUnderscore.replace('_', '');
+
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+
+            let tempOwnerIdPlayer = activePlayerData.value.find(player => player.id_color == colors.value.find(color => color.hex_code == tempColor.value)?.color_id)?.player_id;
+
+            let tempRotation = 30;
+
+
+            let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
+            if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
+                fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
+            } else {
+                fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+            }
+        }
+        // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Rechts
+        else if (elementsUnderCurser.find(element => element.classList.contains('roadCircleR')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleR'))?.id.replace('_', ''))) == null) {
+            let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('roadCircleR'));
+
+            let tempPositionWithUnderscore = hoveredItem.id;
+            let tempPosition = tempPositionWithUnderscore.replace('_', '');
+
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+
+            let tempOwnerIdPlayer = activePlayerData.value.find(player => player.id_color == colors.value.find(color => color.hex_code == tempColor.value)?.color_id)?.player_id;
+
+            let tempRotation = -30;
+
+
+            let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
+            if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
+                fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
+            } else {
+                fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+            }
+        }
+        else if (elementsUnderCurser.find(element => element.classList.contains('hoverBank')) && store.state.STOREcurrentSelectedItemId != null) {
+            let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+            let refresh = true;
+
+            fetchDeleteRelTable(tempCurrentItemId, refresh);
+
         }
         else {
             if (store.state.STOREcurrentSelectedItemId != null) {
@@ -4861,6 +4951,68 @@ function handleMouseUp(event) {
             }
         }
     }
+    else {
+        // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
+        if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop')) && store.state.STOREcurrentSelectedItemType != 'classic_back') {
+            let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+            let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+            let tempRotation = 0;
+
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                // Datenbank wird aktualisiert, das verschobene Item wird gelöscht
+                let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+                let refresh = false;
+                fetchDeleteRelTable(tempCurrentItemId, refresh);
+            }
+
+            // Datenbank wird aktualisiert, das Item wird in die Bank verschoben, wenn alle benötigten Daten vorhanden sind
+            fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+
+        } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBankBottom'))) {
+            let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
+
+            let tempIdItemType = '';
+
+            if(store.state.STOREcurrentSelectedItemType === 'classic_back') {
+                let developmentItem = ['knight', 'road_building', 'year_of_plenty', 'monopoly', 'victory_point'];
+                let tempItemType = developmentItem[Math.floor(Math.random() * developmentItem.length)];
+
+
+                tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === tempItemType)?.item_type_id;
+            } else{
+                tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+
+            }
+
+
+
+            let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
+
+            // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
+            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+                let refresh = false;
+                fetchDeleteRelTable(tempCurrentItemId, refresh);
+            }
+        }
+
+        else if (elementsUnderCurser.find(element => element.classList.contains('drawPileCard')) && store.state.STOREcurrentSelectedItemId != null) {
+            let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
+            let refresh = true;
+
+            fetchDeleteRelTable(tempCurrentItemId, refresh);
+
+        }
+        else {
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                fetchPlayerData();
+            }
+        }
+    }
+    console.log('up2 id: ', store.state.STOREcurrentSelectedItemId, 'up2 type: ', store.state.STOREcurrentSelectedItemType)
+
     tempItem.value.style.display = "none";
     store.commit('STOREresetCurrentSelectedItemType');
     store.commit('STOREresetCurrentSelectedItemId');
@@ -4890,14 +5042,7 @@ supabase
             }
         });
     })
-    // .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
-    //     playerIds.value.forEach(player_id => {
-    //         if (payload.old.owner_id_player == player_id) {
-    //             fetchPlayerData();
-    //             console.log('Eigener Spieler hat was geändert DELETE');
-    //         }
-    //     });
-    // })
+
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rel_player_item_played' }, (payload) => {
         playerIds.value.forEach(player_id => {
             if (payload.new.owner_id_player == player_id) {
@@ -4927,6 +5072,7 @@ supabase
 
 /* Playfield styling ****************/
 #playfield {
+    padding: 5px;
     height: 100%;
     width: 100%;
 }
@@ -4997,583 +5143,17 @@ supabase
     pointer-events: none;
 }
 
+#boardItems {
+    position: absolute;
+    z-index: 15;
+}
+
+.boardItemContainer {
+    position: absolute;
+    z-index: 15;
+}
+
 #positionsBackground {
     opacity: 0;
 }
 </style>
-<!--// function defineMargin(player) {
-//     switch (player) {
-//         case 'player1':
-//             if (itemArrayPlayer1.value.length > 12) {
-//                 return '0 ' + ((((((0.8 * screenSize.value.windowWidth) - (((0.8 * screenSize.value.windowWidth) / 14) * (itemArrayPlayer1.value.length + 1))) / itemArrayPlayer1.value.length) / 2) - 5)) + 'px';
-//             }
-//         case 'player2':
-//             if (itemArrayPlayer2.value.length > 6) {
-//                 return ((((((screenSize.value.windowHeight - (screenSize.value.windowWidth * 0.2)) - (((0.8 * screenSize.value.windowHeight) / 9) * (itemArrayPlayer2.value.length + 1))) / itemArrayPlayer2.value.length) / 2) - 5)) + 'px 0';
-//             }
-//         case 'player3':
-//             if (itemArrayPlayer3.value.length > 12) {
-//                 return '0 ' + ((((((0.8 * screenSize.value.windowWidth) - (((0.8 * screenSize.value.windowWidth) / 14) * (itemArrayPlayer3.value.length + 1))) / itemArrayPlayer3.value.length) / 2) - 5)) + 'px';
-//             }
-//         case 'player4':
-//             if (itemArrayPlayer4.value.length > 6) {
-//                 return ((((((screenSize.value.windowHeight - (screenSize.value.windowWidth * 0.2)) - (((0.8 * screenSize.value.windowHeight) / 9) * (itemArrayPlayer4.value.length + 1))) / itemArrayPlayer4.value.length) / 2) - 5)) + 'px 0';
-//             }
-//     }
-// }
-
-// function itemToBank(position) {
-//     console.log('itemToBank')
-//     // Falls das Aktuell ausgewählte item bereits existiert (eine Nummer ist), wird es in die Bank verschoben
-//     // Falls das Aktuell ausgewählte item noch nicht existiert = man vom Stapel eines gezogen hat (ein String ist), wird es neu erstellt
-//     if (currentSelectedMainItem.value != null && !isNaN(currentSelectedMainItem.value)) {
-//         fetchUpdateItemPosition(position)
-//     } else if (currentSelectedMainItem.value != null && isNaN(currentSelectedMainItem.value)) {
-//         let tempItemId = item_types.value.find(item => item.name == currentSelectedMainItem.value).item_type_id;
-//         let tempOwnerId = playerNameIds.value.find(item => item.name == playerPositions.value[position]).id;
-
-//         fetchChangeRelPlayerItemPlayed(position, tempItemId, tempOwnerId);
-//     }
-// }
-
-// In Relationstabelle vom MainDevice (rel_player_item_played) wird die Karte hinzugefügt
-// const fetchChangeRelPlayerItemPlayed = async (position, itemType, tempOwnerId) => {
-//     console.log('ich werde zu oft ausgeführt')
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item_played')
-//             .insert([{ owner_id_player: tempOwnerId, id_item_type: itemType, position: position }])
-
-//         if (error) {
-//             console.error('Fehler:', error);
-//         } else {
-//             console.log('Geklappt: 4', data);
-
-//         }
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-
-// function itemToSideDevice(position) {
-//     console.log('itemToSideDevice')
-
-//     if (currentSelectedMainItem.value != null && isNaN(currentSelectedMainItem.value)) {
-
-//         let playerId = itemDistribution.value.find(item => item.position == position)?.playerId;
-//         console.log(playerId);
-
-//         if (playerId != null) {
-//             fetchChangeRelTable(playerId, currentSelectedMainItem.value)
-//         }
-
-//     }
-// }
-
-
-// fetch um den Amount eines Items bei dem entsprechenden Spieler zu ändern.
-// const fetchChangeRelTable = async (playerId, item) => {
-//     try {
-//         const { data, error } = await supabase
-//             .from('item_type')
-//             .select('item_type_id')
-//             .eq('name', item)
-
-//         if (error) {
-//             console.error('Fehler:', error);
-//         } else {
-//             console.log('Geklappt: 1', data);
-//             item = data[0].item_type_id;
-//         }
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-
-//     let tempAmount = 0;
-
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item')
-//             .select('amount')
-//             .eq('owner_id_player', playerId)
-//             .eq('id_item_type', item)
-
-//         if (error) {
-//             console.error('Fehler:', error);
-//         } else {
-//             console.log('Geklappt: 2', data);
-//             tempAmount = data[0].amount;
-//         }
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item')
-//             .update({ amount: tempAmount + 1 })
-//             .eq('owner_id_player', playerId)
-//             .eq('id_item_type', item)
-
-//         if (error) {
-//             console.error('Fehler:', error);
-//         } else {
-//             console.log('Geklappt:3', data);
-//         }
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-
-// function rollDice() {
-//     die1.value = Math.floor(Math.random() * 6) + 1;
-//     die2.value = Math.floor(Math.random() * 6) + 1;
-//     console.log(playerPositions.value, playerNameIds.value);
-//     // Funktion, welche alle Variabeln in console.log ausgibt
-
-//     variables();
-// }
-
-
-// function drawCard(itemType) {
-
-//     if (itemType == 'developmentCard') {
-//         let developmentItem = ['knight', 'road_building', 'year_of_plenty', 'monopoly', 'victory_point'];
-//         itemType = developmentItem[Math.floor(Math.random() * developmentItem.length)];
-//     }
-
-//     currentSelectedMainItem.value = itemType;
-//     console.log(currentSelectedMainItem.value);
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////// FUNKTIONEN ////////////////////////////////
-
-
-///////////////////////////////////// FETCH-FUNKTIONEN ////////////////////////////////
-
-
-
-
-
-// Karte ziehen, bzw Amount erhöhen. Funktion wird ausgeführt, sobald auf einen Nachziehstapel geklickt wird (Funktion: drawCard).
-// const fetchChangeRelPlayerItem = async (itemId, drawingPlayer) => {
-
-//     let tempAmount = 0;
-
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item')
-//             .select('amount')
-//             .eq('owner_id_player', drawingPlayer)
-//             .eq('id_item_type', itemId)
-
-//         if (error) {
-//             console.error('Fehler:', error);
-//         } else {
-//             console.log('Geklappt: 2', data);
-//             tempAmount = data[0].amount;
-//             console.log(tempAmount);
-//         }
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item')
-//             .update({ amount: tempAmount + 1 })
-//             .eq('owner_id_player', drawingPlayer)
-//             .eq('id_item_type', itemId)
-
-//         if (error) {
-//             console.error('Fehler:', error);
-//         } else {
-//             console.log('Geklappt:3', data);
-//         }
-//     }
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-
-// function separateItemArray() {
-//     // Die verschiedenen Items werden je nach Spieler in einzelnen Arrays gespeichert
-//     itemArrayPlayer1.value = itemArray.value.filter(item => item.position == 1);
-//     itemArrayPlayer2.value = itemArray.value.filter(item => item.position == 2);
-//     itemArrayPlayer3.value = itemArray.value.filter(item => item.position == 3);
-//     itemArrayPlayer4.value = itemArray.value.filter(item => item.position == 4);
-
-//     // Die Umrechnungsliste für die Positionen wird erstellt
-//     definePositionConversion()
-// }
-
-// function definePositionConversion() {
-//     for (let i = itemIdRange.first; i <= itemIdRange.last; i++) {
-//         let tempCircleId = '_' + i;
-//         let tempCircle = playfield.value.querySelector('#' + tempCircleId);
-
-//         let circleXPosition = (tempCircle.getBoundingClientRect().x) + (tempCircle.getBoundingClientRect().width / 2);
-//         let circleYPosition = (tempCircle.getBoundingClientRect().y) + (tempCircle.getBoundingClientRect().height / 2);
-
-//         positionConversionObject.value[tempCircleId] = {
-//             xPosition: circleXPosition,
-//             yPosition: circleYPosition
-//         }
-
-//         // Dem Circle wird ein Eventlistener hinzugefügt
-//         initializeEventListener(i)
-//     }
-
-//     // Die in der Mitte liegenden Items werden in einem Array gespeichert
-//     let tempItemsOnBoard = itemArray.value.filter(item => item.position > 9);
-
-//     // Anhand der Positionen werden die echten Positionen der Elemente im Array mitgespeichert
-//     itemsOnBoard.value = [];
-//     tempItemsOnBoard.forEach(tempItem => {
-//         itemsOnBoard.value.push({
-//             rel_player_item_played_id: tempItem.rel_player_item_played_id,
-//             owner_id_player: tempItem.owner_id_player,
-//             id_item_type: tempItem.id_item_type,
-//             position: calculatePosition(tempItem.position)
-//         })
-//     });
-
-//     // ENDE VON ONMOUNT
-//     //separateItemArray();
-
-// }
-
-// function calculatePosition(tempPosition) {
-//     return positionConversionObject.value['_' + tempPosition];
-// }
-// supabase in realtime updaten
-//
-// supabase
-//     .channel('player')
-//     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'player' }, (payload) => {
-
-//         console.log(payload)
-
-//         if (payload.new.id_session == id_session) {
-//             fetchPlayerData()
-//             console.log('Isch was passiert');
-//         }
-
-//     })
-//     .subscribe()
-
-
-
-////////////////////////////////////// Interaktion GameBox ////////////////////////////
-
-
-
-// Funktion wird ausgeführt, sobald sich die Maus auf der GameBox bewegt
-// function trackMousePosition(event) {
-
-//     // Die Mausposition wird in das Array mousePosition gespeichert
-
-//     mousePosition.value.mouseXPosition = event.clientX;
-//     mousePosition.value.mouseYPosition = event.clientY;
-//     // mousePosition.value.relMouseXPosition = (event.clientX / screenSize.value.windowWidth) * 100;
-//     // mousePosition.value.relMouseYPosition = (event.clientY / screenSize.value.windowHeight) * 100;
-
-
-// }
-
-///////////////////////////////////// EventListener ////////////////////////////////
-// Eventlistener für die Fenstergrösse
-// window.addEventListener('resize', handleWindowResize)
-
-
-// function initializeEventListener(circleId) {
-//     if (!eventListenerArray.value[circleId]) {
-//         document.querySelector('#_' + circleId).addEventListener('click', (event) => {
-//             console.log('gotClicked')
-//             if (currentSelectedMainItem.value != null) {
-//                 let croppedPosition = event.target.id.replace('_', '');
-//                 fetchUpdateItemPosition(croppedPosition)
-//                 console.log('controll 1')
-//             }
-//         })
-//     }
-//     eventListenerArray.value[circleId] = true;
-// }
-
-// Funktion, welche die Position eines Items auf dem Spielfeld aktualisiert
-// const fetchUpdateItemPosition = async (position) => {
-//     console.log('controll 2')
-//     try {
-//         const { data, error } = await supabase
-//             .from('rel_player_item_played')
-//             .update({ position })
-//             .eq('rel_player_item_played_id', currentSelectedMainItem.value)
-//         if (error) {
-//             console.error('Fehler (RelData):', error);
-//         } else {
-//             //console.log('Geklappt (RelData):', data);
-//         }
-//     }
-
-//     catch (e) {
-//         console.error('CatchFehler:', e)
-//     }
-// }
-
-
-
-// function sendCardVisualFeedbackMain(playerNumber, actionType) {
-//     let playerColor = 'red';
-//     if (actionType) {
-//         switch (playerNumber) {
-//             case 1:
-//                 document.querySelector('#hoverToSideDevicePlayer1').style.background = 'linear-gradient(to bottom,' + playerColor + ' 0%,  transparent 100%)';
-//                 break;
-//             case 2:
-//                 document.querySelector('#hoverToSideDevicePlayer2').style.background = 'linear-gradient(to left,' + playerColor + ' 0%,  transparent 100%)';
-//                 break;
-//             case 3:
-//                 document.querySelector('#hoverToSideDevicePlayer3').style.background = 'linear-gradient(to top,' + playerColor + ' 0%,  transparent 100%)';
-//                 break;
-//             case 4:
-//                 document.querySelector('#hoverToSideDevicePlayer4').style.background = 'linear-gradient(to right,' + playerColor + ' 0%,  transparent 100%)';
-//                 break;
-//         }
-//     } else {
-//         switch (playerNumber) {
-//             case 1:
-//                 document.querySelector('#hoverToSideDevicePlayer1').style.background = 'transparent';
-//                 break;
-//             case 2:
-//                 document.querySelector('#hoverToSideDevicePlayer2').style.background = 'transparent';
-//                 break;
-//             case 3:
-//                 document.querySelector('#hoverToSideDevicePlayer3').style.background = 'transparent';
-//                 break;
-//             case 4:
-//                 document.querySelector('#hoverToSideDevicePlayer4').style.background = 'transparent';
-//                 break;
-//         }
-//     }
-// }
-
-
-
-
-
-
-
-/**************** Dies */
-
-
-
-
-
-
-
-
-/* #gameBox {
-    z-index: 10;
-    position: absolute;
-    user-select: none;
-    height: 100vh;
-    width: 100vw;
-} */
-
-
-
-
-/* .chooseTop {
-    flex-direction: column-reverse;
-} */
-
-/* #chooseBoxTop,
-#personalEdgeTop {
-    transform: rotate(180deg);
-    flex-shrink: 0;
-
-} */
-
-/* .chooseRight {
-    flex-direction: row;
-} */
-
-/* #chooseBoxRight,
-#personalEdgeRight {
-    transform: rotate(270deg);
-    flex-shrink: 0;
-
-} */
-
-/* .chooseBottom {
-    flex-direction: column;
-} */
-/* 
-#chooseBoxBottom,
-#personalEdgeBottom {
-    transform: rotate(0deg);
-    flex-shrink: 0;
-
-} */
-/* 
-.chooseLeft {
-    flex-direction: row-reverse;
-} */
-
-/* #chooseBoxLeft,
-#personalEdgeLeft {
-    transform: rotate(90deg);
-    flex-shrink: 0;
-
-} */
-
-/* 
-#chooseBox2 {
-    transform: rotate(270deg);
-    background-color: red;
-} */
-
-/* #player1Field {
-    height: 100%;
-    flex-direction: row;
-    background-color: azure;
-    border: 1px solid black;
-
-} */
-
-/* #player2Field {
-    width: 100%;
-    flex-direction: column;
-    background-color: azure;
-    border: 1px solid black;
-} */
-
-/* #player3Field {
-    height: 100%;
-    flex-direction: row;
-    background-color: azure;
-    border: 1px solid black;
-} */
-
-
-/* #player4Field {
-    width: 100%;
-    flex-direction: column;
-    background-color: azure;
-    border: 1px solid black;
-} */
-
-
-/* .gridEdge {
-    background-color: blueviolet;
-} */
-
-
-/* 
-#items {
-    position: absolute;
-} */
-
-/* .mainItem {
-    background-color: red;
-    flex-shrink: 0;
-    border: 1px solid black;
-} */
-
-/* .bottom,
-.top {
-    height: 100%;
-} */
-
-/* .right,
-.left {
-    width: 100%;
-} */
-/*************** */
-/* .hoverBank {
-    position: absolute;
-    z-index: 20;
-    background-color: red;
-    background-color: transparent;
-}
-
-#hoverBankPlayer1 {
-    top: 0;
-    left: 10vw;
-}
-#hoverBankPlayer2 {
-    top: 20vh;
-    left: 95vw;
-} */
-/*************** */
-/* .hoverBanksTopBottom {
-    position: absolute;
-    z-index: 20;
-    background-color: transparent;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-} */
-
-/* .hoverBanksLeftRight {
-    position: absolute;
-    z-index: 20;
-    background-color: transparent;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-} */
-
-/* #hoverToSideDevicePlayer1,
-#hoverToSideDevicePlayer3,
-#hoverToBankPlayer1,
-#hoverToBankPlayer3 {
-    height: 50%;
-    width: 100%;
-    position: relative;
-} */
-
-/* #hoverToSideDevicePlayer2,
-#hoverToSideDevicePlayer4,
-#hoverToBankPlayer2,
-#hoverToBankPlayer4 {
-    height: 100%;
-    width: 50%;
-    position: relative;
-} */
-
-
-
-/* DRAWPILE */
-
-/* .drawPileCard {
-    background-color: palevioletred;
-    height: 60px;
-    width: 100px;
-    margin: 15px;
-}*/e> -->

@@ -20,25 +20,7 @@ const props = defineProps({
     currentPositionPlayerColor: String,
     currentPositionPlayerId: Number
 })
-// Methoden
 
-
-// Funktion, welche das Objekt, auf dem man hovered, in den Store schreibt
-// -->@mouseover in hoverBankTop und hoverBankBottom
-function setMouseOver(position) {
-    if (position === 'top') {
-        store.commit('STOREsetcurrentHoveredObject', props.currentPositionPlayerId + 'top')
-    } else if (position === 'bottom') {
-        store.commit('STOREsetcurrentHoveredObject', props.currentPositionPlayerId + 'bottom')
-    }
-
-}
-
-// Funktion, welche das hoveredObject im Store leert
-// -->@mouseout in hoverBankTop und hoverBankBottom
-function setMouseOut() {
-    store.commit('STOREresetcurrentHoveredObject')
-}
 </script>
 
 

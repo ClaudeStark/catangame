@@ -5,19 +5,21 @@ const store = createStore({
   state() {
     return {
       STOREallPlayerData: [],
-      STOREitemTypes:[],
+      STOREitemTypes: [],
       STOREcurrentSelectedItemType: null,
       STOREcurrentSelectedItemId: null,
-      STOREcurrentHoveredObject: null
+      STOREplayerStats:[],
+      STOREdraggedCard: null
     }
   },
   mutations: {
     STOREsetAllPlayerData(state, data) {
       state.STOREallPlayerData = data
     },
+    STOREsetPlayerStats(state, data) {
+      state.STOREplayerStats = data
+    },
     STOREresetPlayerPosition(state, boardPosition) {
-      console.log(state)
-
       state.STOREallPlayerData.forEach(player => {
         if (player.board_position === boardPosition) {
           player.board_position = null;
@@ -25,8 +27,6 @@ const store = createStore({
       })
     },
     STOREsetPlayerPosition(state, { boardPosition, playerName }) {
-      console.log(state)
-
       state.STOREallPlayerData.forEach(player => {
         if (player.name === playerName) {
           player.board_position = boardPosition;
@@ -35,19 +35,10 @@ const store = createStore({
     },
     STOREsetCurrentSelectedItemType(state, data) {
       state.STOREcurrentSelectedItemType = data;
-      console.log('selected', state.STOREcurrentSelectedItemType);
-    },
-    STOREsetCurrentHoveredObject(state, data) {
-      state.STOREcurrentHoveredObject = data;
-      // console.log('hovered', state.STOREcurrentHoveredObject);
     },
     STOREresetCurrentSelectedItemType(state) {
       state.STOREcurrentSelectedItemType = null;
-      // console.log('selectedReset', state.STOREcurrentSelectedItem);
 
-    }, STOREresetCurrentHoveredObject(state) {
-      state.STOREcurrentHoveredObject = null;
-      // console.log('hovered', state.STOREcurrentHoveredObject);
     },
     STOREsetItemTypes(state, data) {
       state.STOREitemTypes = data;
@@ -57,7 +48,10 @@ const store = createStore({
     },
     STOREresetCurrentSelectedItemId(state) {
       state.STOREcurrentSelectedItemId = null;
-    }
+    },
+    STOREsetDraggedCard(state, data) {
+      state.STOREdraggedCard = data;
+    },
   }
 })
 

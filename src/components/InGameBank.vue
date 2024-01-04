@@ -10,7 +10,7 @@
                             :style="{ 'fill': props.currentPositionPlayerColor, 'stroke-width': '0px' }" />
                     </g>
                 </svg></div>
-            <div class="buildingContainer"><svg class="building" id="village" data-name="Ebene 2"
+            <div class="buildingContainer"><svg class="building" id="settlement" data-name="Ebene 2"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.08 63">
                     <g data-name="Layer 1">
                         <path
@@ -67,7 +67,10 @@ const props = defineProps({
 
 // Computed
 let ownPlayedItems = computed(() => {
-    return props.playedItems.filter(item => item.owner_id_player === (props.playerPositions.find(player => player.boardPosition === props.boardPosition)?.playerId))
+    return props.playedItems.filter(item => {
+        const playerPosition = props.playerPositions.find(player => player.boardPosition === props.boardPosition);
+        return item.owner_id_player === (playerPosition?.playerId) && item.position >= 1000;
+    });
 })
 
 // OnMounted
@@ -79,9 +82,9 @@ onMounted(() => {
 
 // Methoden
 function definePlayerBankSize() {
-
-    // Generelle CSS Anpassungen
-    buildings.value.style.width = ((window.innerWidth * 0.1) / 3) + 'px'
+    if(buildings.value != null) {
+        buildings.value.style.width = ((window.innerWidth * 0.1) / 3) + 'px'
+    }
 }
 
 // Event Listeners
@@ -138,7 +141,7 @@ window.addEventListener('resize', () => {
 
 .hoverBank {
     position: absolute;
-    z-index: 20;
+    z-index: 30;
     height: 100%;
     width: 100%;
     display: flex;

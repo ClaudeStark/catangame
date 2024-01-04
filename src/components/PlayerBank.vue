@@ -78,22 +78,22 @@ function definePlayerBankSize() {
 
     // Playerbanks werden je nach Standort auf dem Spielfeld angepasst
     switch (props.boardPosition) {
-        case 1:
+        case 1000:
             playerBankRefStyle.height = playerBankHeight + 'px'
             playerBankRefStyle.width = playerBankWidth + 'px'
             playerBankRefStyle.rotate = '180deg'
             break;
-        case 2:
+        case 2000:
             playerBankRefStyle.height = playerBankHeight + 'px'
             playerBankRefStyle.width = playerBankWidth + 'px'
             playerBankRefStyle.rotate = '270deg'
             break;
-        case 3:
+        case 3000:
             playerBankRefStyle.height = playerBankHeight + 'px'
             playerBankRefStyle.width = playerBankWidth + 'px'
-            playerBankRefStyle.rotate = '0'
+            playerBankRefStyle.rotate = '0deg'
             break;
-        case 4:
+        case 4000:
             playerBankRefStyle.height = playerBankHeight + 'px'
             playerBankRefStyle.width = playerBankWidth + 'px'
             playerBankRefStyle.rotate = '90deg'
