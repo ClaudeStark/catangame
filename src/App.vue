@@ -1,8 +1,11 @@
 <template>
-  <nav v-if="showNavigation()">
-    <router-link to="/">Catan</router-link> |
-    <router-link to="/session">Session</router-link>
-  </nav>
+  <div class="navigationBackground">
+    <nav v-if="showNavigation()">
+      <router-link to="/" class="menuText">Catan</router-link> 
+      <router-link to="/rules" class="menuText">Spielablauf</router-link> 
+      <router-link to="/session" class="menuText">Session</router-link>
+    </nav>
+  </div>
   <router-view />
 </template>
 
@@ -10,6 +13,7 @@
 
 // Router importieren
 import { useRoute } from 'vue-router'
+
 
 const showNavigation = () => {
   return useRoute().meta.showNavigation;
@@ -19,6 +23,20 @@ const showNavigation = () => {
 </script>
 
 <style>
+.navigationBackground {
+  width: 100%;
+
+  background-color: #1d4b3c;
+}
+
+.menuText {
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+
+  margin-right: 1em;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -31,15 +49,16 @@ body {
   margin: 0;
   padding: 0;
   place-items: flex-start;
+  overflow: hidden;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Work Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   align-items: center;
-  color: #2c3e50;
+  color: #1d4b3c;
 
   margin: 0;
   padding: 0;
@@ -61,12 +80,18 @@ h2 {
 
 button {
   padding: 10px 16px;
-  background-color: #42b983;
+  background-color: #fadb42;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  transition: ease-in-out 0.4s;
+}
+
+button:hover {
+  background-color: #4B6F2B;
+  transition: ease-in-out 0.4s;
 }
 
 input {
@@ -83,11 +108,17 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #fff;
+  transition: ease-in-out 0.4s;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #fadb42;
+  transition: ease-in-out 0.4s;
 }
 
+nav a:hover {
+  color: #A7C836;
+  transition: ease-in-out 0.4s;
+}
 </style>

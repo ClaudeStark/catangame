@@ -4,6 +4,7 @@ import SessionView from '../views/SessionView.vue'
 import MainDeviceView from '../views/MainDeviceView.vue'
 import SideDeviceView from '../views/SideDeviceView.vue'
 import WaitingRoomView from '../views/WaitingRoomView.vue'
+import RulesView from '../views/RulesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,14 @@ const router = createRouter({
       component: WaitingRoomView,
       meta: {
         showNavigation: false
+      }
+    },
+    {
+      path: '/rules',
+      name: 'rules',
+      component: RulesView,
+      meta: {
+        showNavigation: true
       }
     }
 

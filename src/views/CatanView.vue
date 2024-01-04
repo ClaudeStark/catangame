@@ -33,9 +33,10 @@ function goToSession() {
 h1 {
     font-weight: 700;
     margin-bottom: 0rem;
-    font-family: 'Raleway', monospace;
+    font-family: 'Raleway', sans-serif;
     text-transform: uppercase;
     color: #fadb42;
+    margin-top: -0.5em;
 }
 
 h2 {
