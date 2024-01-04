@@ -234,7 +234,6 @@
                 Spieler an der Reihe sein und in seinem Zug mindestens <b>10 Siegpunkte</b> erreichen/besitzen.</p><br>
 
             <button id="btn" @click="goToSession">Los geht's!</button><br>
-            <span></span>
         </div>
     </div>
 </template>
@@ -251,15 +250,13 @@ function goToSession() {
 <style scoped>
 .rules {
     display: flex;
-    max-height: 88vh;
-    width: 100%;
     padding: 1.5em;
     align-items: center;
     flex-direction: column;
     background-color: #1d4b3c;
-    overflow-y: auto;
     padding-right: 17px;
     box-sizing: content-box;
+    flex:1;
 }
 
 .content {
@@ -335,9 +332,9 @@ ul {
     padding: 1rem 2rem;
     background-color: white;
     border-radius: 100px;
-    margin-top: 1rem;
+    margin-top: 2rem;
     transition: ease-in-out 0.4s;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 #btn:hover {

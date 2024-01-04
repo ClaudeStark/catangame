@@ -34,6 +34,7 @@ const showNavigation = () => {
 
 .navigationBackground {
   width: 100%;
+  height: 8%;
 
   background-color: #1d4b3c;
 }
@@ -51,7 +52,6 @@ body {
   margin: 0;
   padding: 0;
   place-items: flex-start;
-  /* overflow: hidden; */
 }
 
 #app {
@@ -69,6 +69,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100vh;
 }
 
 h1 {
@@ -90,7 +91,6 @@ button {
   border-radius: 100px;
   margin-top: 1rem;
   transition: ease-in-out 0.4s;
-  margin-bottom: 3rem;
   border: none;
   cursor: pointer;
 }

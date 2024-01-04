@@ -28,6 +28,7 @@ function goToSession() {
     align-items: center;
     flex-direction: column;
     background-color: #1d4b3c;
+    flex: 1;
 }
 
 h1 {
@@ -56,6 +57,7 @@ h2 {
     border-radius: 100px;
     margin-top: 5rem;
     transition: ease-in-out 0.4s;
+    margin-bottom: 3rem;
 }
 
 #btn:hover {
