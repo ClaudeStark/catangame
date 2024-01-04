@@ -32,6 +32,10 @@ import { ref, onMounted, computed } from 'vue'
 // Supabase importieren
 import { supabase } from '@/lib/supabaseClient'
 
+// Store importieren
+import { useStore } from 'vuex';
+const store = useStore();
+
 // QRCode importieren
 import QRCode from 'qrcode-generator';
 
@@ -55,6 +59,10 @@ let getQrCodeSize = computed(() => {
 // OnMounted
 onMounted(() => {
     fetchGetSession()
+
+    // Item Types aus der Datenbank holen  
+    fetchItemTypes();
+
 })
 
 ///////////////////////////////////// Initialisierung beendet ////////////////////////////////
@@ -124,7 +132,7 @@ const checkpickedColor = async () => {
 
             // Benutzte Knöpfe ausblenden
             data.forEach(colorIndex => {
-                if (colorIndex.id_color != null) {
+                if (colorIndex.id_color != null && colorIndex.id_color != 0) {
                     document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#2c3e50';
                     document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#2c3e50';
                     document.querySelector('#button' + colorIndex.id_color).style.cursor = 'default'
@@ -190,9 +198,14 @@ function generateQRCode(id_session, color, colorIndex) {
 function gameStart() {
     if (session.value[0].initialization_in_progress == true) {
         fetchInitializeSession(session.value[0].session_id);
+
+        // Ein neutraler Spieler wird in der Datenbank angelegt, dieser wird für den Räuber benötigt
+        fetchCreateNeutralPlayer();
     }
     fetchClearPlayerInProgress(session.value[0].session_id);
     router.push({ name: 'maindevice', params: { id: session.value[0].session_id }, query: { session_title: session.value[0].title } })
+
+
 }
 
 
@@ -293,6 +306,82 @@ const fetchClearPlayerInProgress = async (id_session) => {
         } else {
             console.log('Geklappt:5', data);
         }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, die einen neutralen Spieler in der Datenbank anlegt. Dieser wird für den Räuber benötigt
+const fetchCreateNeutralPlayer = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .insert([{ id_session: session.value[0].session_id, id_color: 0 }])
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            fetchGetNeutralPlayerId();
+        };
+    }
+
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, die die ID des neutralen Spielers aus der Datenbank holt. Diese wird für den Räuber benötigt
+const fetchGetNeutralPlayerId = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .select('player_id')
+            .eq('id_session', session.value[0].session_id)
+            .eq('id_color', 0)
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            console.log('Geklappt:', data);
+            fetchCreateRobber(data[0].player_id);
+        };
+    }
+
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche einen Räuber in der Datenbank anlegt
+const fetchCreateRobber = async (neutralPlayerId) => {
+    let tempIdItemType = store.state.STOREitemTypes.find(item => item.name === 'robber')?.item_type_id;
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item_played')
+            .insert([{ owner_id_player: neutralPlayerId, id_item_type: tempIdItemType, position: 143, rotation: 0 }])
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+
+        };
+    }
+
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche die Item-Daten, der aktuellen Session aus der Datenbank holt
+// --> onMounted
+const fetchItemTypes = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('item_type')
+            .select()
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            store.commit('STOREsetItemTypes', data);
+        };
     }
     catch (e) {
         console.error('CatchFehler:', e)

@@ -1,7 +1,7 @@
 <template>
     <div id="boardPositionPopUpContainer" ref="boardPositionPopUpContainer" style="display: none;">
         <section class="gridContainer" ref="gridContainerPopUp">
-            <div class="gridItem">1</div>
+            <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=1000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
@@ -30,18 +30,19 @@
         <div id="items">
             <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
                 <div
-                    v-if="store.state.STOREcurrentSelectedItemType == 'city' || store.state.STOREcurrentSelectedItemType == 'road' || store.state.STOREcurrentSelectedItemType == 'settlement'">
+                    v-if="store.state.STOREcurrentSelectedItemType == 'city' || store.state.STOREcurrentSelectedItemType == 'road' || store.state.STOREcurrentSelectedItemType == 'settlement' || store.state.STOREcurrentSelectedItemType == 'robber'">
                     <City v-if="store.state.STOREcurrentSelectedItemType == 'city'" :color="tempColor"></City>
                     <Road v-if="store.state.STOREcurrentSelectedItemType == 'road'" :color="tempColor"></Road>
                     <Settlement v-if="store.state.STOREcurrentSelectedItemType == 'settlement'" :color="tempColor">
                     </Settlement>
+                    <Robber v-if="store.state.STOREcurrentSelectedItemType == 'robber'"></Robber>
                 </div>
-                <img v-else
-                    :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItemType}.svg`" alt="">
+                <img v-else :src="`/images/resources_vertical/card_${store.state.STOREcurrentSelectedItemType}.svg`" alt="">
             </div>
             <div id="boardItems">
                 <div class="boardItemContainer" v-for="item in itemsOnBoard">
-                    <BoardItem :item="item" :boardItemWidth="boardItemWidth" :colors="colors"></BoardItem>
+                    <BoardItem :item="item" :boardItemWidth="boardItemWidth" :robberWidth="robberWidth" :colors="colors">
+                    </BoardItem>
                 </div>
             </div>
         </div>
@@ -4313,11 +4314,13 @@ import ChoosePlayerPositionBank from '@/components/ChoosePlayerPositionBank.vue'
 import City from '@/components/City.vue';
 import Road from '@/components/Road.vue';
 import Settlement from '@/components/Settlement.vue';
+import Robber from '@/components/Robber.vue';
 import BoardItem from '@/components/BoardItem.vue';
 
 ///////////////////////////////////// Variabeln ////////////////////////////////
 const id_session = useRoute().params.id;
 const title_session = useRoute().query.session_title;
+let sessionInfo = ref({});
 let allPlayerData = ref([]);
 let colors = ref([])
 let playedItems = ref([]);
@@ -4327,6 +4330,7 @@ let die1Value = ref(1);
 let die2Value = ref(1);
 let tempColor = ref('green');
 let boardItemWidth = ref(0);
+let robberWidth = ref(0);
 
 
 ///////////////////////////////////// Ende Variabeln ////////////////////////////////
@@ -4350,6 +4354,13 @@ const developmentCard = ref(null);
 let activePlayerData = computed(() => {
     if (store.state.STOREallPlayerData.length === 0) return []
     return store.state.STOREallPlayerData.filter(player => player.name != null);
+})
+
+// Id des neutralen Spielers
+// --> Änderung von allPlayerData
+let neutralPlayerId = computed(() => {
+    if (store.state.STOREallPlayerData.length === 0) return null
+    return store.state.STOREallPlayerData.find(player => player.id_color == 0)?.player_id;
 })
 
 // Funktion, welches die Positionen der Spieler speichert
@@ -4386,11 +4397,13 @@ let nonSeatedPlayers = computed(() => {
     return tempNonSeatetPlayers;
 })
 
-// Array, welches alle Spieler-Ids enthält
+// Array, welches alle Spieler-Ids enthält, und die des neutralen Spielers
 // --> Änderung von activePlayerData
 let playerIds = computed(() => {
-    if (activePlayerData.value.length === 0) return []
-    return activePlayerData.value.map(player => player.player_id);
+    if (activePlayerData.value.length === 0 || neutralPlayerId.value === null) return []
+    let tempPlayerIds = activePlayerData.value.map(player => player.player_id);
+    tempPlayerIds.push(neutralPlayerId.value);
+    return tempPlayerIds
 })
 
 // Array, welches alle Items enthält, die auf dem Spielfeld sind
@@ -4437,6 +4450,15 @@ onMounted(async () => {
 
     // Breite eines BoardItems berechnen
     defineBoardItemWidth();
+
+    // Breite des Räubers berechnen
+    defineRobberWidth();
+
+    // Alle PlayerStats aus der Datenbank holen
+    fetchAllPlayerStats();
+
+    // SessionInfo aus der Datenbank holen
+    fetchSessionInfo();
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
@@ -4492,6 +4514,13 @@ function trackMousePosition(event) {
 function defineBoardItemWidth() {
     boardItemWidth.value = document.querySelector('#_1').getBoundingClientRect().width;
 }
+
+// Funktion, welche die Breite des Robbers berechnet
+// --> onMounted
+function defineRobberWidth() {
+    robberWidth.value = document.querySelector('#_143').getBoundingClientRect().width;
+}
+
 
 
 
@@ -4653,30 +4682,15 @@ const fetchUpdateBankItem = async (tempPosition, tempRotation, tempPlayerItemPla
 }
 
 // fetch um den Amount eines Items bei dem entsprechenden Spieler auf dem SideDevice zu ändern.
-const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType) => {
-    let tempAmount = 0;
+const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType, operation) => {
+    let tempAmount = store.state.STOREallPlayerStats.find(item => item.owner_id_player == tempOwnerIdPlayer && item.id_item_type == tempIdItemType)?.amount;
+
+    tempAmount = tempAmount + operation;
 
     try {
         const { data, error } = await supabase
             .from('rel_player_item')
-            .select('amount')
-            .eq('owner_id_player', tempOwnerIdPlayer)
-            .eq('id_item_type', tempIdItemType)
-
-        if (error) {
-            console.error('Fehler:', error);
-        } else {
-            tempAmount = data[0].amount;
-        }
-    }
-    catch (e) {
-        console.error('CatchFehler:', e)
-    }
-
-    try {
-        const { data, error } = await supabase
-            .from('rel_player_item')
-            .update({ amount: tempAmount + 1 })
+            .update({ amount: tempAmount })
             .eq('owner_id_player', tempOwnerIdPlayer)
             .eq('id_item_type', tempIdItemType)
 
@@ -4688,6 +4702,8 @@ const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType) => {
     catch (e) {
         console.error('CatchFehler:', e)
     }
+
+    fetchAllPlayerStats();
 }
 
 // Funktion, welche ein Element in die Bank löscht
@@ -4713,6 +4729,46 @@ const fetchDeleteRelTable = async (tempCurrentItemId, refresh) => {
     }
 }
 
+// Funktion, welche alle PlayerStats aus der Datenbank holt
+// --> onMounted
+const fetchAllPlayerStats = async () => {
+    console.log('fetch all player stats')
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item')
+            .select()
+
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            store.commit('STOREsetAllPlayerStats', data);
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche die SessionInfo aus der Datenbank holt
+// --> onMounted
+const fetchSessionInfo = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('session')
+            .select()
+            .eq('session_id', id_session)
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            sessionInfo.value = data;
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
 
@@ -4723,6 +4779,7 @@ const fetchDeleteRelTable = async (tempCurrentItemId, refresh) => {
 // Eventlistener für Fenstergrössenänderung
 window.addEventListener('resize', defineGridContainerSize)
 window.addEventListener('resize', defineBoardItemWidth)
+window.addEventListener('resize', defineRobberWidth)
 
 // Funktion, welche aufgerufen wird, sobald geklickt wird
 // --> @mousedown (gameBox)
@@ -4813,9 +4870,16 @@ function handleMouseDown(event) {
         console.log('selectedElementid yess', selectedElement.id)
 
         // Positionskorrektur für die korrekte Positionierung des temporären Items
-        tempItem.value.style.width = document.querySelector('.buildingContainer').offsetWidth + 'px';
-        tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
-        tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+        if (store.state.STOREcurrentSelectedItemType === 'robber') {
+            tempItem.value.style.width = robberWidth.value / 2 + 'px';
+            tempItemPositionCorrection.value.x = robberWidth.value / 2;
+            tempItemPositionCorrection.value.y = robberWidth.value;
+        } else {
+            tempItem.value.style.width = document.querySelector('.buildingContainer').offsetWidth + 'px';
+            tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
+            tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+        }
+
 
         selectedElement.style.display = "none";
         tempItem.value.style.display = "block";
@@ -4855,18 +4919,30 @@ function handleMouseUp(event) {
 
             let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
 
+            let operation = 1;
+
             let tempRotation = 0;
             if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
                 fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
             } else {
                 fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+
+                fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+                // fetch um den Amount eines Buildings bei dem entsprechenden Spieler auf dem SideDevice zu ändern.
             }
 
         } else if (elementsUnderCurser.find(element => element.classList.contains('hoverBank')) && store.state.STOREcurrentSelectedItemId != null) {
+            let tempOwnerIdPlayer = activePlayerData.value.find(player => player.id_color == colors.value.find(color => color.hex_code == tempColor.value)?.color_id)?.player_id;
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+            let operation = -1;
+
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
             let refresh = true;
 
             fetchDeleteRelTable(tempCurrentItemId, refresh);
+
+            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+
 
         } else {
             if (store.state.STOREcurrentSelectedItemId != null) {
@@ -4887,14 +4963,16 @@ function handleMouseUp(event) {
 
             let tempRotation = 90;
 
+            let operation = 1;
+
             let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
             if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
                 fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
             } else {
                 fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+                fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+
             }
-
-
         }
         // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Links
         else if (elementsUnderCurser.find(element => element.classList.contains('roadCircleL')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleL'))?.id.replace('_', ''))) == null) {
@@ -4909,12 +4987,16 @@ function handleMouseUp(event) {
 
             let tempRotation = 30;
 
+            let operation = 1;
+
 
             let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
             if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
                 fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
             } else {
                 fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+                fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+
             }
         }
         // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Rechts
@@ -4930,19 +5012,31 @@ function handleMouseUp(event) {
 
             let tempRotation = -30;
 
+            let operation = 1;
+
 
             let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
             if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
                 fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
             } else {
                 fetchAddBankItem(tempPosition, tempIdItemType, tempOwnerIdPlayer, tempRotation);
+                fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+
             }
         }
         else if (elementsUnderCurser.find(element => element.classList.contains('hoverBank')) && store.state.STOREcurrentSelectedItemId != null) {
+            let operation = -1;
+            let tempOwnerIdPlayer = activePlayerData.value.find(player => player.id_color == colors.value.find(color => color.hex_code == tempColor.value)?.color_id)?.player_id;
+            let tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
+
+
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
             let refresh = true;
 
             fetchDeleteRelTable(tempCurrentItemId, refresh);
+
+            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+
 
         }
         else {
@@ -4950,8 +5044,47 @@ function handleMouseUp(event) {
                 fetchPlayerData();
             }
         }
+    } else if(store.state.STOREcurrentSelectedItemType === 'robber'){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
+if (elementsUnderCurser.find(element => element.classList.contains('middleCircle'))) {
+    let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('middleCircle'));
+
+    let tempPositionWithUnderscore = hoveredItem.id;
+    let tempPosition = tempPositionWithUnderscore.replace('_', '');
+
+    let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
+
+
+    let tempRotation = 0;
+        fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
+    
+
+}  else {
+    if (store.state.STOREcurrentSelectedItemId != null) {
+        fetchPlayerData();
     }
-    else {
+}
+
+    }else {
         // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
         if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop')) && store.state.STOREcurrentSelectedItemType != 'classic_back') {
             let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -4974,13 +5107,13 @@ function handleMouseUp(event) {
 
             let tempIdItemType = '';
 
-            if(store.state.STOREcurrentSelectedItemType === 'classic_back') {
+            if (store.state.STOREcurrentSelectedItemType === 'classic_back') {
                 let developmentItem = ['knight', 'road_building', 'year_of_plenty', 'monopoly', 'victory_point'];
                 let tempItemType = developmentItem[Math.floor(Math.random() * developmentItem.length)];
 
 
                 tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === tempItemType)?.item_type_id;
-            } else{
+            } else {
                 tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
 
             }
@@ -4989,8 +5122,10 @@ function handleMouseUp(event) {
 
             let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
 
+            let operation = 1
+
             // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
-            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType)
+            fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
             if (store.state.STOREcurrentSelectedItemId != null) {
                 let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
                 let refresh = false;

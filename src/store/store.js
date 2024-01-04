@@ -9,7 +9,11 @@ const store = createStore({
       STOREcurrentSelectedItemType: null,
       STOREcurrentSelectedItemId: null,
       STOREplayerStats:[],
-      STOREdraggedCard: null
+      STOREallPlayerStats: [],
+      STOREdraggedCard: null,
+      STOREmaxRoads: 15,
+      STOREmaxSettlements: 5,
+      STOREmaxCities: 4,
     }
   },
   mutations: {
@@ -52,6 +56,9 @@ const store = createStore({
     STOREsetDraggedCard(state, data) {
       state.STOREdraggedCard = data;
     },
+    STOREsetAllPlayerStats(state, data) {
+      state.STOREallPlayerStats = data;
+    }
   }
 })
 

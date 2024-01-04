@@ -35,7 +35,7 @@
                                 :color="colors.find(color => color.color_id == id_color)?.hex_code"></Road>
                             <p>{{ buildings.find(building => building.buildingItemTypeId ==
                                 (store.state.STOREitemTypes.find(item => item.name ==
-                                    'road')?.item_type_id))?.amount }}/{{ maxRoads }}</p>
+                                    'road')?.item_type_id))?.amount }}/{{ store.state.STOREmaxRoads }}</p>
                         </div>
 
                         <div class="building">
@@ -43,13 +43,13 @@
                             </Settlement>
                             <p>{{ buildings.find(building => building.buildingItemTypeId ==
                                 (store.state.STOREitemTypes.find(item => item.name ==
-                                    'settlement')?.item_type_id))?.amount }}/{{ maxSettlements }}</p>
+                                    'settlement')?.item_type_id))?.amount }}/{{ store.state.STOREmaxSettlements }}</p>
                         </div>
                         <div class="building">
                             <City id="city" :color="colors.find(color => color.color_id == id_color)?.hex_code"></City>
                             <p>{{ buildings.find(building => building.buildingItemTypeId ==
                                 (store.state.STOREitemTypes.find(item => item.name ==
-                                    'city')?.item_type_id))?.amount }}/{{ maxCities }}</p>
+                                    'city')?.item_type_id))?.amount }}/{{ store.state.STOREmaxCities }}</p>
                         </div>
                     </div>
                 </section>
@@ -113,11 +113,6 @@ let chooseName = ref(false)
 let choosenName = ref(true);
 let playerName = ref();
 let mousePosition = ref({ mouseXPosition: 0, mouseYPosition: 0 });
-
-// Manuelle Variablen
-const maxRoads = ref(15);
-const maxSettlements = ref(5);
-const maxCities = ref(4);
 
 // DOM
 const flyingCard = ref(null);
@@ -201,6 +196,8 @@ let flyingCardPositionLeft = computed(() => {
     if (flyingCard.value === null) return 0
     return mousePosition.value.mouseXPosition - (flyingCard.value.getBoundingClientRect().width / 2);
 })
+
+
 
 ///////////////////////////////////// Ende Computed ////////////////////////////////
 
@@ -349,6 +346,9 @@ const fetchCurrentPlayerId = async () => {
                 firstTimeInitializing.value = false;
 
                 fetchJoinGame();
+
+                fetchPlayerPosition();
+
             };
         }
         catch (e) {

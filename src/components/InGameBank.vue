@@ -3,14 +3,14 @@
         boardPosition)?.name }}</div>
     <div id="playerBankTop">
         <section class="buildings" ref="buildings" :style="{ border: '2px solid ' + currentPositionPlayerColor }">
-            <div class="buildingContainer"><svg class="building" id="road" data-name="Ebene 2"
+            <div class="buildingContainer" ><svg v-if="!reachedMaxRoads" class="building" id="road" data-name="Ebene 2"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.19 23">
                     <g data-name="Layer 1">
                         <rect :width="80.19" :height="23"
                             :style="{ 'fill': props.currentPositionPlayerColor, 'stroke-width': '0px' }" />
                     </g>
                 </svg></div>
-            <div class="buildingContainer"><svg class="building" id="settlement" data-name="Ebene 2"
+            <div class="buildingContainer"><svg v-if="!reachedMaxSettlements" class="building" id="settlement" data-name="Ebene 2"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.08 63">
                     <g data-name="Layer 1">
                         <path
@@ -18,7 +18,7 @@
                             :style="{ 'fill': props.currentPositionPlayerColor, 'stroke-width': '0px' }" />
                     </g>
                 </svg></div>
-            <div class="buildingContainer"><svg class="building" id="city" data-name="Ebene 2"
+            <div class="buildingContainer"><svg v-if="!reachedMaxCities" class="building" id="city" data-name="Ebene 2"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.25 79.5">
                     <g data-name="Layer 1">
                         <path
@@ -71,6 +71,30 @@ let ownPlayedItems = computed(() => {
         const playerPosition = props.playerPositions.find(player => player.boardPosition === props.boardPosition);
         return item.owner_id_player === (playerPosition?.playerId) && item.position >= 1000;
     });
+})
+
+let reachedMaxRoads = computed(() => {
+    if(store.state.STOREallPlayerStats.filter(player => player.owner_id_player === props.currentPositionPlayerId).find(entry => entry.id_item_type === (store.state.STOREitemTypes.find(item => item.name === 'road')?.item_type_id))?.amount < store.state.STOREmaxRoads) {
+        return false
+    } else {
+        return true
+    }
+})
+
+let reachedMaxSettlements = computed(() => {
+    if(store.state.STOREallPlayerStats.filter(player => player.owner_id_player === props.currentPositionPlayerId).find(entry => entry.id_item_type === (store.state.STOREitemTypes.find(item => item.name === 'settlement')?.item_type_id))?.amount < store.state.STOREmaxSettlements) {
+        return false
+    } else {
+        return true
+    }
+})
+
+let reachedMaxCities = computed(() => {
+    if(store.state.STOREallPlayerStats.filter(player => player.owner_id_player === props.currentPositionPlayerId).find(entry => entry.id_item_type === (store.state.STOREitemTypes.find(item => item.name === 'city')?.item_type_id))?.amount < store.state.STOREmaxCities) {
+        return false
+    } else {
+        return true
+    }
 })
 
 // OnMounted

@@ -1,8 +1,9 @@
 <template>
-    <div ref="boardItem" class="boardItem" :style="{ width: props.boardItemWidth + 'px', top: topPos, left: leftPos }">
+    <div ref="boardItem" class="boardItem" :style="{ width: itemWidth + 'px', top: topPos, left: leftPos }">
         <Road v-if="itemType == 'road'" :color="color" :rotation="rotation"></Road>
         <Settlement v-if="itemType == 'settlement'" :color="color"></Settlement>
         <City v-if="itemType == 'city'" :color="color"></City>
+        <Robber v-if="itemType == 'robber'"></Robber>
         
     </div>
 </template>
@@ -16,6 +17,7 @@ import { ref, computed, onMounted } from 'vue';
 import Road from '@/components/Road.vue'
 import Settlement from '@/components/Settlement.vue'
 import City from '@/components/City.vue'
+import Robber from '@/components/Robber.vue'
 
 
 // Store importieren
@@ -26,6 +28,7 @@ const store = useStore();
 const props = defineProps({
     item: Object,
     boardItemWidth: Number,
+    robberWidth: Number,
     colors: Array
 })
 
@@ -50,10 +53,12 @@ onMounted(() => {
 
 // Computed
 let color = computed(() => {
+    if (store.state.STOREallPlayerData.length == 0) return null
     return props.colors.find(color => color.color_id == (store.state.STOREallPlayerData.find(player => player.player_id === props.item.owner_id_player)?.id_color))?.hex_code
 })
 
 let itemType = computed(() => {
+    if(store.state.STOREitemTypes.length == 0) return null
     return store.state.STOREitemTypes.find(item => item.item_type_id === props.item.id_item_type).name
 })
 
@@ -79,6 +84,14 @@ let leftPos = computed(() => {
 
 let rotation = computed(() => {
     return props.item.rotation
+})
+
+let itemWidth = computed(() => {
+    if(props.item.id_item_type == (store.state.STOREitemTypes.find(item => item.name == 'robber')?.item_type_id)) {
+        return (props.robberWidth/2)
+    } else{
+        return props.boardItemWidth
+    }
 })
 
 // Methoden
