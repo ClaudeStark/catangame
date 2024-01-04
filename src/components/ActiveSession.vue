@@ -26,6 +26,9 @@ let dynamicCode = ref('');
 const enterCode = ref(null);
 
 // Methoden
+
+// Funktion, welche den eingegebenen Code mit dem Session Code vergleicht
+// --> onSubmit (Form @submit)
 function checkCode(event) {
     event.preventDefault();
     if (dynamicCode.value.trim() == session.value.code) {
@@ -35,6 +38,8 @@ function checkCode(event) {
     }
 }
 
+// Funktion, welche den User in den Waitingroom weiterleitet
+// --> checkCode()
 function createWaitingroom() {
     router.push({ name: 'waitingroom', params: { id: session.value.session_id }, query: { session_title: session.value.title } })
 }
@@ -43,14 +48,13 @@ function createWaitingroom() {
 onMounted(() => {
     addEventListener();
 })
+
 // EventListener
 function addEventListener() {
     enterCode.value.addEventListener('focus', () => {
         enterCode.value.style.border = '1px solid #ccc';
     })
 }
-
-
 </script>
 
 <style scoped>

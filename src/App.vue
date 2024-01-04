@@ -1,9 +1,9 @@
 <template>
   <div class="navigationBackground">
     <nav v-if="showNavigation()">
-      <router-link to="/" class="menuText">Catan</router-link> 
-      <router-link to="/rules" class="menuText">Spielablauf</router-link> 
-      <router-link to="/session" class="menuText">Session</router-link>
+      <router-link to="/" class="menuText">Catan</router-link>
+      <router-link to="/rules" class="menuText">Spielablauf</router-link>
+      <router-link to="/session" class="menuText">Sessions</router-link>
     </nav>
   </div>
   <router-view />
@@ -23,6 +23,15 @@ const showNavigation = () => {
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  zoom: 1;
+}
+
+
 .navigationBackground {
   width: 100%;
 
@@ -37,19 +46,12 @@ const showNavigation = () => {
   margin-right: 1em;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  user-select: none;
-  zoom: 1;
-}
 
 body {
   margin: 0;
   padding: 0;
   place-items: flex-start;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #app {
@@ -79,18 +81,22 @@ h2 {
 
 
 button {
-  padding: 10px 16px;
-  background-color: #fadb42;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
+  font-weight: 800;
+  font-family: 'Raleway', sans-serif;
+  color: #1d4b3c;
+  letter-spacing: 0.05rem;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-radius: 100px;
+  margin-top: 1rem;
   transition: ease-in-out 0.4s;
+  margin-bottom: 3rem;
+  border: none;
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: #4B6F2B;
+  background-color: #fadb42;
   transition: ease-in-out 0.4s;
 }
 

@@ -337,6 +337,7 @@ ul {
     border-radius: 100px;
     margin-top: 1rem;
     transition: ease-in-out 0.4s;
+    margin-bottom: 3rem;
 }
 
 #btn:hover {

@@ -1,5 +1,5 @@
 <template>
-    <h1>SessionView</h1>
+    <h1>Sessions</h1>
     <h2>Active Sessions</h2>
     <section id="activeSessions">
         <ul>
@@ -53,6 +53,8 @@ onMounted(() => {
     fetchGetOpenSessions()
 })
 
+// Funktion, welche alle offenen Sessions aus der Datenbank holt
+// --> OnMounted
 const fetchGetOpenSessions = async () => {
     try {
         const { data, error } = await supabase
@@ -61,7 +63,6 @@ const fetchGetOpenSessions = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Geklappt:', data)
             sessions.value = data;
         }
     }
@@ -71,6 +72,9 @@ const fetchGetOpenSessions = async () => {
 }
 
 // Methoden
+
+// Funktion, welche eine neue Session vorbereitet
+// --> OnSubmit (Formular createSession)
 function createSession(event) {
     event.preventDefault();
 
@@ -89,6 +93,8 @@ function createSession(event) {
     fetchCreateSession(title, code);
 }
 
+// Funktion, welche eine neue Session in die Datenbank schreibt
+// --> createSession
 const fetchCreateSession = async (title, code) => {
     try {
         const { data, error } = await supabase
@@ -165,7 +171,7 @@ label {
     width: 100%;
     padding: 1em 0;
     color: white;
-    background-color: #2c3e50;
+    background-color: #1d4b3c;
 }
 
 #warningText {

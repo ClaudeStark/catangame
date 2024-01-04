@@ -58,17 +58,18 @@ let getQrCodeSize = computed(() => {
 
 // OnMounted
 onMounted(() => {
+    // Sessioninformationen aus der Datenbank holen
     fetchGetSession()
 
     // Item Types aus der Datenbank holen  
     fetchItemTypes();
-
 })
 
 ///////////////////////////////////// Initialisierung beendet ////////////////////////////////
 ////////////////////////////////////// Deklaration der Funktionen ////////////////////////////
 
 // Anhand des Session Titels wird die Session ID aus der Datenbank geholt. Der Sessiontitel wird über die URL übergeben
+// --> onMounted
 const fetchGetSession = async () => {
     try {
         const { data, error } = await supabase
@@ -78,8 +79,8 @@ const fetchGetSession = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Geklappt:', data)
             session.value = data;
+
             // Sobald die Session ID bekannt ist, werden die Farben aus der Datenbank geholt
             fetchGetColors();
         }
@@ -89,8 +90,8 @@ const fetchGetSession = async () => {
     }
 }
 
-
 // Funktion, die die Farben aus der Datenbank holt. Darauf basiert die Anzahl der Buttons und die Farbe der Buttons. 
+// --> fetchGetSession
 const fetchGetColors = async () => {
     try {
         const { data, error } = await supabase
@@ -99,12 +100,9 @@ const fetchGetColors = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Geklappt:', data);
             colors.value = data;
-            // data.forEach(color => {
-            //     colors.value.push(color.hex_code)
-            // });
-            // Bereits vergebene Farben ausgrauen
+
+            // Funktion, welche die bereits vergebenen Farben ausblendet
             checkpickedColor()
         };
     }
@@ -118,8 +116,8 @@ const fetchGetColors = async () => {
 // entsprechend ausgraut/pinkt. Ausserdem wird das Array pickedColors gefüllt, welches die id bereits vergebenen Farben enthält
 // Die Funktion reagiert auf Änderungen in der Datenbank, da sie als Realtime Subscription aufgerufen wird
 const checkpickedColor = async () => {
-    let id_session = session.value[0].session_id;
-    //console.log(id_session)
+    let id_session = session.value[0].session_id; // !!!
+
     try {
         const { data, error } = await supabase
             .from('player')
@@ -128,7 +126,6 @@ const checkpickedColor = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Geklappt:234', data)
 
             // Benutzte Knöpfe ausblenden
             data.forEach(colorIndex => {
@@ -147,6 +144,7 @@ const checkpickedColor = async () => {
 }
 
 // Funktion, die aufgerufen wird, wenn ein Button angeklickt wird. colorIndex ist der Index des angeklickten Buttons, color ist die Farbe des Buttons
+// --> v-for in der HTML 
 function buttonClick(colorIndex, colorHexCode) {
 
     let id_session = session.value[0].session_id;
@@ -154,7 +152,7 @@ function buttonClick(colorIndex, colorHexCode) {
     // Schauen, ob der angeklickte Button in pickedColors enthalten ist = schon mal definiert wurde - nicht mehr anklickbar sein darf
     if (!pickedColors.includes(colorIndex)) {
 
-        // Abfrage an die Datenbank, ob bereits ein Spieler am initialisieren ist. Rückgabewert des Fetches ist ein Array, wdessen Länge relevant für die Unterscheidung ist
+        // Abfrage an die Datenbank, ob bereits ein Spieler am initialisieren ist. Rückgabewert des Fetches ist ein Array, wessen Länge relevant für die Unterscheidung ist
         fetchCheckPendingInitialization().then((result) => {
             if (result.length == 0) {
                 fetchCreatePlayer(id_session);
@@ -166,7 +164,6 @@ function buttonClick(colorIndex, colorHexCode) {
             if (!pickedColors.includes(color.color_id)) {
                 document.querySelector('#button' + color.color_id).style.backgroundColor = color.hex_code;
                 document.querySelector('#button' + color.color_id).style.borderColor = 'white';
-
             }
         });
 
@@ -202,6 +199,7 @@ function gameStart() {
         // Ein neutraler Spieler wird in der Datenbank angelegt, dieser wird für den Räuber benötigt
         fetchCreateNeutralPlayer();
     }
+
     fetchClearPlayerInProgress(session.value[0].session_id);
     router.push({ name: 'maindevice', params: { id: session.value[0].session_id }, query: { session_title: session.value[0].title } })
 
@@ -219,7 +217,6 @@ const fetchCreatePlayer = async (id_session) => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            //console.log('Geklappt:', data);
         };
     }
 
@@ -243,7 +240,6 @@ const fetchCheckPendingInitialization = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            //console.log('Geklappt:', data)
             return data;
         };
     }
@@ -255,6 +251,7 @@ const fetchCheckPendingInitialization = async () => {
 }
 
 // Funktion, die die Session initialisiert. Dazu wird der Wert initialization_in_progress auf false gesetzt
+// --> gameStart
 const fetchInitializeSession = async (id_session) => {
     try {
         const { data, error } = await supabase
@@ -262,11 +259,9 @@ const fetchInitializeSession = async (id_session) => {
             .update({ initialization_in_progress: 'false' })
             .eq('session_id', id_session)
             .eq('initialization_in_progress', 'true')
-
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt:3', data);
         }
     }
     catch (e) {
@@ -313,6 +308,7 @@ const fetchClearPlayerInProgress = async (id_session) => {
 }
 
 // Funktion, die einen neutralen Spieler in der Datenbank anlegt. Dieser wird für den Räuber benötigt
+// --> gameStart
 const fetchCreateNeutralPlayer = async () => {
     try {
         const { data, error } = await supabase
@@ -321,6 +317,7 @@ const fetchCreateNeutralPlayer = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
+            // ID des neutralen Spielers wird aus der Datenbank geholt
             fetchGetNeutralPlayerId();
         };
     }
@@ -331,6 +328,7 @@ const fetchCreateNeutralPlayer = async () => {
 }
 
 // Funktion, die die ID des neutralen Spielers aus der Datenbank holt. Diese wird für den Räuber benötigt
+// --> fetchCreateNeutralPlayer
 const fetchGetNeutralPlayerId = async () => {
     try {
         const { data, error } = await supabase
@@ -341,7 +339,7 @@ const fetchGetNeutralPlayerId = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Geklappt:', data);
+            // Funktion, welche den Räuber in der Datenbank anlegt
             fetchCreateRobber(data[0].player_id);
         };
     }
@@ -352,6 +350,7 @@ const fetchGetNeutralPlayerId = async () => {
 }
 
 // Funktion, welche einen Räuber in der Datenbank anlegt
+// --> fetchGetNeutralPlayerId
 const fetchCreateRobber = async (neutralPlayerId) => {
     let tempIdItemType = store.state.STOREitemTypes.find(item => item.name === 'robber')?.item_type_id;
     try {
@@ -361,7 +360,6 @@ const fetchCreateRobber = async (neutralPlayerId) => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-
         };
     }
 
@@ -370,7 +368,7 @@ const fetchCreateRobber = async (neutralPlayerId) => {
     }
 }
 
-// Funktion, welche die Item-Daten, der aktuellen Session aus der Datenbank holt
+// Funktion, welche die ItemTypes aus der Datenbank holt
 // --> onMounted
 const fetchItemTypes = async () => {
     try {
