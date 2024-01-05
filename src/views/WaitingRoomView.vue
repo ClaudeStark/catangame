@@ -10,6 +10,10 @@
         <p>Each player in turn has to choose his desired color. After picking the color, scan your personal QR-Code with
             your mobile phone to join the playfield.</p>
     </section>
+    <section v-if="firstPlayerInizialized">
+        <button id="rejoinGame" @click="fetchDeleteNoNamePlayers">Rejoin Game</button>
+
+    </section>
     <section id="buttons">
         <button @click="buttonClick(color.color_id, color.hex_code)" class="colorButton" v-for="color in colors"
             :style="'background-color: ' + color.hex_code" :id="'button' + color.color_id"></button>
@@ -45,6 +49,7 @@ let session = ref([{}]);
 let qrCodeSVG = ref('');
 let colors = ref([]);
 let pickedColors = [];
+let allPlayerData = ref([]);
 
 // Computed
 let getQrCodeSize = computed(() => {
@@ -63,10 +68,36 @@ onMounted(() => {
 
     // Item Types aus der Datenbank holen  
     fetchItemTypes();
+
+
 })
 
 ///////////////////////////////////// Initialisierung beendet ////////////////////////////////
-////////////////////////////////////// Deklaration der Funktionen ////////////////////////////
+
+
+////////////////////////////////////// Computed Properties ////////////////////////////////
+
+// Variabel, die anzeigt, ob bereits ein Spieler inizialisiert wurde
+// --> allPlayerData
+let firstPlayerInizialized = computed(() => {
+    let tempFirstPlayerInizialized = false;
+    allPlayerData.value.forEach(player => {
+        if (player.initialization_in_progress == false) {
+            tempFirstPlayerInizialized = true;
+        }
+    });
+    return tempFirstPlayerInizialized;
+})
+
+////////////////////////////////////// Ende Computed Properties ////////////////////////////////
+
+////////////////////////////////////// Methoden ////////////////////////////////
+
+
+
+////////////////////////////////////// Ende Methoden ////////////////////////////////
+
+////////////////////////////////////// Deklaration der Fetches ////////////////////////////
 
 // Anhand des Session Titels wird die Session ID aus der Datenbank geholt. Der Sessiontitel wird über die URL übergeben
 // --> onMounted
@@ -83,6 +114,9 @@ const fetchGetSession = async () => {
 
             // Sobald die Session ID bekannt ist, werden die Farben aus der Datenbank geholt
             fetchGetColors();
+
+            // Alle Player Daten aus der Datenbank holen
+            fetchGetAllPlayerData();
         }
     }
     catch (e) {
@@ -386,6 +420,33 @@ const fetchItemTypes = async () => {
     }
 }
 
+// Funktion, welche alle Player Daten aus der Datenbank holt
+// --> Realtime Subscription
+const fetchGetAllPlayerData = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .select()
+            .eq('id_session', session.value[0].session_id)
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            allPlayerData.value = data;
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, die einen Spieler aus der Datenbank löscht, welcher noch keinen Namen haben
+// --> deleteNoNamePlayer
+const fetchDeleteNoNamePlayers = async () => {
+   console.log('n andere Tag')
+}
+
+////////////////////////////////////// Ende Fetches ////////////////////////////////
+
 
 // Realtime Subscription zum Player Table um bereits vergebene Farbwahlen auszugrauen
 
@@ -394,7 +455,8 @@ supabase
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'player' }, (payload) => {
         if (payload.new.id_session == session.value[0].session_id) {
             checkpickedColor()
-            console.log('Isch was passiert');
+
+            fetchGetAllPlayerData();
         }
     })
     .subscribe()
@@ -408,6 +470,11 @@ supabase
 }
 
 #navigation button {
+    margin: 2em 1em;
+    min-width: 10em;
+}
+
+#rejoinGame {
     margin: 2em 1em;
     min-width: 10em;
 }

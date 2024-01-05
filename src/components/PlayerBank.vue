@@ -41,7 +41,7 @@ const props = defineProps({
 // Computed
 
 // Array, welches die aktuelle Farbe des Spielers enthält
-// --> Änderung von activePlayerData und boardPosition
+// --> Änderung von activePlayerData und boardPosition unf colors
 let currentPositionPlayerColor = computed(() => {
     if (props.activePlayerData.length === 0 || props.colors.length === 0) return ''
 

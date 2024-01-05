@@ -4,16 +4,16 @@ import { createStore } from 'vuex'
 const store = createStore({
   state() {
     return {
-      STOREallPlayerData: [],
-      STOREitemTypes: [],
-      STOREcurrentSelectedItemType: null,
-      STOREcurrentSelectedItemId: null,
-      STOREplayerStats:[],
-      STOREallPlayerStats: [],
-      STOREdraggedCard: null,
-      STOREmaxRoads: 15,
-      STOREmaxSettlements: 5,
-      STOREmaxCities: 4,
+      STOREallPlayerData: [], //
+      STOREitemTypes: [], //
+      STOREcurrentSelectedItemType: null, //
+      STOREcurrentSelectedItemId: null, //
+      STOREplayerStats:[], //
+      STOREallPlayerStats: [], //
+      STOREdraggedCard: null,//
+      STOREmaxRoads: 15, //
+      STOREmaxSettlements: 5, //
+      STOREmaxCities: 4, //
     }
   },
   mutations: {

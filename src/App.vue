@@ -60,7 +60,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   align-items: center;
-  color: #1d4b3c;
+  /* color: #1d4b3c; */
 
   margin: 0;
   padding: 0;

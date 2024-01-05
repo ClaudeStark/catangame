@@ -9,10 +9,11 @@
         </div>
     </section>
     <section id="gameBox" @mousemove="trackMousePosition" @mouseup="stopFlyingCard()">
-        <div class="flyingCard" ref="flyingCard"
-            :style="{ top: flyingCardPositionTop + 'px', left: flyingCardPositionLeft + 'px', opacity: flyingCardVisible }">
-            <img :src="'/images/resources_vertical/card_' + flyingCardType + '.svg'" draggable="false">
-
+        <div class="flyingCardContainer">
+            <div class="flyingCard" ref="flyingCard"
+                :style="{ top: flyingCardPositionTop + 'px', left: flyingCardPositionLeft + 'px', opacity: flyingCardVisible }">
+                <img :src="'/images/resources_vertical/card_' + flyingCardType + '.svg'" draggable="false">
+            </div>
         </div>
         <section id="middleBar">
             <section id="mainBox">
@@ -37,7 +38,6 @@
                                 (store.state.STOREitemTypes.find(item => item.name ==
                                     'road')?.item_type_id))?.amount }}/{{ store.state.STOREmaxRoads }}</p>
                         </div>
-
                         <div class="building">
                             <Settlement id="settlement" :color="colors.find(color => color.color_id == id_color)?.hex_code">
                             </Settlement>
@@ -410,7 +410,6 @@ const fetchCreateItemTable = async (item_type_id) => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log("Table erfolgreich erstellt")
         };
     }
     catch (e) {
@@ -430,7 +429,7 @@ const fetchDownloadPlayerStats = async () => {
         } else {
             if (data.length != 0) {
                 store.commit('STOREsetPlayerStats', data);
-            } else{
+            } else {
                 firstTimeInitializing.value = true;
                 fetchJoinGame();
             }
@@ -470,10 +469,8 @@ const fetchShowNamePopUp = async () => {
             console.error('Fehler:', error)
         } else {
             if (data[0].name == null) {
-                console.log('Name noch nicht gesetzt');
                 choosenName.value = false;
             } else {
-                console.log('Name schon gesetzt');
                 choosenName.value = true;
 
                 fetchDownloadPlayerName()
@@ -556,7 +553,6 @@ const fetchChangeRelTable = async (tempItemTypeId, tempItemAmount) => {
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt:3', data);
         }
     }
     catch (e) {
@@ -577,8 +573,6 @@ const fetchChangeRelPlayerItemPlayed = async (tempItemTypeId) => {
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt: 4', data);
-
         }
     }
     catch (e) {
@@ -632,6 +626,7 @@ h2 {
     cursor: pointer;
     height: 100%;
     margin-right: 5px;
+    margin-top: 0;
 }
 
 #zahnrad {
@@ -658,6 +653,7 @@ h2 {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
+    z-index: 20;
 }
 
 #gameBox {
@@ -668,6 +664,7 @@ h2 {
     display: flex;
     flex-direction: column;
     user-select: none;
+
 }
 
 #middleBar {
@@ -795,5 +792,12 @@ h2 {
     width: 15vw;
     z-index: 15;
     pointer-events: none;
+}
+
+.flyingCardContainer{
+    overflow: hidden;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
 }
 </style>

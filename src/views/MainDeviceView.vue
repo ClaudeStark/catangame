@@ -6,7 +6,7 @@
                 <PlayerBank :boardPosition=1000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
-            <div class="gridItem">3</div>
+            <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=4000 :function="'popUp'" :playerPositions="playerPositions"
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
@@ -71,7 +71,6 @@
                     </div>
                     <div id="grain" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_grain.svg" alt="card_grain" draggable="false">
-                        <!-- <p>Getreide</p> -->
                     </div>
                     <div id="lumber" class="drawPileCard">
                         <img src="@/assets/resources_horizontal/card_lumber.svg" alt="card_lumber" draggable="false">
@@ -4308,7 +4307,6 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 // Komponenten importieren
-import Item from '@/components/Item.vue';
 import PlayerBank from '@/components/PlayerBank.vue';
 import ChoosePlayerPositionBank from '@/components/ChoosePlayerPositionBank.vue';
 import City from '@/components/City.vue';
@@ -4320,8 +4318,8 @@ import BoardItem from '@/components/BoardItem.vue';
 ///////////////////////////////////// Variabeln ////////////////////////////////
 const id_session = useRoute().params.id;
 const title_session = useRoute().query.session_title;
-let sessionInfo = ref({});
-let allPlayerData = ref([]);
+let sessionInfo = ref({}); // !!!
+let allPlayerData = ref([]); // !!!
 let colors = ref([])
 let playedItems = ref([]);
 let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '' });
@@ -4613,7 +4611,6 @@ const fetchSetPlayerPositions = async () => {
                 console.error('Fehler (RelData):', error);
             } else {
                 playersToBePositioned();
-                //fetchPlayerData();
             }
         }
 
@@ -4718,7 +4715,6 @@ const fetchDeleteRelTable = async (tempCurrentItemId, refresh) => {
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt:5', data);
             if (refresh) {
                 fetchPlayerData();
             }
@@ -4732,7 +4728,6 @@ const fetchDeleteRelTable = async (tempCurrentItemId, refresh) => {
 // Funktion, welche alle PlayerStats aus der Datenbank holt
 // --> onMounted
 const fetchAllPlayerStats = async () => {
-    console.log('fetch all player stats')
     try {
         const { data, error } = await supabase
             .from('rel_player_item')
@@ -4784,7 +4779,7 @@ window.addEventListener('resize', defineRobberWidth)
 // Funktion, welche aufgerufen wird, sobald geklickt wird
 // --> @mousedown (gameBox)
 function handleMouseDown(event) {
-    console.log('down id: ', store.state.STOREcurrentSelectedItemId, 'down type: ', store.state.STOREcurrentSelectedItemType)
+    //console.log('down id: ', store.state.STOREcurrentSelectedItemId, 'down type: ', store.state.STOREcurrentSelectedItemType)
     const x = event.clientX;
     const y = event.clientY;
 
@@ -4810,8 +4805,6 @@ function handleMouseDown(event) {
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
             let tempPlayedItems = playedItems.value.filter(item => item.rel_player_item_played_id != tempCurrentItemId);
             playedItems.value = tempPlayedItems;
-
-            //fetchDeleteRelTable(tempCurrentItemId);
         }
 
         // name des ItemTypes wird gespeichert
@@ -4844,6 +4837,7 @@ function handleMouseDown(event) {
     // Prüfung, ob ein Building aus der Bank unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('building'))) {
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('building'));
+
         let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
         tempColor.value = colors.value.find(color => color.color_id == (activePlayerData.value.find(player => player.board_position == tempPosition)?.id_color))?.hex_code;
 
@@ -4862,12 +4856,13 @@ function handleMouseDown(event) {
     // Prüfung, ob ein Building auf dem Spielfeld unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('boardItem'))) {
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('boardItem'));
+
         tempColor.value = colors.value.find(color => color.color_id == (activePlayerData.value.find(player => player.player_id == selectedElement.dataset.ownerId)?.id_color))?.hex_code
         let tempItemType = store.state.STOREitemTypes.find(item => item.item_type_id == (playedItems.value.find(item => item.rel_player_item_played_id == selectedElement.id)?.id_item_type))?.name
 
         store.commit('STOREsetCurrentSelectedItemType', tempItemType);
         store.commit('STOREsetCurrentSelectedItemId', selectedElement.id);
-        console.log('selectedElementid yess', selectedElement.id)
+        //console.log('selectedElementid yess', selectedElement.id)
 
         // Positionskorrektur für die korrekte Positionierung des temporären Items
         if (store.state.STOREcurrentSelectedItemType === 'robber') {
@@ -4922,6 +4917,7 @@ function handleMouseUp(event) {
             let operation = 1;
 
             let tempRotation = 0;
+
             if (itemsOnBoard.value.find(item => item.rel_player_item_played_id == store.state.STOREcurrentSelectedItemId) != null) {
                 fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
             } else {
@@ -5044,47 +5040,29 @@ function handleMouseUp(event) {
                 fetchPlayerData();
             }
         }
-    } else if(store.state.STOREcurrentSelectedItemType === 'robber'){
+    } else if (store.state.STOREcurrentSelectedItemType === 'robber') {
+
+        // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
+        if (elementsUnderCurser.find(element => element.classList.contains('middleCircle'))) {
+            let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('middleCircle'));
+
+            let tempPositionWithUnderscore = hoveredItem.id;
+            let tempPosition = tempPositionWithUnderscore.replace('_', '');
+
+            let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
 
 
+            let tempRotation = 0;
+            fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
 
 
+        } else {
+            if (store.state.STOREcurrentSelectedItemId != null) {
+                fetchPlayerData();
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
-if (elementsUnderCurser.find(element => element.classList.contains('middleCircle'))) {
-    let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('middleCircle'));
-
-    let tempPositionWithUnderscore = hoveredItem.id;
-    let tempPosition = tempPositionWithUnderscore.replace('_', '');
-
-    let tempPlayerItemPlayedId = store.state.STOREcurrentSelectedItemId;
-
-
-    let tempRotation = 0;
-        fetchUpdateBankItem(tempPosition, tempRotation, tempPlayerItemPlayedId);
-    
-
-}  else {
-    if (store.state.STOREcurrentSelectedItemId != null) {
-        fetchPlayerData();
-    }
-}
-
-    }else {
+    } else {
         // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
         if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop')) && store.state.STOREcurrentSelectedItemType != 'classic_back') {
             let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -5131,16 +5109,13 @@ if (elementsUnderCurser.find(element => element.classList.contains('middleCircle
                 let refresh = false;
                 fetchDeleteRelTable(tempCurrentItemId, refresh);
             }
-        }
-
-        else if (elementsUnderCurser.find(element => element.classList.contains('drawPileCard')) && store.state.STOREcurrentSelectedItemId != null) {
+        } else if (elementsUnderCurser.find(element => element.classList.contains('drawPileCard')) && store.state.STOREcurrentSelectedItemId != null) {
             let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
             let refresh = true;
 
             fetchDeleteRelTable(tempCurrentItemId, refresh);
 
-        }
-        else {
+        } else {
             if (store.state.STOREcurrentSelectedItemId != null) {
                 fetchPlayerData();
             }

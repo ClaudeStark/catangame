@@ -4,7 +4,6 @@
         <Settlement v-if="itemType == 'settlement'" :color="color"></Settlement>
         <City v-if="itemType == 'city'" :color="color"></City>
         <Robber v-if="itemType == 'robber'"></Robber>
-        
     </div>
 </template>
 
@@ -47,8 +46,6 @@ onMounted(() => {
     boardItem.value.id = props.item.rel_player_item_played_id;
 
     boardItem.value.dataset.ownerId = props.item.owner_id_player;
-
-
 })
 
 // Computed
