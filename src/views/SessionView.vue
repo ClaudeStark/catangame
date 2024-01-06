@@ -31,7 +31,7 @@ import ActiveSession from '@/components/ActiveSession.vue';
 import { supabase } from '@/lib/supabaseClient'
 
 // Vue importieren
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue'
 
 // Variablen
 let sessions = ref([])
@@ -51,6 +51,7 @@ let warningText = computed(() => {
 // OnMounted
 onMounted(() => {
     fetchGetOpenSessions()
+
 })
 
 // Funktion, welche alle offenen Sessions aus der Datenbank holt
@@ -129,6 +130,10 @@ supabase
     max-width: fit-content;
     margin-bottom: 5em;
 
+}
+
+h3 {
+    margin-top: 0.5em;
 }
 
 #activeSession {

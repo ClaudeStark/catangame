@@ -66,6 +66,10 @@ h3 {
     margin-right: 2em;
 }
 
+button {
+    margin-top: 0;
+}
+
 @media screen and (max-width: 600px) {
     h3 {
         margin-bottom: 1em;

@@ -114,11 +114,16 @@ window.addEventListener('resize', () => {
     display: flex;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
 }
 
 #playerBank {
     display: flex;
     flex-direction: column-reverse;
     position: relative;
+}
+
+#notChoosen {
+    color: white;
 }
 </style>                                            

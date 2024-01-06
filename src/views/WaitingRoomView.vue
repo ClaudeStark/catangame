@@ -21,6 +21,9 @@
     <section id="qrCodes">
         <div class="qrCode" v-html="qrCodeSVG"></div>
     </section>
+    <section>
+        <button id="deleteSession" @click="deleteSession()">Delete Session</button>
+    </section>
 </template>
 
 <script setup>
@@ -93,6 +96,11 @@ let firstPlayerInizialized = computed(() => {
 
 ////////////////////////////////////// Methoden ////////////////////////////////
 
+// Funktion, die die Session löscht
+// --> deleteSession
+function deleteSession() {
+    confirm('Are you sure you want to delete this session?') ? fetchDeleteSession() : null;
+}
 
 
 ////////////////////////////////////// Ende Methoden ////////////////////////////////
@@ -161,11 +169,11 @@ const checkpickedColor = async () => {
             console.error('Fehler:', error)
         } else {
 
-            // Benutzte Knöpfe ausblenden
+            // Benutzte Knöpfe in die gleiche Farbe wie Hintergrund setzen
             data.forEach(colorIndex => {
                 if (colorIndex.id_color != null && colorIndex.id_color != 0) {
-                    document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#2c3e50';
-                    document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#2c3e50';
+                    document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#1D4B3C';
+                    document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#1D4B3C';
                     document.querySelector('#button' + colorIndex.id_color).style.cursor = 'default'
                     pickedColors.push(colorIndex.id_color);
                 }
@@ -445,6 +453,49 @@ const fetchDeleteNoNamePlayers = async () => {
    console.log('n andere Tag')
 }
 
+// Funktion, die die Session aus der Datenbank löscht
+// --> deleteSession
+const fetchDeleteSession = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('session')
+            .delete()
+            .eq('session_id', session.value[0].session_id)
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+
+            fetchDeleteAllPlayer();
+
+            router.push('/session');
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, die alle Player dieser Session aus der Datenbank löscht
+// --> fetchDeleteSession
+const fetchDeleteAllPlayer = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .delete()
+            .eq('id_session', session.value[0].session_id)
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+
+            // Alle weiteren Einträge in den Tabellen werden durch die Foreign Keys gelöscht (cascade)
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+
 ////////////////////////////////////// Ende Fetches ////////////////////////////////
 
 
@@ -480,7 +531,12 @@ supabase
 }
 
 #backToSessions {
-    background-color: #2c3e50;
+    background-color: #A7C836;
+    color: white;
+}
+
+#backToSessions:hover {
+    background-color: #FADB42;
     color: white;
 }
 
@@ -493,7 +549,7 @@ h3 {
     width: 100%;
     padding: 1em 0;
     color: white;
-    background-color: #2c3e50;
+    background-color: #1D4B3C;
 }
 
 #playerInitialitation {
@@ -513,6 +569,18 @@ h3 {
     border-radius: 50%;
     border: 5px solid white;
     margin: 10px;
+}
+
+.qrCode {
+    overflow: auto;
+}
+
+#deleteSession {
+    background-color: #EB66A2;
+}
+
+#deleteSession:hover {
+    background-color: #943C8F;
 }
 
 @media screen and (max-width: 600px) {

@@ -27,11 +27,11 @@
                 </section>
                 <section id="playerStats"
                     :style="{ backgroundColor: `${colors.find(color => color.color_id == id_color)?.hex_code}20` }">
-                    <div id="victoryPoints">
+                    <!-- <div id="victoryPoints">
                         <p>Victory Points: 0 </p>
-                    </div>
+                    </div> -->
                     <div id="buildings">
-                        <div class="building">
+                        <div class="building" >
                             <Road id="road" :rotation="0"
                                 :color="colors.find(color => color.color_id == id_color)?.hex_code"></Road>
                             <p>{{ buildings.find(building => building.buildingItemTypeId ==
@@ -80,7 +80,7 @@
 
 <script setup>
 // Vue importieren
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 
 // Supabase importieren
 import { supabase } from '@/lib/supabaseClient';
@@ -214,9 +214,23 @@ onMounted(() => {
 
     // Alle Farben aus der Datenbank holen
     fetchColors();
+
+    // overflow: hidden; damit die Seite nicht gescrollt werden kann
+    document.body.style.overflow = 'hidden';
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
+
+
+
+///////////////////////////////////// ONBEFOREUNMOUNT ////////////////////////////////
+
+// overflow: auto; wieder aktivieren beim Verlassen der Seite
+onBeforeUnmount(() => {
+    document.body.style.overflow = '';
+})
+
+///////////////////////////////////// Ende ONBEFOREUNMOUNT ////////////////////////////////
 
 
 
@@ -743,7 +757,7 @@ h2 {
     flex-shrink: 0;
     background-color: bisque;
     z-index: 10;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: row;
     align-items: center;
 }
@@ -754,7 +768,8 @@ h2 {
     flex-shrink: 0;
     flex-direction: row;
     align-items: center;
-    gap: 2em;
+    gap: 1em;
+    width: auto;
 }
 
 .building {

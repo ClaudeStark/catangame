@@ -12,7 +12,7 @@
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">
-                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()">Safe and Start Game</button>
+                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Safe and Start Game</button>
             </div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=2000 :function="'popUp'" :playerPositions="playerPositions"
@@ -4300,7 +4300,7 @@ import { useRoute } from 'vue-router';
 import { supabase } from '@/lib/supabaseClient'
 
 // Vue importieren
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 
 // Store importieren
 import { useStore } from 'vuex';
@@ -4457,10 +4457,22 @@ onMounted(async () => {
 
     // SessionInfo aus der Datenbank holen
     fetchSessionInfo();
+
+    // overflow: hidden; damit die Seite nicht gescrollt werden kann
+    document.body.style.overflow = 'hidden';
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
 
+
+///////////////////////////////////// ONBEFOREUNMOUNT ////////////////////////////////
+
+// overflow wird beim Verlassen der Seite wieder geleert
+onBeforeUnmount(() => {
+    document.body.style.overflow = '';
+})
+
+///////////////////////////////////// Ende ONBEFOREUNMOUNT ////////////////////////////////
 
 
 ///////////////////////////////////// Methoden ////////////////////////////////
@@ -5176,6 +5188,8 @@ supabase
 
 .gridItem {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /**************** Grid styling */
@@ -5196,9 +5210,27 @@ supabase
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: #1D4B3C;
     z-index: 20;
 }
+
+#btnStartGame {
+    background-color: #FADB42;
+    color: #1D4B3C;
+    font-weight: 800;
+    font-size: 1.5em;
+    padding:2em;
+    margin:2em;
+    height: 1vh;
+    padding-top: 0.8em;
+}
+
+#btnStartGame:hover {
+    background-color: #A7C836;
+
+}
+
+
 
 /********************* PopUp Styling */
 
@@ -5266,4 +5298,5 @@ supabase
 #positionsBackground {
     opacity: 0;
 }
+
 </style>

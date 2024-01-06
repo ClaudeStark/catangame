@@ -21,5 +21,6 @@ const props = defineProps({
 #road {
     display: flex;
     justify-content: center;
+    width: max-content !important;
 }
 </style>

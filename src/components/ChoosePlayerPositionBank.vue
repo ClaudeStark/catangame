@@ -91,5 +91,20 @@ function setChoosenPosition(playerName) {
 </script>
 
 <style scoped>
-#choosePlayerPositionBank {}
+#choosePlayerPositionBank {
+    color: white;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+#playerBank {
+    border-radius: 100px 100px 0 0;
+
+}
+
+button {
+    margin-bottom: 1em;
+}
 </style>

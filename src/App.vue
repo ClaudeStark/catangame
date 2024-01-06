@@ -60,7 +60,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   align-items: center;
-  /* color: #1d4b3c; */
 
   margin: 0;
   padding: 0;
@@ -84,10 +83,10 @@ h2 {
 button {
   font-weight: 800;
   font-family: 'Raleway', sans-serif;
-  color: #1d4b3c;
+  color: white;
   letter-spacing: 0.05rem;
   padding: 1rem 2rem;
-  background-color: white;
+  background-color: #1D4B3C;
   border-radius: 100px;
   margin-top: 1rem;
   transition: ease-in-out 0.4s;
@@ -96,7 +95,7 @@ button {
 }
 
 button:hover {
-  background-color: #fadb42;
+  background-color:  #4B6F2B;
   transition: ease-in-out 0.4s;
 }
 
