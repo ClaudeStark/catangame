@@ -22,7 +22,7 @@
         <div class="qrCode" v-html="qrCodeSVG"></div>
     </section>
     <section>
-        <button id="deleteSession" @click="deleteSession()">Delete Session</button>
+        <button id="deleteSession" @click="deleteSession()">Delete this Session</button>
     </section>
 </template>
 
