@@ -15,9 +15,9 @@
         <div id="warningText" ref="warning">{{ warningText }}</div>
         <form @submit="createSession">
             <label for="sessionTitle">Choose a Session Title: </label>
-            <input type="text" id="sessionTitle" v-model="dynamicTitle">
+            <input type="text" id="sessionTitle" maxlength="25" v-model="dynamicTitle">
             <label for="sessionCode">Choose a Session Code: </label>
-            <input type="number" id="sessionCode" v-model="dynamicCode">
+            <input type="text" id="sessionCode" maxlength="4" v-model="dynamicCode">
             <button type="submit">create new Session</button>
         </form>
     </section>

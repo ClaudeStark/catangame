@@ -10,8 +10,13 @@
         <p>Each player in turn has to choose his desired color. After picking the color, scan your personal QR-Code with
             your mobile phone to join the playfield.</p>
     </section>
-    <section v-if="firstPlayerInizialized">
-        <button id="rejoinGame" @click="fetchDeleteNoNamePlayers">Rejoin Game</button>
+    <section v-if="firstPlayerInizialized" id="rejoinGameSection">
+        <button id="rejoinGame" @click="setRejoinGame()">{{ rejoinGame ? 'Close' : 'Rejoin Player in Game' }}</button>
+        <section id="currentPlayers" v-if="rejoinGame">
+            <div v-for="player in currentPlayingPlayers" id="currentPlayingPlayerContainer">
+                <CurrentPlayingPlayer :player="player" @generateQRCode="generateQRCode"></CurrentPlayingPlayer>
+            </div>
+        </section>
 
     </section>
     <section id="buttons">
@@ -46,6 +51,9 @@ const store = useStore();
 // QRCode importieren
 import QRCode from 'qrcode-generator';
 
+// Komponenten importieren
+import CurrentPlayingPlayer from '@/components/CurrentPlayingPlayer.vue';
+
 // Variablen
 let sessionTitle = useRoute().query.session_title;
 let session = ref([{}]);
@@ -53,6 +61,8 @@ let qrCodeSVG = ref('');
 let colors = ref([]);
 let pickedColors = [];
 let allPlayerData = ref([]);
+let rejoinGame = ref(false);
+let currentPlayingPlayers = ref([]);
 
 // Computed
 let getQrCodeSize = computed(() => {
@@ -100,6 +110,22 @@ let firstPlayerInizialized = computed(() => {
 // --> deleteSession
 function deleteSession() {
     confirm('Are you sure you want to delete this session?') ? fetchDeleteSession() : null;
+}
+
+// Funktion, welche die Variabel rejoinGame anpasst, je nach dem ob man auf rejoinGame klickt oder nicht
+// --> click auf rejoinGame
+function setRejoinGame() {
+    if (rejoinGame.value) {
+        rejoinGame.value = false;
+    } else {
+        rejoinGame.value = true;
+
+        // Alle Player, welche noch keinen Namen haben, werden aus der Datenbank gelöscht
+        fetchUnMountNoNamePlayer();
+
+        // Alle Player, welche an der Session teilnehmen, werden aus der Datenbank geholt und in das Array currentPlayingPlayers geschrieben
+        fetchGetCurrentPlayingPlayers();
+    }
 }
 
 
@@ -169,14 +195,23 @@ const checkpickedColor = async () => {
             console.error('Fehler:', error)
         } else {
 
+            // Alle Knöpfe werden wieder farbig
+            colors.value.forEach(color => {
+                document.querySelector('#button' + color.color_id).style.backgroundColor = color.hex_code;
+                document.querySelector('#button' + color.color_id).style.borderColor = 'white';
+                document.querySelector('#button' + color.color_id).style.cursor = 'pointer'
+            });
+
+
             // Benutzte Knöpfe in die gleiche Farbe wie Hintergrund setzen
             data.forEach(colorIndex => {
+                console.log(colorIndex)
                 if (colorIndex.id_color != null && colorIndex.id_color != 0) {
                     document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#1D4B3C';
                     document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#1D4B3C';
                     document.querySelector('#button' + colorIndex.id_color).style.cursor = 'default'
                     pickedColors.push(colorIndex.id_color);
-                }
+                } 
             });
         }
     }
@@ -339,7 +374,7 @@ const fetchClearPlayerInProgress = async (id_session) => {
             .eq('player_id', tempPlayerIdToBeDeleted)
 
         if (error) {
-            console.error('Fehler:', error);
+            console.error('Es gibt keine temporären Spieler, welche gelöscht werden müssten', error);
         } else {
             console.log('Geklappt:5', data);
         }
@@ -447,10 +482,25 @@ const fetchGetAllPlayerData = async () => {
     }
 }
 
-// Funktion, die einen Spieler aus der Datenbank löscht, welcher noch keinen Namen haben
-// --> deleteNoNamePlayer
-const fetchDeleteNoNamePlayers = async () => {
-   console.log('n andere Tag')
+// Funktion, die den Spieler, welcher mounted ist aber noch keinen Namen hat die id_color auf null setzt
+// --> setRejoinGame
+const fetchUnMountNoNamePlayer = async () => {
+    console.log('halloS')
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .update({ id_color: null })
+            .eq('id_session', session.value[0].session_id)
+            .is('name', null)
+            .neq('id_color', '0');
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
 }
 
 // Funktion, die die Session aus der Datenbank löscht
@@ -495,6 +545,27 @@ const fetchDeleteAllPlayer = async () => {
     }
 }
 
+// Funktion, welche alle Player, welche an der Session teilnehmen, aus der Datenbank holt und in das Array currentPlayingPlayers schreibt
+// --> setRejoinGame
+const fetchGetCurrentPlayingPlayers = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .select()
+            .eq('id_session', session.value[0].session_id)
+            .neq('name', 'null')
+            .neq('id_color', '0')
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            currentPlayingPlayers.value = data;
+        };
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
 
 ////////////////////////////////////// Ende Fetches ////////////////////////////////
 
@@ -526,7 +597,7 @@ supabase
 }
 
 #rejoinGame {
-    margin: 2em 1em;
+    margin: 4rem 1rem 2rem 1rem;
     min-width: 10em;
 }
 
@@ -559,8 +630,6 @@ h3 {
     border-radius: 8px;
     padding: 10px;
     max-width: fit-content;
-    margin-bottom: 2em;
-
 }
 
 .colorButton {
@@ -577,10 +646,29 @@ h3 {
 
 #deleteSession {
     background-color: #EB66A2;
+    margin-bottom: 1rem;
 }
 
 #deleteSession:hover {
     background-color: #943C8F;
+}
+
+#currentPlayers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#rejoinGameSection {
+    width: 70%;
+    margin-bottom: 2rem;
+}
+
+#currentPlayingPlayerContainer {
+    width: 100%;
+
 }
 
 @media screen and (max-width: 600px) {

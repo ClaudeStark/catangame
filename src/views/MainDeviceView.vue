@@ -4641,7 +4641,7 @@ const fetchRelItemPlayed = async (playerId) => {
             .select()
             .eq('owner_id_player', playerId)
         if (error) {
-            console.error('Fehler (RelData):', error);
+            console.error('Fehler (Keine Bereits gespielten Karten vorhanden):', error);
         } else {
             data.forEach(item => {
                 playedItems.value.push(item);

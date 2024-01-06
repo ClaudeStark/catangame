@@ -1,13 +1,15 @@
 <template>
     <section id="choosePlayerPositionBank">
-        <div id="choosen" v-if="choosenBoardPosition">
+        <div id="choosen" class="chooseBank" v-if="choosenBoardPosition">
             <h2>Welcome to the Game {{ playerNameAtPosition }}</h2>
             <button @click="resetChoosenPosition()">Reset</button>
         </div>
-        <div id="notChoosen" v-else>
+        <div id="notChoosen" class="chooseBank" v-else>
             <h2>Choose your name</h2>
-            <button v-for="name in playerNamesToBePositioned" @click="setChoosenPosition(name)">
+            <div id="chooseNameButtons">
+                <button v-for="name in playerNamesToBePositioned" @click="setChoosenPosition(name)">
                 {{ name }}</button>
+            </div>
         </div>
     </section>
 </template>
@@ -92,6 +94,8 @@ function setChoosenPosition(playerName) {
 
 <style scoped>
 #choosePlayerPositionBank {
+    height: 100%;
+    width: 100%;
     color: white;
 }
 
@@ -105,6 +109,24 @@ h2 {
 }
 
 button {
-    margin-bottom: 1em;
+    margin: 0;
+}
+
+.chooseBank{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+#chooseNameButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 </style>

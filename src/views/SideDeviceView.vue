@@ -3,9 +3,10 @@
         <div id="namePopUpContent">
             <form @submit="definePlayerName">
                 <label for="playerName">Choose your name: </label>
-                <input type="text" id="playerName" v-model="playerName">
-                <button type="submit">{{ choosenName ? 'Update' : 'Done' }}</button>
+                <input type="text" id="playerName" maxlength="20" v-model="playerName">
+                <button id="buttonChooseName" type="submit">{{ choosenName ? 'Update' : 'Done' }}</button>
             </form>
+            <button @click="fetchRemoveOwnPosition">Choose new Position on Board</button>
         </div>
     </section>
     <section id="gameBox" @mousemove="trackMousePosition" @mouseup="stopFlyingCard()">
@@ -31,7 +32,7 @@
                         <p>Victory Points: 0 </p>
                     </div> -->
                     <div id="buildings">
-                        <div class="building" >
+                        <div class="building">
                             <Road id="road" :rotation="0"
                                 :color="colors.find(color => color.color_id == id_color)?.hex_code"></Road>
                             <p>{{ buildings.find(building => building.buildingItemTypeId ==
@@ -594,6 +595,26 @@ const fetchChangeRelPlayerItemPlayed = async (tempItemTypeId) => {
     }
 }
 
+// Funktion, welche die Position des Spielers in der Datenbank löscht
+// --> Button in NamePopUp
+const fetchRemoveOwnPosition = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .update({ board_position: null })
+            .eq('player_id', playerId.value)
+
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+            chooseName.value = false;
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
 ///////////////////////////////////// EventListener ////////////////////////////////
@@ -755,29 +776,15 @@ h2 {
     height: 10vh;
     display: flex;
     flex-shrink: 0;
-    background-color: bisque;
     z-index: 10;
-    justify-content: center;
+    justify-content: right;
     flex-direction: row;
     align-items: center;
 }
 
-#buildings {
-    height: 100%;
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
-    width: auto;
-}
 
-.building {
-    height: 100%;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-}
+
+
 
 #road {
     aspect-ratio: 1/1;
@@ -809,11 +816,30 @@ h2 {
     pointer-events: none;
 }
 
-.flyingCardContainer{
+.flyingCardContainer {
     overflow: hidden;
     position: absolute;
     width: 100vw;
     height: 100vh;
     pointer-events: none;
+}
+
+#buildings {
+    height: 100%;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.building {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+#buttonChooseName {
+    margin-left: 1rem;
 }
 </style>
