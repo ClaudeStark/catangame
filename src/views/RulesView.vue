@@ -7,6 +7,53 @@
     <div class="rules">
         <div class="content">
             <h1>Spielablauf</h1>
+
+            <h2>Spielprinzip unserer Version</h2>
+            <p><em>Gemeinsam – aber Digital.</em> Ziel unserer Arbeit war ein analoges Spielgefühl bei einem Digitalen Spiel
+                aufkommen zu lassen. Dafür haben wir eine Kommunikation von mehreren Devices ermöglicht. Spieler haben ihr
+                eigenes Device z.B. ein Smartphone und ein anderes Device z.B. ein Tablet dient als Spielfeld.</p>
+
+            <h3>Anleitung</h3>
+            <ul style="margin-bottom: 2em; border-bottom: 2px solid; border-color: white; padding-bottom: 2em;">
+                <li>
+                    <p>Im Menüpunkt "Session" kann ein neues Spiel erstellt werden. Mit dem von dir gewählten Code kannst du
+                        dich einloggen.</p>
+                </li>
+                <li>
+                    <p>Nach dem Einloggen bist du in einem Warteraum. Hier können andere Spieler mit einem klick auf die
+                        gewünschte Farbe beitreten.</p>
+                </li>
+                <li>
+                    <p>Sind alle Spieler beigetreten, klick auf "Start Game" um die Sitzplätze zu vergeben (Mitspieler
+                        müssen dafür ihren Namen auf ihrem Gerät eingegeben haben). Nachdem sich alle platziert haben,
+                        kannst du das Spiel starten.</p>
+                </li>
+                <li>
+                    <p>Mit einem Klick auf die Würfel, wird gewürfelt.</p>
+                </li>
+                <li>
+                    <p>Karten von den Nachziehstapeln können per Drag and Drop den Spielern übergeben werden. Dafür die
+                        Karte bis ganz an den Rand des gewünschten Spielers ziehen und loslassen.</p>
+                </li>
+                <li>
+                    <p>Auf den individuellen Devices können Rohstoffe und Etwicklungskarten (nur falls vorhanden) per Drag
+                        and Drop in den oberen Bildschirmrand auf das Spielfeld gespielt werden.</p>
+                </li>
+                <li>
+                    <p>Karten die auf dem Spielfeld liegen können zurück zur Bank gelegt werden indem sie per Drag and Drop auf die Nachziehstapel gezogen werden.</p>
+                </li>
+                <li>
+                    <p>Strassen, Siedlungen und Städte können per Drag and Drop von der Spielerbank auf dem Spielfeld platziert werden.</p>
+                </li>
+                <li>
+                    <p>Bauten auf dem Spielfeld können per Drag and Drop in die Spielerbank vom Spielfeld entfernt werden.</p>
+                </li>
+                <li>
+                    <p>Die Raubenden können per Drag and Drop auf die Mitte einer Kachel verschoben werden.</p>
+                </li>
+            </ul>
+
+
             <h2>Überblick</h2>
             <p>
                 Es beginnt der älteste Spieler. Wer an der Reihe ist, hat in der nachstehend genannten Reihenfolge folgende
@@ -256,7 +303,7 @@ function goToSession() {
     background-color: #1d4b3c;
     padding-right: 17px;
     box-sizing: content-box;
-    flex:1;
+    flex: 1;
 }
 
 .content {
@@ -357,7 +404,7 @@ ul {
     }
 
     .rules {
-        max-height: 87vh;
+
         padding-right: 0;
         box-sizing: border-box;
     }
@@ -369,8 +416,4 @@ ul {
         width: 75%;
     }
 
-    .rules {
-        max-height: 90vh;
-    }
-}
-</style>
+}</style>
