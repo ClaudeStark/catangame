@@ -38,7 +38,8 @@ const props = defineProps({
     opacity: 0;
 }
 
-.hoverBankBottom:hover {
+.hoverBankBottom:hover, .hoverBankBottom:active {
     opacity: 1;
 }
+
 </style>                                            

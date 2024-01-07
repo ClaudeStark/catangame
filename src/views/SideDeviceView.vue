@@ -9,8 +9,8 @@
             <button @click="fetchRemoveOwnPosition">Choose new Position on Board</button>
         </div>
     </section>
-    <section id="gameBox" @mousemove="trackMousePosition" @mouseup="stopFlyingCard()">
-        <div class="flyingCardContainer">
+    <section id="gameBox" @mousemove="event => trackMousePosition(event, 'mouse')" @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="stopFlyingCard()" @touchend="stopFlyingCard()">
+        <div class="flyingCardContainer" v-if="mousePosition.mouseXPosition != null">
             <div class="flyingCard" ref="flyingCard"
                 :style="{ top: flyingCardPositionTop + 'px', left: flyingCardPositionLeft + 'px', opacity: flyingCardVisible }">
                 <img :src="'/images/resources_vertical/card_' + flyingCardType + '.svg'" draggable="false">
@@ -23,32 +23,29 @@
                 </div>
                 <section id="resourceCardsContainer">
                     <div class="resourceCard" v-if="resourceCards.length != 0" v-for="card in resourceCards">
-                        <HandCard :card="card"></HandCard>
+                        <HandCard :card="card" @getMousePosition=""></HandCard>
                     </div>
                 </section>
                 <section id="playerStats"
                     :style="{ backgroundColor: `${colors.find(color => color.color_id == id_color)?.hex_code}20` }">
-                    <!-- <div id="victoryPoints">
-                        <p>Victory Points: 0 </p>
-                    </div> -->
                     <div id="buildings">
                         <div class="building">
                             <Road id="road" :rotation="0"
                                 :color="colors.find(color => color.color_id == id_color)?.hex_code"></Road>
-                            <p>{{ buildings.find(building => building.buildingItemTypeId ==
+                            <p id="roadAmount"> {{ buildings.find(building => building.buildingItemTypeId ==
                                 (store.state.STOREitemTypes.find(item => item.name ==
                                     'road')?.item_type_id))?.amount }}/{{ store.state.STOREmaxRoads }}</p>
                         </div>
                         <div class="building">
                             <Settlement id="settlement" :color="colors.find(color => color.color_id == id_color)?.hex_code">
                             </Settlement>
-                            <p>{{ buildings.find(building => building.buildingItemTypeId ==
+                            <p id="settlementAmount">{{ buildings.find(building => building.buildingItemTypeId ==
                                 (store.state.STOREitemTypes.find(item => item.name ==
                                     'settlement')?.item_type_id))?.amount }}/{{ store.state.STOREmaxSettlements }}</p>
                         </div>
                         <div class="building">
                             <City id="city" :color="colors.find(color => color.color_id == id_color)?.hex_code"></City>
-                            <p>{{ buildings.find(building => building.buildingItemTypeId ==
+                            <p id="cityAmount">{{ buildings.find(building => building.buildingItemTypeId ==
                                 (store.state.STOREitemTypes.find(item => item.name ==
                                     'city')?.item_type_id))?.amount }}/{{ store.state.STOREmaxCities }}</p>
                         </div>
@@ -266,6 +263,9 @@ function rename() {
 // Funktion, die aufgerufen wird, wenn der Player die Handkarte loslässt
 // --> HandCard (mouseUp)
 function stopFlyingCard() {
+    mousePosition.value.mouseXPosition = null;
+    mousePosition.value.mouseYPosition = null;
+    console.log(store.state.STOREdraggedCard, hoverBarVisible.value)
     if (store.state.STOREdraggedCard != null && hoverBarVisible.value) {
         let tempItemAmount = store.state.STOREplayerStats.find(item => item.id_item_type == store.state.STOREdraggedCard)?.amount
         fetchChangeRelTable(store.state.STOREdraggedCard, tempItemAmount);
@@ -273,10 +273,28 @@ function stopFlyingCard() {
     store.commit('STOREsetDraggedCard', null)
 }
 
-function trackMousePosition(event) {
+function trackMousePosition(event, input) {
     // Die Mausposition wird in das Array mousePosition gespeichert
-    mousePosition.value.mouseXPosition = event.clientX;
-    mousePosition.value.mouseYPosition = event.clientY;
+    if (input == 'touch') {
+        mousePosition.value.mouseXPosition = event.touches[0].pageX;
+        mousePosition.value.mouseYPosition = event.touches[0].pageY;
+
+        let hoverBankLowerBorder = document.getElementById('hoverBar').getBoundingClientRect().bottom;
+
+        console.log(hoverBankLowerBorder)
+
+        if(mousePosition.value.mouseYPosition < hoverBankLowerBorder){
+            console.log('true')
+            hoverBarVisible.value = true
+        } else {
+            console.log('false')
+            hoverBarVisible.value = false
+        }
+    } else if (input == 'mouse') {
+        mousePosition.value.mouseXPosition = event.clientX;
+        mousePosition.value.mouseYPosition = event.clientY;
+    }
+
 }
 
 
@@ -693,7 +711,7 @@ h2 {
 
 #gameBox {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     margin: 0;
     padding: 0;
     display: flex;
@@ -703,7 +721,7 @@ h2 {
 }
 
 #middleBar {
-    height: 90vh;
+    height: 90dvh;
     display: flex;
 }
 
@@ -750,7 +768,7 @@ h2 {
 }
 
 #hoverBar {
-    height: 10vh;
+    height: 10dvh;
     display: flex;
     flex-shrink: 0;
     z-index: 16;
@@ -763,7 +781,7 @@ h2 {
 }
 
 #resourceCardsContainer {
-    height: 70vh;
+    height: 70dvh;
     background-color: white;
     flex-direction: row;
     display: flex;
@@ -773,10 +791,11 @@ h2 {
 
 #playerStats {
     padding: 0 calc(5px + 0.2em);
-    height: 10vh;
+    height: 10dvh;
     display: flex;
     flex-shrink: 0;
     z-index: 10;
+    width: 100%;
     justify-content: right;
     flex-direction: row;
     align-items: center;
@@ -804,6 +823,18 @@ h2 {
     margin-right: 5px;
 }
 
+#roadAmount {
+width: 5rem 
+}
+
+#settlementAmount {
+width: 5rem 
+}
+
+#cityAmount {
+width: 5rem 
+}
+
 .resourceCard {
     display: flex;
     margin: 0 -15px;
@@ -829,7 +860,7 @@ h2 {
     display: flex;
     flex-shrink: 0;
     flex-direction: row;
-    gap: 1em;
+    gap: 2em;
 }
 
 .building {

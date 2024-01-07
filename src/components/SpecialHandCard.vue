@@ -1,5 +1,5 @@
 <template>
-    <div class="specialCard" @mousedown="handleMouseDown">
+    <div class="specialCard" @mousedown="handleMouseDown" @touchstart="handleMouseDown">
         <img :src="'/images/resources_vertical/card_' + cardType + '.svg'" alt="card_development" draggable="false">
     </div>
 </template>

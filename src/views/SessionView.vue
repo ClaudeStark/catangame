@@ -1,7 +1,7 @@
 <template>
     <h1>Sessions</h1>
-    <h2>Active Sessions</h2>
-    <section id="activeSessions">
+    <h2 v-if="sessions.length > 0">Active Sessions</h2>
+    <section id="activeSessions" v-if="sessions.length > 0">
         <ul>
             <li v-for="session in sessions">
                 <ActiveSession id="activeSession" :session="session">

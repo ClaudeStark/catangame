@@ -12,7 +12,8 @@
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">
-                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Safe and Start Game</button>
+                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Safe and Start
+                    Game</button>
             </div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=2000 :function="'popUp'" :playerPositions="playerPositions"
@@ -26,9 +27,12 @@
             <div class="gridItem"></div>
         </section>
     </div>
-    <div id="gameBox" @mousedown="handleMouseDown" @mousemove="trackMousePosition" @mouseup="handleMouseUp">
+    <div id="gameBox" @mousedown="event => handleMouseDown(event, 'mouse')"
+        @touchstart="event => handleMouseDown(event, 'touch')" @mousemove="event => trackMousePosition(event, 'mouse')"
+        @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="event => handleMouseUp(event, 'mouse')"
+        @touchend="event => handleMouseUp(event, 'touch')">
         <div id="items">
-            <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos }">
+            <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos, display: mousePosition.mouseXPosition != null ? 'block' : 'none' }">
                 <div
                     v-if="store.state.STOREcurrentSelectedItemType == 'city' || store.state.STOREcurrentSelectedItemType == 'road' || store.state.STOREcurrentSelectedItemType == 'settlement' || store.state.STOREcurrentSelectedItemType == 'robber'">
                     <City v-if="store.state.STOREcurrentSelectedItemType == 'city'" :color="tempColor"></City>
@@ -4322,7 +4326,7 @@ let sessionInfo = ref({}); // !!!
 let allPlayerData = ref([]); // !!!
 let colors = ref([])
 let playedItems = ref([]);
-let mousePosition = ref({ 'mouseXPosition': '', 'mouseYPosition': '' });
+let mousePosition = ref({ 'mouseXPosition': null, 'mouseYPosition': null });
 let tempItemPositionCorrection = ref({ 'x': 0, 'y': 0 });
 let die1Value = ref(1);
 let die2Value = ref(1);
@@ -4513,10 +4517,16 @@ function rollDice() {
 
 // Funktion, welche die Mausposition auf der GameBox trackt
 // Funktion wird ausgeführt, sobald sich die Maus auf der GameBox bewegt
-function trackMousePosition(event) {
+function trackMousePosition(event, input) {
     // Die Mausposition wird in das Array mousePosition gespeichert
-    mousePosition.value.mouseXPosition = event.clientX;
-    mousePosition.value.mouseYPosition = event.clientY;
+    if (input == 'touch') {
+        mousePosition.value.mouseXPosition = event.touches[0].pageX;
+        mousePosition.value.mouseYPosition = event.touches[0].pageY;
+    } else if (input == 'mouse') {
+        mousePosition.value.mouseXPosition = event.clientX;
+        mousePosition.value.mouseYPosition = event.clientY;
+    }
+
 }
 
 // Funktion, welche die Breite eines BoardItems berechnet
@@ -4790,18 +4800,35 @@ window.addEventListener('resize', defineRobberWidth)
 
 // Funktion, welche aufgerufen wird, sobald geklickt wird
 // --> @mousedown (gameBox)
-function handleMouseDown(event) {
+function handleMouseDown(event, input) {
+    let positionX = '';
+    let positionY = '';
+
+    if (input == 'touch') {
+        // mousePosition wird befüllt
+        // mousePosition.value.mouseXPosition = event.touches[0].pageX;
+        // mousePosition.value.mouseYPosition = event.touches[0].pageY;
+
+
+        positionX = event.touches[0].pageX;
+        positionY = event.touches[0].pageY;
+    } else if (input == 'mouse') {
+        positionX = event.clientX;
+        positionY = event.clientY;
+
+    }
+    console.log(event)
     //console.log('down id: ', store.state.STOREcurrentSelectedItemId, 'down type: ', store.state.STOREcurrentSelectedItemType)
-    const x = event.clientX;
-    const y = event.clientY;
+
 
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
-    const elementsUnderCurser = document.elementsFromPoint(x, y);
+    const elementsUnderCurser = document.elementsFromPoint(positionX, positionY);
 
     console.log(elementsUnderCurser);
 
     // Prüfung, ob ein bankItem unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('bankItem'))) {
+        console.log('A')
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('bankItem'));
 
         // id des Items wird gespeichert
@@ -4828,6 +4855,7 @@ function handleMouseDown(event) {
 
     // Prüfung, ob ein drawPileCard unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('drawPileCard'))) {
+        console.log('B')
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('drawPileCard'));
 
         // id für die korrekte BildSource wird gespeichert
@@ -4848,6 +4876,7 @@ function handleMouseDown(event) {
 
     // Prüfung, ob ein Building aus der Bank unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('building'))) {
+        console.log('C')
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('building'));
 
         let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -4867,6 +4896,7 @@ function handleMouseDown(event) {
 
     // Prüfung, ob ein Building auf dem Spielfeld unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('boardItem'))) {
+        console.log('D')
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('boardItem'));
 
         tempColor.value = colors.value.find(color => color.color_id == (activePlayerData.value.find(player => player.player_id == selectedElement.dataset.ownerId)?.id_color))?.hex_code
@@ -4891,28 +4921,36 @@ function handleMouseDown(event) {
         selectedElement.style.display = "none";
         tempItem.value.style.display = "block";
     }
-
 }
 
 // Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
 // --> @mouseup (gameBox)
-function handleMouseUp(event) {
+function handleMouseUp(event, input) {
     console.log('up id: ', store.state.STOREcurrentSelectedItemId, 'up type: ', store.state.STOREcurrentSelectedItemType)
 
     if (store.state.STOREcurrentSelectedItemType === null) return;
 
-    const x = event.clientX;
-    const y = event.clientY;
+    let positionX = '';
+    let positionY = '';
+
+    if (input == 'touch') {
+        positionX = mousePosition.value.mouseXPosition;
+        positionY = mousePosition.value.mouseYPosition;
+    } else if (input == 'mouse') {
+        positionX = event.clientX;
+        positionY = event.clientY;
+
+    }
 
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
-    const elementsUnderCurser = document.elementsFromPoint(x, y);
+    const elementsUnderCurser = document.elementsFromPoint(positionX, positionY);
 
     console.log(elementsUnderCurser);
 
-
+console.log('XX')
     // Prüfung, ob man ein Item oder ein Building in der Hand hält
     if (store.state.STOREcurrentSelectedItemType === 'settlement' || store.state.STOREcurrentSelectedItemType === 'city') {
-
+console.log('AA')
         // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
         if (elementsUnderCurser.find(element => element.classList.contains('cornerCircle')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('cornerCircle'))?.id.replace('_', ''))) == null) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('cornerCircle'));
@@ -4958,6 +4996,7 @@ function handleMouseUp(event) {
             }
         }
     } else if (store.state.STOREcurrentSelectedItemType === 'road') {
+console.log('BB')
         // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Mittig
         if (elementsUnderCurser.find(element => element.classList.contains('roadCircleM')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleM'))?.id.replace('_', ''))) == null) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('roadCircleM'));
@@ -5053,7 +5092,7 @@ function handleMouseUp(event) {
             }
         }
     } else if (store.state.STOREcurrentSelectedItemType === 'robber') {
-
+console.log('CC')
         // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
         if (elementsUnderCurser.find(element => element.classList.contains('middleCircle'))) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('middleCircle'));
@@ -5075,6 +5114,7 @@ function handleMouseUp(event) {
         }
 
     } else {
+        console.log('DD')
         // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
         if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop')) && store.state.STOREcurrentSelectedItemType != 'classic_back') {
             let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -5138,6 +5178,10 @@ function handleMouseUp(event) {
     tempItem.value.style.display = "none";
     store.commit('STOREresetCurrentSelectedItemType');
     store.commit('STOREresetCurrentSelectedItemId');
+
+    // mousePosition wird geleert
+    mousePosition.value.mouseXPosition = null;
+    mousePosition.value.mouseYPosition = null;
 }
 
 
@@ -5219,8 +5263,8 @@ supabase
     color: #1D4B3C;
     font-weight: 800;
     font-size: 1.5em;
-    padding:2em;
-    margin:2em;
+    padding: 2em;
+    margin: 2em;
     height: 1vh;
     padding-top: 0.8em;
 }
@@ -5298,5 +5342,4 @@ supabase
 #positionsBackground {
     opacity: 0;
 }
-
 </style>

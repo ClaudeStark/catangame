@@ -1,6 +1,6 @@
 <template>
-  <div class="navigationBackground">
-    <nav v-if="showNavigation()">
+  <div class="navigationBackground" v-if="showNavigation()">
+    <nav >
       <router-link to="/" class="menuText">Catan</router-link>
       <router-link to="/rules" class="menuText">Spielablauf</router-link>
       <router-link to="/session" class="menuText">Sessions</router-link>
@@ -68,7 +68,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
 }
 
 h1 {

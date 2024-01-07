@@ -1,5 +1,5 @@
 <template>
-    <div class="handCard" @mousedown="handleMouseDown">
+    <div class="handCard" @mousedown="handleMouseDown" @touchstart="handleMouseDown">
         <img :src="'/images/resources_vertical/card_' + cardType + '.svg'" alt="card_development" draggable="false">
         <div id="amount">
             {{card.amount}}
@@ -10,7 +10,7 @@
 <script setup>
 
 //Vue importieren
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted} from 'vue';
 
 // Store importieren
 import { useStore } from 'vuex';
@@ -20,6 +20,7 @@ const store = useStore();
 const props = defineProps({
     card: Object
 })
+
 
 // Computed
 let cardType = computed(() => {
