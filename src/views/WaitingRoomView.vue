@@ -11,11 +11,12 @@
             your mobile phone to join the playfield.</p>
     </section>
     <section v-if="firstPlayerInizialized" id="rejoinGameSection">
-        <button id="rejoinGame" @click="setRejoinGame()">{{ rejoinGame ? 'Close' : 'Rejoin Player in Game' }}</button>
+        <button id="rejoinGame" @click="setRejoinGame('rejoin')">{{ rejoinGame ? 'Close' : 'Rejoin Player in Game' }}</button>
         <section id="currentPlayers" v-if="rejoinGame">
             <div v-for="player in currentPlayingPlayers" id="currentPlayingPlayerContainer">
                 <CurrentPlayingPlayer :player="player" @generateQRCode="generateQRCode"></CurrentPlayingPlayer>
             </div>
+            <button v-if="showRejoinButton" @click="setRejoinGame('refresh')">Refresh joinable Player in Game</button>
         </section>
 
     </section>
@@ -59,10 +60,11 @@ let sessionTitle = useRoute().query.session_title;
 let session = ref([{}]);
 let qrCodeSVG = ref('');
 let colors = ref([]);
-let pickedColors = [];
+let pickedColors = ref([]);
 let allPlayerData = ref([]);
 let rejoinGame = ref(false);
 let currentPlayingPlayers = ref([]);
+let showRejoinButton = ref(false);
 
 // Computed
 let getQrCodeSize = computed(() => {
@@ -95,7 +97,7 @@ onMounted(() => {
 let firstPlayerInizialized = computed(() => {
     let tempFirstPlayerInizialized = false;
     allPlayerData.value.forEach(player => {
-        if (player.initialization_in_progress == false) {
+        if (player.initialization_in_progress == false && player.id_color != 0) {
             tempFirstPlayerInizialized = true;
         }
     });
@@ -114,8 +116,8 @@ function deleteSession() {
 
 // Funktion, welche die Variabel rejoinGame anpasst, je nach dem ob man auf rejoinGame klickt oder nicht
 // --> click auf rejoinGame
-function setRejoinGame() {
-    if (rejoinGame.value) {
+function setRejoinGame(input) {
+    if (rejoinGame.value && input == 'rejoin') {
         rejoinGame.value = false;
     } else {
         rejoinGame.value = true;
@@ -125,6 +127,9 @@ function setRejoinGame() {
 
         // Alle Player, welche an der Session teilnehmen, werden aus der Datenbank geholt und in das Array currentPlayingPlayers geschrieben
         fetchGetCurrentPlayingPlayers();
+
+        // QR-Code wird geleert
+        qrCodeSVG.value = '';
     }
 }
 
@@ -195,6 +200,7 @@ const checkpickedColor = async () => {
             console.error('Fehler:', error)
         } else {
 
+            console.log(data)
             // Alle Knöpfe werden wieder farbig
             colors.value.forEach(color => {
                 document.querySelector('#button' + color.color_id).style.backgroundColor = color.hex_code;
@@ -202,16 +208,17 @@ const checkpickedColor = async () => {
                 document.querySelector('#button' + color.color_id).style.cursor = 'pointer'
             });
 
-
+            pickedColors.value = [];
             // Benutzte Knöpfe in die gleiche Farbe wie Hintergrund setzen
+
             data.forEach(colorIndex => {
                 console.log(colorIndex)
                 if (colorIndex.id_color != null && colorIndex.id_color != 0) {
                     document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#1D4B3C';
                     document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#1D4B3C';
                     document.querySelector('#button' + colorIndex.id_color).style.cursor = 'default'
-                    pickedColors.push(colorIndex.id_color);
-                } 
+                    pickedColors.value.push(colorIndex.id_color);
+                }
             });
         }
     }
@@ -227,7 +234,7 @@ function buttonClick(colorIndex, colorHexCode) {
     let id_session = session.value[0].session_id;
 
     // Schauen, ob der angeklickte Button in pickedColors enthalten ist = schon mal definiert wurde - nicht mehr anklickbar sein darf
-    if (!pickedColors.includes(colorIndex)) {
+    if (!pickedColors.value.includes(colorIndex)) {
 
         // Abfrage an die Datenbank, ob bereits ein Spieler am initialisieren ist. Rückgabewert des Fetches ist ein Array, wessen Länge relevant für die Unterscheidung ist
         fetchCheckPendingInitialization().then((result) => {
@@ -238,7 +245,7 @@ function buttonClick(colorIndex, colorHexCode) {
 
         // Alle noch nicht gewählten Buttons werden wieder farbig basierend auf dem Array pickedColors
         colors.value.forEach(color => {
-            if (!pickedColors.includes(color.color_id)) {
+            if (!pickedColors.value.includes(color.color_id)) {
                 document.querySelector('#button' + color.color_id).style.backgroundColor = color.hex_code;
                 document.querySelector('#button' + color.color_id).style.borderColor = 'white';
             }
@@ -248,6 +255,12 @@ function buttonClick(colorIndex, colorHexCode) {
         let currentButton = document.querySelector('#button' + colorIndex);
         currentButton.style.backgroundColor = 'white';
         currentButton.style.borderColor = colorHexCode;
+
+        // rejoinGame wird false gesetzt, wenn pickedColors noch leer ist
+        if (pickedColors.value.length == 0) {
+            rejoinGame.value = false;
+        }
+
 
         // QR-Code wird generiert für den ersten Spieler, der in der Datenbank generiert wurde
         generateQRCode(id_session, colorHexCode, colorIndex);
@@ -475,6 +488,7 @@ const fetchGetAllPlayerData = async () => {
             console.error('Fehler:', error)
         } else {
             allPlayerData.value = data;
+
         };
     }
     catch (e) {
@@ -485,17 +499,19 @@ const fetchGetAllPlayerData = async () => {
 // Funktion, die den Spieler, welcher mounted ist aber noch keinen Namen hat die id_color auf null setzt
 // --> setRejoinGame
 const fetchUnMountNoNamePlayer = async () => {
-    console.log('halloS')
     try {
         const { data, error } = await supabase
             .from('player')
-            .update({ id_color: null })
+            .delete()
             .eq('id_session', session.value[0].session_id)
             .is('name', null)
             .neq('id_color', '0');
         if (error) {
             console.error('Fehler:', error)
         } else {
+            checkpickedColor();
+
+            fetchGetAllPlayerData();
         };
     }
     catch (e) {
@@ -559,6 +575,11 @@ const fetchGetCurrentPlayingPlayers = async () => {
             console.error('Fehler:', error)
         } else {
             currentPlayingPlayers.value = data;
+            if(data.length > 0){
+                showRejoinButton.value = true;
+            } else {
+                showRejoinButton.value = false;
+            }
         };
     }
     catch (e) {

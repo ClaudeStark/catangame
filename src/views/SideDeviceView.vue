@@ -6,10 +6,10 @@
                 <input type="text" id="playerName" maxlength="20" v-model="playerName">
                 <button id="buttonChooseName" type="submit">{{ choosenName ? 'Update' : 'Done' }}</button>
             </form>
-            <button @click="fetchRemoveOwnPosition">Choose new Position on Board</button>
+            <button v-if="choosenName" @click="fetchRemoveOwnPosition">Choose new Position on Board</button>
         </div>
     </section>
-    <section id="gameBox" @mousemove="event => trackMousePosition(event, 'mouse')" @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="stopFlyingCard()" @touchend="stopFlyingCard()">
+    <section ref="gameBox" id="gameBox" @mousemove="event => trackMousePosition(event, 'mouse')" @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="stopFlyingCard()" @touchend="stopFlyingCard()">
         <div class="flyingCardContainer" v-if="mousePosition.mouseXPosition != null">
             <div class="flyingCard" ref="flyingCard"
                 :style="{ top: flyingCardPositionTop + 'px', left: flyingCardPositionLeft + 'px', opacity: flyingCardVisible }">
@@ -114,6 +114,7 @@ let mousePosition = ref({ mouseXPosition: 0, mouseYPosition: 0 });
 
 // DOM
 const flyingCard = ref(null);
+const gameBox = ref(null);
 
 ///////////////////////////////////// Computed ////////////////////////////////
 
@@ -385,6 +386,8 @@ const fetchCurrentPlayerId = async () => {
             };
         }
         catch (e) {
+            gameBox.value.style.display = 'none';
+            alert('Dieser Spieler existiert nicht mehr.')
             console.error('CatchFehler:', e)
         }
     }
@@ -530,6 +533,8 @@ const fetchDownloadPlayerName = async () => {
     }
     catch (e) {
         console.error('CatchFehler:', e)
+        gameBox.value.style.display = 'none';
+        alert('Dieser Spieler existiert nicht mehr.')
     }
 }
 
@@ -549,6 +554,8 @@ const fetchDefinePlayerName = async () => {
 
     catch (e) {
         console.error('CatchFehler:', e)
+        gameBox.value.style.display = 'none';
+        alert('Dieser Spieler existiert nicht mehr.')
     }
 }
 
@@ -630,6 +637,8 @@ const fetchRemoveOwnPosition = async () => {
     }
     catch (e) {
         console.error('CatchFehler:', e)
+        gameBox.value.style.display = 'none';
+        alert('Dieser Spieler existiert nicht mehr.')
     }
 }
 
