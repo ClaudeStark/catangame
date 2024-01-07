@@ -1,7 +1,7 @@
 <template>
     <section id="namePopUpContainer" v-if="chooseName || !choosenName">
         <div id="namePopUpContent">
-            <form @submit="definePlayerName">
+            <form @submit="checkNameAvailability">
                 <label for="playerName">Choose your name: </label>
                 <input type="text" id="playerName" maxlength="20" v-model="playerName">
                 <button id="buttonChooseName" type="submit">{{ choosenName ? 'Update' : 'Done' }}</button>
@@ -9,7 +9,8 @@
             <button v-if="choosenName" @click="fetchRemoveOwnPosition">Choose new Position on Board</button>
         </div>
     </section>
-    <section ref="gameBox" id="gameBox" @mousemove="event => trackMousePosition(event, 'mouse')" @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="stopFlyingCard()" @touchend="stopFlyingCard()">
+    <section ref="gameBox" id="gameBox" @mousemove="event => trackMousePosition(event, 'mouse')"
+        @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="stopFlyingCard()" @touchend="stopFlyingCard()">
         <div class="flyingCardContainer" v-if="mousePosition.mouseXPosition != null">
             <div class="flyingCard" ref="flyingCard"
                 :style="{ top: flyingCardPositionTop + 'px', left: flyingCardPositionLeft + 'px', opacity: flyingCardVisible }">
@@ -234,20 +235,15 @@ onBeforeUnmount(() => {
 
 
 ///////////////////////////////////// Methoden ////////////////////////////////
-// Funktion, welche aufgerufen wird, wenn der Player den Knopf drückt, um dem Spiel beizutreten/Seinen Namen einzugeben
-// der eingetragene Name aus dem Formular wird in playerName.value gespeichert
-function definePlayerName(event) {
+// Funktion, welche prüft, ob der Name schon vergeben ist
+// --> Button im NamePopUp
+function checkNameAvailability(event) {
     event.preventDefault();
 
     // Variable, definierter Name des Players, aus dem Formular auslesen
     playerName.value = event.target[0].value.trim();
 
-    if (playerName.value != '') {
-        chooseName.value = false;
-
-        // Fetch aufruf: Werte in Datenbank schreiben
-        fetchDefinePlayerName();
-    }
+    fetchGetAllPlayerNames();
 }
 
 // Funktion, die aufgerufen wird, wenn der Player den Knopf drückt, um seinen Namen zu ändern
@@ -284,7 +280,7 @@ function trackMousePosition(event, input) {
 
         console.log(hoverBankLowerBorder)
 
-        if(mousePosition.value.mouseYPosition < hoverBankLowerBorder){
+        if (mousePosition.value.mouseYPosition < hoverBankLowerBorder) {
             console.log('true')
             hoverBarVisible.value = true
         } else {
@@ -642,6 +638,40 @@ const fetchRemoveOwnPosition = async () => {
     }
 }
 
+// Funktion, welche alle Namen der Spieler aus der Datenbank holt
+const fetchGetAllPlayerNames = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('player')
+            .select('name')
+            .eq('id_session', id_session)
+
+        if (error) {
+            console.error('Fehler:', error);
+        } else {
+            let tempPlayerNames = [];
+            data.forEach(player => {
+                tempPlayerNames.push(player.name);
+            })
+
+            if (tempPlayerNames.includes(playerName.value)) {
+                alert('Dieser Name ist bereits vergeben.')
+            } else {
+                // Fetch aufruf: Werte in Datenbank schreiben
+                if (playerName.value != '' ) {
+                    chooseName.value = false;
+
+                    // Fetch aufruf: Werte in Datenbank schreiben
+                    fetchDefinePlayerName();
+                }
+            }
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
 ///////////////////////////////////// Ende Fetch ////////////////////////////////
 
 ///////////////////////////////////// EventListener ////////////////////////////////
@@ -833,15 +863,15 @@ h2 {
 }
 
 #roadAmount {
-width: 5rem 
+    width: 5rem
 }
 
 #settlementAmount {
-width: 5rem 
+    width: 5rem
 }
 
 #cityAmount {
-width: 5rem 
+    width: 5rem
 }
 
 .resourceCard {
