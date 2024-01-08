@@ -32,7 +32,8 @@
         @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="event => handleMouseUp(event, 'mouse')"
         @touchend="event => handleMouseUp(event, 'touch')">
         <div id="items">
-            <div ref="tempItem" id="tempItem" :style="{ top: topPos, left: leftPos, display: mousePosition.mouseXPosition != null ? 'block' : 'none' }">
+            <div ref="tempItem" id="tempItem"
+                :style="{ top: topPos, left: leftPos, display: mousePosition.mouseXPosition != null ? 'block' : 'none' }">
                 <div
                     v-if="store.state.STOREcurrentSelectedItemType == 'city' || store.state.STOREcurrentSelectedItemType == 'road' || store.state.STOREcurrentSelectedItemType == 'settlement' || store.state.STOREcurrentSelectedItemType == 'robber'">
                     <City v-if="store.state.STOREcurrentSelectedItemType == 'city'" :color="tempColor"></City>
@@ -4280,6 +4281,7 @@
                         <img class="dice" :src="'/images/dice/dieValue' + die1Value + '.svg'" alt="dice Number 1">
                         <img class="dice" :src="'/images/dice/dieValue' + die2Value + '.svg'" alt="dice Number 1">
                     </button>
+                    <img id="baukosten" src="/images/baukosten.jpg" alt="baukosten">
                 </section>
             </div>
             <div class="gridItem">
@@ -4947,10 +4949,10 @@ function handleMouseUp(event, input) {
 
     console.log(elementsUnderCurser);
 
-console.log('XX')
+    console.log('XX')
     // Prüfung, ob man ein Item oder ein Building in der Hand hält
     if (store.state.STOREcurrentSelectedItemType === 'settlement' || store.state.STOREcurrentSelectedItemType === 'city') {
-console.log('AA')
+        console.log('AA')
         // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
         if (elementsUnderCurser.find(element => element.classList.contains('cornerCircle')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('cornerCircle'))?.id.replace('_', ''))) == null) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('cornerCircle'));
@@ -4996,7 +4998,7 @@ console.log('AA')
             }
         }
     } else if (store.state.STOREcurrentSelectedItemType === 'road') {
-console.log('BB')
+        console.log('BB')
         // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Mittig
         if (elementsUnderCurser.find(element => element.classList.contains('roadCircleM')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleM'))?.id.replace('_', ''))) == null) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('roadCircleM'));
@@ -5092,7 +5094,7 @@ console.log('BB')
             }
         }
     } else if (store.state.STOREcurrentSelectedItemType === 'robber') {
-console.log('CC')
+        console.log('CC')
         // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
         if (elementsUnderCurser.find(element => element.classList.contains('middleCircle'))) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('middleCircle'));
@@ -5243,6 +5245,7 @@ supabase
     padding: 5px;
     height: 100%;
     width: 100%;
+    z-index: 10;
 }
 
 /******************** Playfield styling */
@@ -5303,9 +5306,10 @@ supabase
 #diceSection {
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     width: 15%;
     flex-direction: column;
+    height: 100%;
 }
 
 #diceContainer {
@@ -5316,6 +5320,12 @@ supabase
     background-color: white;
     padding: 0;
     border-radius: 0;
+}
+
+#baukosten{
+    width: calc(100% + 1.5em);
+    margin-left: -4em;
+    z-index: 5;
 }
 
 .dice {
