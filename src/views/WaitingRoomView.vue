@@ -271,7 +271,7 @@ function buttonClick(colorIndex, colorHexCode) {
         // QR-Code wird generiert für den ersten Spieler, der in der Datenbank generiert wurde
         generateQRCode(id_session, colorHexCode, colorIndex);
     }
-    // console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex);
+     console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex); // Notwendig, solange auf Localhost getestet wird um den QR-Code zu "scannen"
 }
 
 // Funktion, die den QR-Code generiert basierend auf der Session ID und der Farbe des Spielers. id_session kommt von der Funktion

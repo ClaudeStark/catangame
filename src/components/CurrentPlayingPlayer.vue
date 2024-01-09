@@ -25,7 +25,7 @@ const emit = defineEmits();
 
 // Funktion, welche den QR-Code generiert
 function generateQRCode() {
-    console.log('generateQRCode') // Relevant für Testing auf Desktop
+    // console.log('generateQRCode')
     emit('generateQRCode', props.player.id_session, '', props.player.id_color);
 }
 

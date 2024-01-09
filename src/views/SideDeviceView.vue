@@ -299,6 +299,18 @@ function trackMousePosition(event, input) {
 
 }
 
+// Funktion, welche die visuelle Rückmeldung gibt, dass eine Karte gespielt wurde
+// --> Subscription Supabase
+function getVisualFeedback(tempItemTypeId) {
+    let tempItemName = store.state.STOREitemTypes.find(item => item.item_type_id == tempItemTypeId).name;
+
+    document.querySelector('#' + tempItemName + '_amount').style.backgroundColor = colors.value.find(color => color.color_id == id_color)?.hex_code;
+
+    setTimeout(() => {
+        document.querySelector('#' + tempItemName + '_amount').style.backgroundColor = 'white';
+    }, 500);
+}
+
 
 ///////////////////////////////////// Ende Methoden ////////////////////////////////
 
@@ -693,6 +705,7 @@ supabase
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rel_player_item' }, (payload) => {
         if (payload.new.owner_id_player == playerId.value) {
             fetchDownloadPlayerStats();
+            getVisualFeedback(payload.new.id_item_type);
         }
     })
     .subscribe()
