@@ -3,7 +3,7 @@
 
         <h1>Catan</h1>
         <h2>Gemeinsam – aber Digital</h2>
-
+        <!-- Woah -->
         <button id="btn" @click="goToSession">Starte ein neues Spiel!</button>
 
     </div>
