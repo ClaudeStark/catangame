@@ -1,6 +1,6 @@
 <template>
     <div id="boardPositionPopUpContainer" ref="boardPositionPopUpContainer" style="display: none;">
-        <section class="gridContainer" ref="gridContainerPopUp">
+        <section id="gridContainerPopUp" class="gridContainer" ref="gridContainerPopUp">
             <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=1000 :function="'popUp'" :playerPositions="playerPositions"
@@ -12,8 +12,7 @@
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">
-                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Save and Start
-                    Game</button>
+
             </div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=2000 :function="'popUp'" :playerPositions="playerPositions"
@@ -27,10 +26,13 @@
             <div class="gridItem"></div>
         </section>
     </div>
+    <button ref="startButton" v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Save and Start
+        Game</button>
     <div id="gameBox" @mousedown="event => handleMouseDown(event, 'mouse')"
         @touchstart="event => handleMouseDown(event, 'touch')" @mousemove="event => trackMousePosition(event, 'mouse')"
         @touchmove="event => trackMousePosition(event, 'touch')" @mouseup="event => handleMouseUp(event, 'mouse')"
         @touchend="event => handleMouseUp(event, 'touch')">
+        <section id="gameBoxOverlay" ref="gameBoxOverlay"></section>
         <div id="items">
             <div ref="tempItem" id="tempItem"
                 :style="{ top: topPos, left: leftPos, display: mousePosition.mouseXPosition != null ? 'block' : 'none' }">
@@ -4278,8 +4280,10 @@
                 <!-- Würfel -->
                 <section id="diceSection">
                     <button id="diceContainer" @click="rollDice()">
-                        <img class="dice" :src="'/images/dice/dieValue' + die1Value + '.svg'" alt="dice Number 1">
-                        <img class="dice" :src="'/images/dice/dieValue' + die2Value + '.svg'" alt="dice Number 1">
+                        <img class="dice" :src="'/images/dice/dieValue' + die1Value + '.svg'" alt="dice Number 1"
+                            draggable="false">
+                        <img class="dice" :src="'/images/dice/dieValue' + die2Value + '.svg'" alt="dice Number 1"
+                            draggable="false">
                     </button>
                     <img id="baukosten" src="/images/baukosten.jpg" alt="baukosten">
                 </section>
@@ -4335,6 +4339,7 @@ let die2Value = ref(1);
 let tempColor = ref('green');
 let boardItemWidth = ref(0);
 let robberWidth = ref(0);
+let hoverVisualFeedback = ref(true)
 
 
 ///////////////////////////////////// Ende Variabeln ////////////////////////////////
@@ -4346,6 +4351,8 @@ const boardPositionPopUpContainer = ref(null);
 const playfield = ref(null);
 const tempItem = ref(null);
 const developmentCard = ref(null);
+const gameBoxOverlay = ref(null);
+const startButton = ref(null);
 
 
 ///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
@@ -4488,8 +4495,12 @@ onBeforeUnmount(() => {
 function playersToBePositioned() {
     if (activePlayerData.value.filter(player => player.board_position === null).length === 0) {
         boardPositionPopUpContainer.value.style.display = "none";
+        startButton.value.style.display = "none";
+        // playfield.value.style.zIndex = 0;
     } else {
         boardPositionPopUpContainer.value.style.display = "block";
+        startButton.value.style.display = "block";
+        // playfield.value.style.zIndex = 60;
     }
 }
 
@@ -4513,22 +4524,52 @@ function defineGridContainerSize() {
 // Funkiton, welche Würfelt sobald der Würfel-Button geklickt wird
 // --> @click (Würfel-Button)
 function rollDice() {
-    die1Value.value = Math.floor(Math.random() * 6) + 1;
-    die2Value.value = Math.floor(Math.random() * 6) + 1;
+    let tempInterval = setInterval(() => {
+        die1Value.value = Math.floor(Math.random() * 6) + 1;
+        die2Value.value = Math.floor(Math.random() * 6) + 1;
+    }, 100);
+
+    setTimeout(() => {
+        clearInterval(tempInterval);
+        die1Value.value = Math.floor(Math.random() * 6) + 1;
+        die2Value.value = Math.floor(Math.random() * 6) + 1;
+
+    }, 1500);
+
 }
 
 // Funktion, welche die Mausposition auf der GameBox trackt
 // Funktion wird ausgeführt, sobald sich die Maus auf der GameBox bewegt
 function trackMousePosition(event, input) {
+    if (activePlayerData.value.length === 0 || nonSeatedPlayers.value == true) return
     // Die Mausposition wird in das Array mousePosition gespeichert
     if (input == 'touch') {
         mousePosition.value.mouseXPosition = event.touches[0].pageX;
         mousePosition.value.mouseYPosition = event.touches[0].pageY;
+
     } else if (input == 'mouse') {
         mousePosition.value.mouseXPosition = event.clientX;
         mousePosition.value.mouseYPosition = event.clientY;
     }
 
+    // Hier werden die visuellen Feedbacks für die HoverBank berechnet
+    // Falls man gerade dabei ist, den Räuber oder ein Building zu verschieben, soll die HoverBank nicht angezeigt werden
+    if (hoverVisualFeedback.value == true) {
+        let tempCurrentBoardPositions = activePlayerData.value.map(player => player.board_position)
+
+        tempCurrentBoardPositions.forEach(boardPosition => {
+            let currentBoardPositionCorrection = boardPosition + '_bottom';
+
+            let tempHoverbankClientRect = document.getElementById(currentBoardPositionCorrection).getBoundingClientRect();
+            if (mousePosition.value.mouseYPosition < tempHoverbankClientRect.bottom && mousePosition.value.mouseYPosition > tempHoverbankClientRect.top && mousePosition.value.mouseXPosition > tempHoverbankClientRect.left && mousePosition.value.mouseXPosition < tempHoverbankClientRect.right) {
+                // console.log('true', currentBoardPositionCorrection)
+                document.getElementById(currentBoardPositionCorrection).style.opacity = 1;
+            } else {
+                // console.log('false' , currentBoardPositionCorrection)
+                document.getElementById(currentBoardPositionCorrection).style.opacity = 0;
+            }
+        })
+    }
 }
 
 // Funktion, welche die Breite eines BoardItems berechnet
@@ -4704,8 +4745,23 @@ const fetchUpdateBankItem = async (tempPosition, tempRotation, tempPlayerItemPla
 
 // fetch um den Amount eines Items bei dem entsprechenden Spieler auf dem SideDevice zu ändern.
 const fetchChangeRelTable = async (tempOwnerIdPlayer, tempIdItemType, operation) => {
-    let tempAmount = store.state.STOREallPlayerStats.find(item => item.owner_id_player == tempOwnerIdPlayer && item.id_item_type == tempIdItemType)?.amount;
+    let tempAmount = 0;
+    try {
+        const { data, error } = await supabase
+            .from('rel_player_item')
+            .select('amount')
+            .eq('owner_id_player', tempOwnerIdPlayer)
+            .eq('id_item_type', tempIdItemType)
+        if (error) {
+            console.error('Fehler (Keine Bereits gespielten Karten vorhanden):', error);
+        } else {
+            tempAmount = data[0].amount;
+        }
+    }
 
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
     tempAmount = tempAmount + operation;
 
     try {
@@ -4878,7 +4934,11 @@ function handleMouseDown(event, input) {
 
     // Prüfung, ob ein Building aus der Bank unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('building'))) {
-        console.log('C')
+        hoverVisualFeedback.value = false;
+        // gameBoxOverlay.value.style.zIndex = 9;
+        gameBoxOverlay.value.style.transition = 'background-color 0.25s ease';
+        gameBoxOverlay.value.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('building'));
 
         let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -4889,8 +4949,26 @@ function handleMouseDown(event, input) {
 
         // Positionskorrektur für die korrekte Positionierung des temporären Items
         tempItem.value.style.width = document.querySelector('.buildingContainer').offsetWidth + 'px';
-        tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
-        tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+        if (selectedElement.id == 'road') {
+            tempItemPositionCorrection.value.x = selectedElement.children[0].getBoundingClientRect().width;
+            tempItemPositionCorrection.value.y = selectedElement.children[0].getBoundingClientRect().height;
+
+            // Farbe der Setzpunkte wird angepasst
+            document.querySelectorAll('.roadCircleM, .roadCircleL, .roadCircleR').forEach(item => {
+                item.style.fill = 'rgba(255, 255, 255, 1)';
+            }
+            );
+        } else {
+            tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
+            tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+
+            // Farbe der Setzpunkte wird angepasst
+            document.querySelectorAll('.cornerCircle').forEach(item => {
+                item.style.fill = 'rgba(255, 255, 255, 1)';
+            }
+            );
+        }
+
 
         // tempItem wird angezeigt
         tempItem.value.style.display = "block";
@@ -4898,7 +4976,11 @@ function handleMouseDown(event, input) {
 
     // Prüfung, ob ein Building auf dem Spielfeld unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('boardItem'))) {
-        console.log('D')
+        hoverVisualFeedback.value = false;
+        // gameBoxOverlay.value.style.zIndex = 50;
+        gameBoxOverlay.value.style.transition = 'background-color 0.25s ease';
+        gameBoxOverlay.value.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('boardItem'));
 
         tempColor.value = colors.value.find(color => color.color_id == (activePlayerData.value.find(player => player.player_id == selectedElement.dataset.ownerId)?.id_color))?.hex_code
@@ -4915,8 +4997,25 @@ function handleMouseDown(event, input) {
             tempItemPositionCorrection.value.y = robberWidth.value;
         } else {
             tempItem.value.style.width = document.querySelector('.buildingContainer').offsetWidth + 'px';
-            tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
-            tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+            if (elementsUnderCurser.find(element => element.classList.contains('road'))) {
+                tempItemPositionCorrection.value.x = elementsUnderCurser.find(element => element.classList.contains('road')).getBoundingClientRect().width;
+                tempItemPositionCorrection.value.y = elementsUnderCurser.find(element => element.classList.contains('road')).getBoundingClientRect().height;
+
+                // Farbe der Setzpunkte wird angepasst
+                document.querySelectorAll('.roadCircleM, .roadCircleL, .roadCircleR').forEach(item => {
+                    item.style.fill = 'rgba(255, 255, 255, 1)';
+                }
+                );
+            } else {
+                tempItemPositionCorrection.value.x = document.querySelector('.buildingContainer').offsetWidth;
+                tempItemPositionCorrection.value.y = document.querySelector('.buildingContainer').offsetHeight;
+
+                // Farbe der Setzpunkte wird angepasst
+                document.querySelectorAll('.cornerCircle').forEach(item => {
+                    item.style.fill = 'rgba(255, 255, 255, 1)';
+                }
+                );
+            }
         }
 
 
@@ -4928,6 +5027,22 @@ function handleMouseDown(event, input) {
 // Funktion, welche aufgerufen wird, sobald die Maus losgelassen wird
 // --> @mouseup (gameBox)
 function handleMouseUp(event, input) {
+    hoverVisualFeedback.value = true;
+
+    // gameBoxOverlay wird wieder ausgeblendet
+    gameBoxOverlay.value.style.transition = 'background-color 0.25s ease';
+    gameBoxOverlay.value.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    setTimeout(() => {
+        // gameBoxOverlay.value.style.zIndex = -1;
+    }, 250);
+
+    // Farbe der Setzpunkte wird azsgeblendet
+    document.querySelectorAll('.roadCircleM, .roadCircleL, .roadCircleR, .cornerCircle').forEach(item => {
+        item.style.fill = 'rgba(0, 0, 0, 0)';
+    }
+    );
+
+
     console.log('up id: ', store.state.STOREcurrentSelectedItemId, 'up type: ', store.state.STOREcurrentSelectedItemType)
 
     if (store.state.STOREcurrentSelectedItemType === null) return;
@@ -5143,14 +5258,11 @@ function handleMouseUp(event, input) {
                 let developmentItem = ['knight', 'road_building', 'year_of_plenty', 'monopoly', 'victory_point'];
                 let tempItemType = developmentItem[Math.floor(Math.random() * developmentItem.length)];
 
-
                 tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === tempItemType)?.item_type_id;
             } else {
                 tempIdItemType = store.state.STOREitemTypes.find(itemType => itemType.name === store.state.STOREcurrentSelectedItemType)?.item_type_id
 
             }
-
-
 
             let tempOwnerIdPlayer = playerPositions.value.find(player => player.boardPosition == tempPosition)?.playerId;
 
@@ -5158,7 +5270,9 @@ function handleMouseUp(event, input) {
 
             // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
             fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
+            console.log('karte hat voher noch nicht existiert oder au scho')
             if (store.state.STOREcurrentSelectedItemId != null) {
+                console.log('karte hat vorher existiert')
                 let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
                 let refresh = false;
                 fetchDeleteRelTable(tempCurrentItemId, refresh);
@@ -5230,6 +5344,7 @@ supabase
 /* Grid styling ****************/
 .gridContainer {
     display: inline-grid;
+    z-index: 50;
 }
 
 .gridItem {
@@ -5241,12 +5356,7 @@ supabase
 /**************** Grid styling */
 
 /* Playfield styling ****************/
-#playfield {
-    padding: 5px;
-    height: 100%;
-    width: 100%;
-    z-index: 10;
-}
+
 
 /******************** Playfield styling */
 
@@ -5258,18 +5368,29 @@ supabase
     width: 100%;
     height: 100%;
     background-color: #1D4B3C;
-    z-index: 20;
+    z-index: 100;
+
+    /* z-index: 20; */
+}
+
+#gridContainerPopUp{
+    /* z-index: 100; */
+
 }
 
 #btnStartGame {
+    position: absolute;
     background-color: #FADB42;
     color: #1D4B3C;
     font-weight: 800;
     font-size: 1.5em;
     padding: 2em;
-    margin: 2em;
-    height: 1vh;
-    padding-top: 0.8em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    z-index: 120;
 }
 
 #btnStartGame:hover {
@@ -5322,10 +5443,10 @@ supabase
     border-radius: 0;
 }
 
-#baukosten{
+#baukosten {
     width: calc(100% + 1.5em);
     margin-left: -4em;
-    z-index: 5;
+    /* z-index: 5; */
 }
 
 .dice {
@@ -5335,21 +5456,63 @@ supabase
 
 #tempItem {
     position: absolute;
-    z-index: 15;
+    /* z-index: 15; */
     pointer-events: none;
 }
 
 #boardItems {
     position: absolute;
-    z-index: 15;
+    /* z-index: 15; */
 }
 
 .boardItemContainer {
     position: absolute;
-    z-index: 15;
+    /* z-index: 15; */
 }
 
 #positionsBackground {
-    opacity: 0;
+    position: relative;
+    /* z-index: 10; */
 }
+
+
+#gameBoxOverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* z-index: 10; */
+    display:none;
+}
+
+.cornerCircle,
+.roadCircleM,
+.roadCircleL,
+.roadCircleR {
+    fill: rgba(0, 0, 0, 0) !important;
+    transition: fill 0.1s ease;
+}
+
+.middleCircle {
+    fill: rgba(0, 0, 0, 0) !important;
+}
+
+#gameBox{
+    z-index: 50;
+}
+
+
+#playfield {
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+     /* z-index: 110;  */
+}
+
+#items{
+    position: absolute;
+    z-index: 60;
+}
+
+
+
 </style>

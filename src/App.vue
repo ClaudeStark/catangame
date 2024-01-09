@@ -2,7 +2,7 @@
   <div class="navigationBackground" v-if="showNavigation()">
     <nav >
       <router-link to="/" class="menuText">Catan</router-link>
-      <router-link to="/rules" class="menuText">Spielablauf</router-link>
+      <router-link to="/rules" class="menuText">Rules</router-link>
       <router-link to="/session" class="menuText">Sessions</router-link>
     </nav>
   </div>

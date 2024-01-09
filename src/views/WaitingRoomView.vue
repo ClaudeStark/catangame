@@ -11,7 +11,8 @@
             your mobile phone to join the playfield.</p>
     </section>
     <section v-if="firstPlayerInizialized" id="rejoinGameSection">
-        <button id="rejoinGame" @click="setRejoinGame('rejoin')">{{ rejoinGame ? 'Close' : 'Rejoin Player in Game' }}</button>
+        <button id="rejoinGame" @click="setRejoinGame('rejoin')">{{ rejoinGame ? 'Close' : 'Rejoin Player in Game'
+        }}</button>
         <section id="currentPlayers" v-if="rejoinGame">
             <div v-for="player in currentPlayingPlayers" id="currentPlayingPlayerContainer">
                 <CurrentPlayingPlayer :player="player" @generateQRCode="generateQRCode"></CurrentPlayingPlayer>
@@ -24,7 +25,7 @@
         <button @click="buttonClick(color.color_id, color.hex_code)" class="colorButton" v-for="color in colors"
             :style="'background-color: ' + color.hex_code" :id="'button' + color.color_id"></button>
     </section>
-    <section id="qrCodes">
+    <section id="qrCodes" ref="qrCodes">
         <div class="qrCode" v-html="qrCodeSVG"></div>
     </section>
     <section>
@@ -66,6 +67,9 @@ let rejoinGame = ref(false);
 let currentPlayingPlayers = ref([]);
 let showRejoinButton = ref(false);
 
+// DOM Elemente
+const qrCodes = ref(null);
+
 // Computed
 let getQrCodeSize = computed(() => {
     if (window.innerWidth < 500) {
@@ -74,6 +78,8 @@ let getQrCodeSize = computed(() => {
         return 15;
     }
 })
+
+
 
 
 // OnMounted
@@ -276,7 +282,10 @@ function generateQRCode(id_session, color, colorIndex) {
     qr.make(); // Generiere den QR-Code
     qrCodeSVG.value = qr.createSvgTag(getQrCodeSize.value); // Erstelle ein Data URL für das Bild
     // Notwendig, solange auf Localhost getestet wird um den QR-Code zu "scannen"
-    console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex);
+    // console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex);
+    setTimeout(function () {
+        qrCodes.value.scrollIntoView({ behavior: 'smooth' });
+    }, 50);
 
 }
 
@@ -575,7 +584,7 @@ const fetchGetCurrentPlayingPlayers = async () => {
             console.error('Fehler:', error)
         } else {
             currentPlayingPlayers.value = data;
-            if(data.length > 0){
+            if (data.length > 0) {
                 showRejoinButton.value = true;
             } else {
                 showRejoinButton.value = false;

@@ -1,5 +1,5 @@
 <template>
-    <div ref="boardItem" class="boardItem" :style="{ width: itemWidth + 'px', top: topPos, left: leftPos }">
+    <div ref="boardItem" class="boardItem" :style="{ width: itemWidth + 'px', top: topPos, left: leftPos  }">
         <Road v-if="itemType == 'road'" :color="color" :rotation="rotation"></Road>
         <Settlement v-if="itemType == 'settlement'" :color="color"></Settlement>
         <City v-if="itemType == 'city'" :color="color"></City>

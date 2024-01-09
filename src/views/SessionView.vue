@@ -12,12 +12,12 @@
     </section>
     <section id="createNewSession">
         <h2>Create new Session</h2>
-        <div id="warningText" ref="warning">{{ warningText }}</div>
+        <div id="warningText" ref="warning"  v-html="warningText"></div>
         <form @submit="createSession">
             <label for="sessionTitle">Choose a Session Title: </label>
             <input type="text" id="sessionTitle" maxlength="25" v-model="dynamicTitle">
             <label for="sessionCode">Choose a Session Code: </label>
-            <input type="number" id="sessionCode" max="9999" v-model="dynamicCode">
+            <input type="number" id="sessionCode" max="9999" v-model="dynamicCode" @invalid="invalidInput">
             <button type="submit">create new Session</button>
         </form>
     </section>
@@ -33,6 +33,9 @@ import { supabase } from '@/lib/supabaseClient'
 // Vue importieren
 import { ref, onMounted, computed, onBeforeUnmount } from 'vue'
 
+// Router importieren
+import router from '@/router';
+
 // Variablen
 let sessions = ref([])
 let dynamicTitle = ref('')
@@ -45,7 +48,11 @@ const warning = ref(null);
 // Computed
 let warningText = computed(() => {
     sessions.value.find(name => name.title === dynamicTitle.value.trim()) ? assignedTitle.value = true : assignedTitle.value = false
-    return assignedTitle.value ? 'Please choose a title, that is not already taken.' : '';
+    let correctTitle = assignedTitle.value ? 'Please choose a title, that is not already taken. <br>' : ''
+
+    let correctCode = dynamicCode.value <= 9999 ? '' : 'Please choose a code, that is 4 digits long.'
+
+    return correctTitle + correctCode
 })
 
 // OnMounted
@@ -53,6 +60,11 @@ onMounted(() => {
     fetchGetOpenSessions()
 
 })
+
+// Methods
+function invalidInput(event) {
+    event.preventDefault();
+}
 
 // Funktion, welche alle offenen Sessions aus der Datenbank holt
 // --> OnMounted
@@ -73,6 +85,12 @@ const fetchGetOpenSessions = async () => {
 }
 
 // Methoden
+
+// Funktion, welche den User in den Waitingroom weiterleitet
+// --> checkCode()
+function createWaitingroom(sessionId, title) {
+    router.push({ name: 'waitingroom', params: { id: sessionId }, query: { session_title: title } })
+}
 
 // Funktion, welche eine neue Session vorbereitet
 // --> OnSubmit (Formular createSession)
@@ -104,7 +122,26 @@ const fetchCreateSession = async (title, code) => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Geklappt:', data)
+            fetchGetCreatedSessionId(title)
+        }
+    }
+    catch (e) {
+        console.error('CatchFehler:', e)
+    }
+}
+
+// Funktion, welche die gerade neu generierte SessionId aus der Datenbank holt
+// --> fetchCreateSession
+const fetchGetCreatedSessionId = async (title) => {
+    try {
+        const { data, error } = await supabase
+            .from('session')
+            .select('session_id')
+            .eq('title', title)
+        if (error) {
+            console.error('Fehler:', error)
+        } else {
+            createWaitingroom(data[0].session_id, title)
         }
     }
     catch (e) {
@@ -120,7 +157,6 @@ supabase
 </script>
 
 <style scoped>
-
 #activeSessions {
     display: flex;
     flex-direction: column;

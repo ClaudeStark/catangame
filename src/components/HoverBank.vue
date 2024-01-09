@@ -1,6 +1,6 @@
 <template>
     <div class="hoverBankTop"></div>
-    <div class="hoverBankBottom"
+    <div class="hoverBankBottom" ref="hoverBankBottom"
         :style="{ background: 'linear-gradient(to bottom, transparent, ' + props.currentPositionPlayerColor + ')' }">
     </div>
 </template>
@@ -14,11 +14,18 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 // DOM Elemente
+const hoverBankBottom = ref(null)
 
 // Props definieren
 const props = defineProps({
     currentPositionPlayerColor: String,
-    currentPositionPlayerId: Number
+    currentPositionPlayerId: Number,
+    boardPosition: Number
+})
+
+// OnMounted
+onMounted(() => {
+    hoverBankBottom.value.id = props.boardPosition + '_bottom'
 })
 
 </script>
@@ -38,8 +45,8 @@ const props = defineProps({
     opacity: 0;
 }
 
-.hoverBankBottom:hover, .hoverBankBottom:active {
+/* .hoverBankBottom:hover {
     opacity: 1;
-}
+} */
 
 </style>                                            

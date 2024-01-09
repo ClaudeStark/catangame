@@ -2,11 +2,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Spielablauf</title>
+        <title>Rules</title>
     </head>
     <div class="rules">
         <div class="content">
-            <h1>Spielablauf</h1>
+            <h1>Rules</h1>
 
             <h2>Spielprinzip unserer Version</h2>
             <p><em>Gemeinsam – aber Digital.</em> Ziel unserer Arbeit war ein analoges Spielgefühl bei einem Digitalen Spiel

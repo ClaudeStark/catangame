@@ -36,7 +36,7 @@
     </div>
     <div class="hoverBank" ref="hoverBank">
         <HoverBank :currentPositionPlayerColor="props.currentPositionPlayerColor"
-            :currentPositionPlayerId="currentPositionPlayerId"></HoverBank>
+            :currentPositionPlayerId="currentPositionPlayerId" :boardPosition="props.boardPosition"></HoverBank>
     </div>
 </template>
 
@@ -165,7 +165,7 @@ window.addEventListener('resize', () => {
 
 .hoverBank {
     position: absolute;
-    z-index: 30;
+    /* z-index: 30; */
     height: 100%;
     width: 100%;
     display: flex;

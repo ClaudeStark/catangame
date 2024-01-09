@@ -19,7 +19,7 @@
         </div>
         <section id="middleBar">
             <section id="mainBox">
-                <div id="hoverBar" @mouseenter="hoverBarVisible = true" @mouseleave="hoverBarVisible = false"
+                <div id="hoverBar" ref="hoverBar" @mouseenter="hoverBarVisible = true" @mouseleave="hoverBarVisible = false"
                     :style="{ background: 'linear-gradient(to top, transparent, ' + colors.find(color => color.color_id == id_color)?.hex_code + ')' }">
                 </div>
                 <section id="resourceCardsContainer">
@@ -67,7 +67,7 @@
                     <h2>Code: {{ sessionCode }}</h2>
                 </div>
                 <div id="playerName">
-                    <h2>{{ playerName }}</h2>
+                    <h2>{{ playerName }}</h2> 
                 </div>
             </div>
             <button id="zahnradButton" @click="rename()" v-if="choosenName">
@@ -86,6 +86,9 @@ import { supabase } from '@/lib/supabaseClient';
 
 // Route importieren
 import { useRoute } from 'vue-router';
+
+// Router importieren
+import router from '@/router';
 
 // Store importieren
 import { useStore } from 'vuex';
@@ -116,8 +119,10 @@ let mousePosition = ref({ mouseXPosition: 0, mouseYPosition: 0 });
 // DOM
 const flyingCard = ref(null);
 const gameBox = ref(null);
+const hoverBar = ref(null);
 
 ///////////////////////////////////// Computed ////////////////////////////////
+
 
 // Array, welches alle specialCards des Spielers enthält
 // --> Änderung von playerStats
@@ -262,7 +267,7 @@ function rename() {
 function stopFlyingCard() {
     mousePosition.value.mouseXPosition = null;
     mousePosition.value.mouseYPosition = null;
-    console.log(store.state.STOREdraggedCard, hoverBarVisible.value)
+    // console.log(store.state.STOREdraggedCard, hoverBarVisible.value)
     if (store.state.STOREdraggedCard != null && hoverBarVisible.value) {
         let tempItemAmount = store.state.STOREplayerStats.find(item => item.id_item_type == store.state.STOREdraggedCard)?.amount
         fetchChangeRelTable(store.state.STOREdraggedCard, tempItemAmount);
@@ -281,11 +286,11 @@ function trackMousePosition(event, input) {
         console.log(hoverBankLowerBorder)
 
         if (mousePosition.value.mouseYPosition < hoverBankLowerBorder) {
-            console.log('true')
             hoverBarVisible.value = true
+            hoverBar.value.style.opacity = 1;
         } else {
-            console.log('false')
             hoverBarVisible.value = false
+            hoverBar.value.style.opacity = 0;
         }
     } else if (input == 'mouse') {
         mousePosition.value.mouseXPosition = event.clientX;
@@ -384,7 +389,7 @@ const fetchCurrentPlayerId = async () => {
         catch (e) {
             gameBox.value.style.display = 'none';
             alert('Dieser Spieler existiert nicht mehr.')
-            console.error('CatchFehler:', e)
+            router.push({ name: 'session' })
         }
     }
 }
@@ -531,6 +536,7 @@ const fetchDownloadPlayerName = async () => {
         console.error('CatchFehler:', e)
         gameBox.value.style.display = 'none';
         alert('Dieser Spieler existiert nicht mehr.')
+        router.push({ name: 'session' })
     }
 }
 
@@ -552,6 +558,7 @@ const fetchDefinePlayerName = async () => {
         console.error('CatchFehler:', e)
         gameBox.value.style.display = 'none';
         alert('Dieser Spieler existiert nicht mehr.')
+        router.push({ name: 'session' })
     }
 }
 
@@ -635,6 +642,7 @@ const fetchRemoveOwnPosition = async () => {
         console.error('CatchFehler:', e)
         gameBox.value.style.display = 'none';
         alert('Dieser Spieler existiert nicht mehr.')
+        router.push({ name: 'session' })
     }
 }
 
@@ -658,7 +666,7 @@ const fetchGetAllPlayerNames = async () => {
                 alert('Dieser Name ist bereits vergeben.')
             } else {
                 // Fetch aufruf: Werte in Datenbank schreiben
-                if (playerName.value != '' ) {
+                if (playerName.value != '') {
                     chooseName.value = false;
 
                     // Fetch aufruf: Werte in Datenbank schreiben
@@ -802,12 +810,12 @@ h2 {
     flex-direction: column;
     gap: 10px;
     display: flex;
-    align-items: center;
+    align-items: left;
     padding: 10px;
 }
 
 #hoverBar {
-    height: 10dvh;
+    height: 20dvh;
     display: flex;
     flex-shrink: 0;
     z-index: 16;
@@ -820,12 +828,13 @@ h2 {
 }
 
 #resourceCardsContainer {
-    height: 70dvh;
+    height: 60dvh;
     background-color: white;
     flex-direction: row;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
+    padding-top: 10px;
 }
 
 #playerStats {
