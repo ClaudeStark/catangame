@@ -12,7 +12,7 @@
                     :activePlayerData="activePlayerData" :colors="colors"></PlayerBank>
             </div>
             <div class="gridItem">
-                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Safe and Start
+                <button v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Save and Start
                     Game</button>
             </div>
             <div class="gridItem">
