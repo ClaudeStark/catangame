@@ -206,7 +206,7 @@ const checkpickedColor = async () => {
             console.error('Fehler:', error)
         } else {
 
-            console.log(data)
+            // console.log(data)
             // Alle Knöpfe werden wieder farbig
             colors.value.forEach(color => {
                 document.querySelector('#button' + color.color_id).style.backgroundColor = color.hex_code;
@@ -218,7 +218,7 @@ const checkpickedColor = async () => {
             // Benutzte Knöpfe in die gleiche Farbe wie Hintergrund setzen
 
             data.forEach(colorIndex => {
-                console.log(colorIndex)
+                // console.log(colorIndex)
                 if (colorIndex.id_color != null && colorIndex.id_color != 0) {
                     document.querySelector('#button' + colorIndex.id_color).style.backgroundColor = '#1D4B3C';
                     document.querySelector('#button' + colorIndex.id_color).style.borderColor = '#1D4B3C';
@@ -271,7 +271,7 @@ function buttonClick(colorIndex, colorHexCode) {
         // QR-Code wird generiert für den ersten Spieler, der in der Datenbank generiert wurde
         generateQRCode(id_session, colorHexCode, colorIndex);
     }
-    console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex);
+    // console.log(window.location.origin + '/sidedevice/' + id_session + '?' + 'playerColor=' + colorIndex);
 }
 
 // Funktion, die den QR-Code generiert basierend auf der Session ID und der Farbe des Spielers. id_session kommt von der Funktion
@@ -381,7 +381,7 @@ const fetchClearPlayerInProgress = async (id_session) => {
         if (error) {
             console.error('Fehler:', error);
         } else {
-            console.log('Geklappt:4', data);
+            // console.log('Geklappt:4', data);
             tempPlayerIdToBeDeleted = data[0].player_id;
         }
     }
@@ -398,7 +398,7 @@ const fetchClearPlayerInProgress = async (id_session) => {
         if (error) {
             console.error('Es gibt keine temporären Spieler, welche gelöscht werden müssten', error);
         } else {
-            console.log('Geklappt:5', data);
+            // console.log('Geklappt:5', data);
         }
     }
     catch (e) {

@@ -4882,18 +4882,18 @@ function handleMouseDown(event, input) {
         positionY = event.clientY;
 
     }
-    console.log(event)
+    //console.log(event)
     //console.log('down id: ', store.state.STOREcurrentSelectedItemId, 'down type: ', store.state.STOREcurrentSelectedItemType)
 
 
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
     const elementsUnderCurser = document.elementsFromPoint(positionX, positionY);
 
-    console.log(elementsUnderCurser);
+    // console.log(elementsUnderCurser);
 
     // Prüfung, ob ein bankItem unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('bankItem'))) {
-        console.log('A')
+        // console.log('A')
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('bankItem'));
 
         // id des Items wird gespeichert
@@ -4920,7 +4920,7 @@ function handleMouseDown(event, input) {
 
     // Prüfung, ob ein drawPileCard unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('drawPileCard'))) {
-        console.log('B')
+        // console.log('B')
         let selectedElement = elementsUnderCurser.find(element => element.classList.contains('drawPileCard'));
 
         // id für die korrekte BildSource wird gespeichert
@@ -5050,7 +5050,7 @@ function handleMouseUp(event, input) {
     );
 
 
-    console.log('up id: ', store.state.STOREcurrentSelectedItemId, 'up type: ', store.state.STOREcurrentSelectedItemType)
+    // console.log('up id: ', store.state.STOREcurrentSelectedItemId, 'up type: ', store.state.STOREcurrentSelectedItemType)
 
     if (store.state.STOREcurrentSelectedItemType === null) return;
 
@@ -5069,12 +5069,12 @@ function handleMouseUp(event, input) {
     // Alle unter dem Cursor liegenden Elemente werden in einem Array gespeichert
     const elementsUnderCurser = document.elementsFromPoint(positionX, positionY);
 
-    console.log(elementsUnderCurser);
+    // console.log(elementsUnderCurser);
 
-    console.log('XX')
+    // console.log('XX')
     // Prüfung, ob man ein Item oder ein Building in der Hand hält
     if (store.state.STOREcurrentSelectedItemType === 'settlement' || store.state.STOREcurrentSelectedItemType === 'city') {
-        console.log('AA')
+        // console.log('AA')
         // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
         if (elementsUnderCurser.find(element => element.classList.contains('cornerCircle')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('cornerCircle'))?.id.replace('_', ''))) == null) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('cornerCircle'));
@@ -5120,7 +5120,7 @@ function handleMouseUp(event, input) {
             }
         }
     } else if (store.state.STOREcurrentSelectedItemType === 'road') {
-        console.log('BB')
+        // console.log('BB')
         // Prüfung, ob ein Wegstück des Spielfeldes unter dem Cursor liegt Mittig
         if (elementsUnderCurser.find(element => element.classList.contains('roadCircleM')) && itemsOnBoard.value.find(item => item.position == (elementsUnderCurser.find(element => element.classList.contains('roadCircleM'))?.id.replace('_', ''))) == null) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('roadCircleM'));
@@ -5216,7 +5216,7 @@ function handleMouseUp(event, input) {
             }
         }
     } else if (store.state.STOREcurrentSelectedItemType === 'robber') {
-        console.log('CC')
+        // console.log('CC')
         // Prüfung, ob ein Corner des Spielfeldes unter dem Cursor liegt und das Spielfeld noch frei ist
         if (elementsUnderCurser.find(element => element.classList.contains('middleCircle'))) {
             let hoveredItem = elementsUnderCurser.find(element => element.classList.contains('middleCircle'));
@@ -5238,7 +5238,7 @@ function handleMouseUp(event, input) {
         }
 
     } else {
-        console.log('DD')
+        // console.log('DD')
         // Prüfung, ob ein Teil einer HoverBank unter dem Cursor liegt
         if (elementsUnderCurser.find(element => element.classList.contains('hoverBankTop')) && store.state.STOREcurrentSelectedItemType != 'classic_back') {
             let tempPosition = elementsUnderCurser.find(element => element.classList.contains('hoverBank')).id;
@@ -5277,9 +5277,9 @@ function handleMouseUp(event, input) {
 
             // Datenbank wird aktualisiert, das Item wird auf das SideDevice verschoben, wenn alle benötigten Daten vorhanden sind
             fetchChangeRelTable(tempOwnerIdPlayer, tempIdItemType, operation)
-            console.log('karte hat voher noch nicht existiert oder au scho')
+            // console.log('karte hat voher noch nicht existiert oder au scho')
             if (store.state.STOREcurrentSelectedItemId != null) {
-                console.log('karte hat vorher existiert')
+                // console.log('karte hat vorher existiert')
                 let tempCurrentItemId = store.state.STOREcurrentSelectedItemId;
                 let refresh = false;
                 fetchDeleteRelTable(tempCurrentItemId, refresh);
@@ -5296,7 +5296,7 @@ function handleMouseUp(event, input) {
             }
         }
     }
-    console.log('up2 id: ', store.state.STOREcurrentSelectedItemId, 'up2 type: ', store.state.STOREcurrentSelectedItemType)
+    // console.log('up2 id: ', store.state.STOREcurrentSelectedItemId, 'up2 type: ', store.state.STOREcurrentSelectedItemType)
 
     tempItem.value.style.display = "none";
     store.commit('STOREresetCurrentSelectedItemType');
@@ -5327,7 +5327,7 @@ supabase
         playerIds.value.forEach(player_id => {
             if (payload.new.owner_id_player == player_id) {
                 fetchPlayerData();
-                console.log('Eigener Spieler hat was geändert INSERT');
+                // console.log('Eigener Spieler hat was geändert INSERT');
             }
         });
     })
@@ -5336,7 +5336,7 @@ supabase
         playerIds.value.forEach(player_id => {
             if (payload.new.owner_id_player == player_id) {
                 fetchPlayerData();
-                console.log('Eigener Spieler hat was geändert UPDATE');
+                // console.log('Eigener Spieler hat was geändert UPDATE');
             }
         });
     })
@@ -5385,18 +5385,14 @@ supabase
 #btnStartGame {
     background-color: #FADB42;
     color: #1D4B3C;
-    font-weight: 800;
     font-size: 1.5em;
-    padding: 2em;
-    margin: 0;
-    height: 1vh;
-    padding-top: 0.8em;
+    padding: 1em;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
     z-index: 200;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
 }
 
 #btnStartGame:hover {

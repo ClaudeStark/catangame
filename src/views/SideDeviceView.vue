@@ -283,7 +283,7 @@ function trackMousePosition(event, input) {
 
         let hoverBankLowerBorder = document.getElementById('hoverBar').getBoundingClientRect().bottom;
 
-        console.log(hoverBankLowerBorder)
+        // console.log(hoverBankLowerBorder)
 
         if (mousePosition.value.mouseYPosition < hoverBankLowerBorder) {
             hoverBarVisible.value = true
@@ -407,7 +407,7 @@ const fetchPlayerInitializeDone = async () => {
         if (error) {
             console.error('Fehler:', error)
         } else {
-            console.log('Initialisierung beendet');
+            // console.log('Initialisierung beendet');
         };
     }
     catch (e) {
