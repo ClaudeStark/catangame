@@ -1,6 +1,6 @@
 <template>
     <div id="boardPositionPopUpContainer" ref="boardPositionPopUpContainer" style="display: none;">
-        <section id="gridContainerPopUp" class="gridContainer" ref="gridContainerPopUp">
+        <section class="gridContainer" ref="gridContainerPopUp">
             <div class="gridItem"></div>
             <div class="gridItem">
                 <PlayerBank :boardPosition=1000 :function="'popUp'" :playerPositions="playerPositions"
@@ -26,7 +26,7 @@
             <div class="gridItem"></div>
         </section>
     </div>
-    <button ref="startButton" v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Save and Start
+    <button ref="btnStartGame" v-if="!nonSeatedPlayers" @click="fetchSetPlayerPositions()" id="btnStartGame">Save and Start
         Game</button>
     <div id="gameBox" @mousedown="event => handleMouseDown(event, 'mouse')"
         @touchstart="event => handleMouseDown(event, 'touch')" @mousemove="event => trackMousePosition(event, 'mouse')"
@@ -4352,7 +4352,7 @@ const playfield = ref(null);
 const tempItem = ref(null);
 const developmentCard = ref(null);
 const gameBoxOverlay = ref(null);
-const startButton = ref(null);
+const btnStartGame = ref(null);
 
 
 ///////////////////////////////////// Ende DOM Elemente ////////////////////////////////
@@ -4473,6 +4473,12 @@ onMounted(async () => {
 
     // overflow: hidden; damit die Seite nicht gescrollt werden kann
     document.body.style.overflow = 'hidden';
+
+    // alle schwarrzen Kreise werden unsichtbar gemacht
+    document.querySelectorAll('.roadCircleM, .roadCircleL, .roadCircleR, .cornerCircle, .middleCircle').forEach(item => {
+        item.style.fill = 'rgba(0, 0, 0, 0)';
+    }
+    );
 })
 
 ///////////////////////////////////// Ende ONMOUNT ////////////////////////////////
@@ -4495,12 +4501,12 @@ onBeforeUnmount(() => {
 function playersToBePositioned() {
     if (activePlayerData.value.filter(player => player.board_position === null).length === 0) {
         boardPositionPopUpContainer.value.style.display = "none";
-        startButton.value.style.display = "none";
-        // playfield.value.style.zIndex = 0;
+        btnStartGame.value.style.display = "none";
+
+
     } else {
         boardPositionPopUpContainer.value.style.display = "block";
-        startButton.value.style.display = "block";
-        // playfield.value.style.zIndex = 60;
+        btnStartGame.value.style.display = "block";
     }
 }
 
@@ -4541,7 +4547,8 @@ function rollDice() {
 // Funktion, welche die Mausposition auf der GameBox trackt
 // Funktion wird ausgeführt, sobald sich die Maus auf der GameBox bewegt
 function trackMousePosition(event, input) {
-    if (activePlayerData.value.length === 0 || nonSeatedPlayers.value == true) return
+    if (nonSeatedPlayers.value == true || activePlayerData.value.length === null) return
+
     // Die Mausposition wird in das Array mousePosition gespeichert
     if (input == 'touch') {
         mousePosition.value.mouseXPosition = event.touches[0].pageX;
@@ -4935,7 +4942,7 @@ function handleMouseDown(event, input) {
     // Prüfung, ob ein Building aus der Bank unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('building'))) {
         hoverVisualFeedback.value = false;
-        // gameBoxOverlay.value.style.zIndex = 9;
+        gameBoxOverlay.value.style.zIndex = 50;
         gameBoxOverlay.value.style.transition = 'background-color 0.25s ease';
         gameBoxOverlay.value.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
 
@@ -4955,7 +4962,7 @@ function handleMouseDown(event, input) {
 
             // Farbe der Setzpunkte wird angepasst
             document.querySelectorAll('.roadCircleM, .roadCircleL, .roadCircleR').forEach(item => {
-                item.style.fill = 'rgba(255, 255, 255, 1)';
+                item.style.fill = 'white';
             }
             );
         } else {
@@ -4964,7 +4971,7 @@ function handleMouseDown(event, input) {
 
             // Farbe der Setzpunkte wird angepasst
             document.querySelectorAll('.cornerCircle').forEach(item => {
-                item.style.fill = 'rgba(255, 255, 255, 1)';
+                item.style.fill = 'white';
             }
             );
         }
@@ -4977,7 +4984,7 @@ function handleMouseDown(event, input) {
     // Prüfung, ob ein Building auf dem Spielfeld unter dem Cursor liegt
     if (elementsUnderCurser.find(element => element.classList.contains('boardItem'))) {
         hoverVisualFeedback.value = false;
-        // gameBoxOverlay.value.style.zIndex = 50;
+        gameBoxOverlay.value.style.zIndex = 50;
         gameBoxOverlay.value.style.transition = 'background-color 0.25s ease';
         gameBoxOverlay.value.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
 
@@ -5003,7 +5010,7 @@ function handleMouseDown(event, input) {
 
                 // Farbe der Setzpunkte wird angepasst
                 document.querySelectorAll('.roadCircleM, .roadCircleL, .roadCircleR').forEach(item => {
-                    item.style.fill = 'rgba(255, 255, 255, 1)';
+                    item.style.fill = 'white';
                 }
                 );
             } else {
@@ -5012,7 +5019,7 @@ function handleMouseDown(event, input) {
 
                 // Farbe der Setzpunkte wird angepasst
                 document.querySelectorAll('.cornerCircle').forEach(item => {
-                    item.style.fill = 'rgba(255, 255, 255, 1)';
+                    item.style.fill = 'white';
                 }
                 );
             }
@@ -5033,7 +5040,7 @@ function handleMouseUp(event, input) {
     gameBoxOverlay.value.style.transition = 'background-color 0.25s ease';
     gameBoxOverlay.value.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     setTimeout(() => {
-        // gameBoxOverlay.value.style.zIndex = -1;
+        gameBoxOverlay.value.style.zIndex = 1;
     }, 250);
 
     // Farbe der Setzpunkte wird azsgeblendet
@@ -5344,7 +5351,6 @@ supabase
 /* Grid styling ****************/
 .gridContainer {
     display: inline-grid;
-    z-index: 50;
 }
 
 .gridItem {
@@ -5356,7 +5362,12 @@ supabase
 /**************** Grid styling */
 
 /* Playfield styling ****************/
-
+#playfield {
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+    z-index: 60;
+}
 
 /******************** Playfield styling */
 
@@ -5368,29 +5379,24 @@ supabase
     width: 100%;
     height: 100%;
     background-color: #1D4B3C;
-    z-index: 100;
-
-    /* z-index: 20; */
-}
-
-#gridContainerPopUp{
-    /* z-index: 100; */
-
+    z-index: 20;
 }
 
 #btnStartGame {
-    position: absolute;
     background-color: #FADB42;
     color: #1D4B3C;
     font-weight: 800;
     font-size: 1.5em;
     padding: 2em;
+    margin: 0;
+    height: 1vh;
+    padding-top: 0.8em;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    margin: 0;
+    position: absolute;
+    z-index: 200;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-    z-index: 120;
 }
 
 #btnStartGame:hover {
@@ -5431,6 +5437,7 @@ supabase
     width: 15%;
     flex-direction: column;
     height: 100%;
+    z-index: 19;
 }
 
 #diceContainer {
@@ -5446,7 +5453,7 @@ supabase
 #baukosten {
     width: calc(100% + 1.5em);
     margin-left: -4em;
-    /* z-index: 5; */
+    z-index: 5;
 }
 
 .dice {
@@ -5456,23 +5463,28 @@ supabase
 
 #tempItem {
     position: absolute;
-    /* z-index: 15; */
+    z-index: 15;
     pointer-events: none;
+}
+
+#items{
+    position: absolute;
+    z-index: 70;
+
 }
 
 #boardItems {
     position: absolute;
-    /* z-index: 15; */
+    z-index: 15;
 }
 
 .boardItemContainer {
     position: absolute;
-    /* z-index: 15; */
+    z-index: 15;
 }
 
 #positionsBackground {
-    position: relative;
-    /* z-index: 10; */
+    z-index: 1;
 }
 
 
@@ -5480,39 +5492,16 @@ supabase
     position: absolute;
     width: 100%;
     height: 100%;
-    /* z-index: 10; */
-    display:none;
 }
 
 .cornerCircle,
 .roadCircleM,
 .roadCircleL,
 .roadCircleR {
-    fill: rgba(0, 0, 0, 0) !important;
+    fill: rgba(0, 0, 0, 0);
     transition: fill 0.1s ease;
 }
 
 .middleCircle {
-    fill: rgba(0, 0, 0, 0) !important;
-}
-
-#gameBox{
-    z-index: 50;
-}
-
-
-#playfield {
-    padding: 5px;
-    height: 100%;
-    width: 100%;
-     /* z-index: 110;  */
-}
-
-#items{
-    position: absolute;
-    z-index: 60;
-}
-
-
-
-</style>
+    fill: rgba(0, 0, 0, 0);
+}</style>
