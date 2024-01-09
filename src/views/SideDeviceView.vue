@@ -828,7 +828,7 @@ h2 {
 }
 
 #hoverBar {
-    height: 20dvh;
+    height: 15dvh;
     display: flex;
     flex-shrink: 0;
     z-index: 16;
@@ -841,13 +841,13 @@ h2 {
 }
 
 #resourceCardsContainer {
-    height: 60dvh;
+    height: 65dvh;
     background-color: white;
     flex-direction: row;
     display: flex;
     align-items: start;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 5px;
 }
 
 #playerStats {
