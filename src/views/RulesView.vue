@@ -12,6 +12,7 @@
             <p><em>Gemeinsam – aber Digital.</em> Ziel unserer Arbeit war ein analoges Spielgefühl bei einem Digitalen Spiel
                 aufkommen zu lassen. Dafür haben wir eine Kommunikation von mehreren Devices ermöglicht. Spieler haben ihr
                 eigenes Device z.B. ein Smartphone und ein anderes Device z.B. ein Tablet dient als Spielfeld.</p>
+                <p>Bestimmt vor Spielbeginn ein/e Spielleiter:in, im Zweifelsfall entscheidet diese Person, wie vorgegangen wird.</p>
 
             <h3>Anleitung</h3>
             <ul style="margin-bottom: 2em; border-bottom: 2px solid; border-color: white; padding-bottom: 2em;">
@@ -49,7 +50,10 @@
                     <p>Bauten auf dem Spielfeld können per Drag and Drop in die Spielerbank vom Spielfeld entfernt werden.</p>
                 </li>
                 <li>
-                    <p>Die Raubenden können per Drag and Drop auf die Mitte einer Kachel verschoben werden.</p>
+                    <p>Der/Die Räuber:in können per Drag and Drop auf die Mitte einer Kachel verschoben werden.</p>
+                </li>
+                <li>
+                    <p>Falls etwas nicht mit dem Spielprinzip der Applikation vereinbar ist, werdet kreativ!</p>
                 </li>
             </ul>
 
@@ -62,7 +66,7 @@
                 <li>Er muss die Rohstofferträge dieses Zuges auswürfeln (das Ergebnis
                     gilt für alle Spieler).</li>
                 <li>Er kann handeln (➔): Rohstoffe tauschen – auch mit seinen Mitspielern.</li>
-                <li>Er kann bauen (➔): Straßen (➔), Siedlungen (➔), Städte (➔) und/
+                <li>Er kann bauen (➔): Strassen (➔), Siedlungen (➔), Städte (➔) und/
                     oder Entwicklungskarten (➔) kaufen.</li>
             </ol>
             <br>
@@ -120,7 +124,7 @@
             </ul>
 
             <h3>Bauen</h3>
-            <p>Schließlich kann der Spieler bauen, um seine Rohstofferträge zu erhöhen und um die Anzahl seiner Siegpunkte
+            <p>Schliesslich kann der Spieler bauen, um seine Rohstofferträge zu erhöhen und um die Anzahl seiner Siegpunkte
                 (➔) zu erhöhen!</p><br>
 
             <h4>Strasse</h4>
@@ -128,27 +132,27 @@
                 <li>
                     Um zu bauen, muss er bestimmte Kombinationen von Rohstoffkarten (siehe Karte Baukosten) abgeben und
                     setzt entsprechend
-                    Straßen, Siedlungen oder Städte aus seinem Vorrat auf das Spielfeld.
+                    Strassen, Siedlungen oder Städte aus seinem Vorrat auf das Spielfeld.
                     Abgegebene Rohstoffkarten werden in die jeweiligen Fächer der
                     Kartenhalter zurückgelegt.
                 </li>
                 <li>
-                    Straßen werden auf Wegen gebaut. Auf jedem Weg (➔) darf nur
-                    1 Straße gebaut werden.
+                    Strassen werden auf Wegen gebaut. Auf jedem Weg (➔) darf nur
+                    1 Strasse gebaut werden.
                 </li>
                 <li>
-                    Eine Straße darf nur an eine Kreuzung angelegt werden, an die eine
-                    eigene Straße, Siedlung oder Stadt grenzt und auf der keine fremde
+                    Eine Strasse darf nur an eine Kreuzung angelegt werden, an die eine
+                    eigene Strasse, Siedlung oder Stadt grenzt und auf der keine fremde
                     Siedlung oder Stadt steht.
                 </li>
                 <li>
-                    Sobald ein Spieler einen durchgehenden Straßenzug (Abzweigungen zählen nicht) aus mindestens 5
-                    Einzelstraßen besitzt, die nicht von einer
+                    Sobald ein Spieler einen durchgehenden Strassenzug (Abzweigungen zählen nicht) aus mindestens 5
+                    Einzelstrassen besitzt, die nicht von einer
                     fremden Siedlung oder Stadt unterbrochen wird,
                     erhält er die Sonder-Siegpunktkarte Längste
-                    Handelsstraße (➔). Gelingt es einem anderen
-                    Spieler, eine längere Straße als der aktuelle
-                    Besitzer zu bauen, erhält dieser sofort die Sonderkarte. Der Besitz der Längsten Handelsstraße ist
+                    Handelsstrasse (➔). Gelingt es einem anderen
+                    Spieler, eine längere Strasse als der aktuelle
+                    Besitzer zu bauen, erhält dieser sofort die Sonderkarte. Der Besitz der Längsten Handelsstrasse ist
                     2 Siegpunkte wert.
                 </li>
             </ul><br>
@@ -156,7 +160,7 @@
             <ul>
                 <li>
                     Die Siedlung muss auf einer Kreuzung gebaut werden, zu der
-                    mindestens eine eigene Straße führt. Dabei muss die Abstandsregel
+                    mindestens eine eigene Strasse führt. Dabei muss die Abstandsregel
                     beachtet werden.
                 </li>
                 <li>
@@ -259,12 +263,12 @@
                 </li>
                 <li>
                     Wer zuerst 3 Ritterkarten offen vor sich liegen hat, erhält die
-                    Sonderkarte Größte Rittermacht, die 2 Siegpunkte wert ist.
+                    Sonderkarte Grösste Rittermacht, die 2 Siegpunkte wert ist.
                 </li>
                 <li>
                     Sobald ein anderer Spieler mehr Ritterkarten
                     offen vor sich liegen hat als der aktuelle Besitzer
-                    der Größten Rittermacht, so erhält er sofort
+                    der Grössten Rittermacht, so erhält er sofort
                     die Sonderkarte und die damit verbundenen
                     2 Siegpunkte.
                 </li>
